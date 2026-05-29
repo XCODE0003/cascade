@@ -66,7 +66,7 @@ const cards: Card[] = [
         <div
             v-for="card in cards"
             :key="card.label"
-            class="flex flex-col gap-1.5 rounded-[18px] bg-white px-[22px] py-5"
+            class="flex flex-col gap-1.5 rounded-[18px] bg-[var(--c-bg-card)] px-[22px] py-5"
             style="box-shadow: 0 1px 0 rgba(0, 0, 0, 0.04)"
         >
             <div

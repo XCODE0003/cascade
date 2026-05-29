@@ -125,7 +125,7 @@ function fmt(n: number): string {
 
                 <!-- HERO VISUAL -->
                 <div
-                    class="mt-12 flex w-full max-w-[920px] flex-col gap-4 rounded-3xl bg-white px-7 py-6"
+                    class="mt-12 flex w-full max-w-[920px] flex-col gap-4 rounded-3xl bg-[var(--c-bg-card)] px-7 py-6"
                     style="
                         box-shadow:
                             0 24px 64px rgba(0, 0, 0, 0.08),
@@ -203,7 +203,7 @@ function fmt(n: number): string {
         <section class="mx-auto max-w-[1200px] px-8 py-24">
             <div class="grid grid-cols-2 gap-4 lg:grid-cols-4">
                 <div
-                    class="rounded-[18px] bg-white px-5 py-[22px]"
+                    class="rounded-[18px] bg-[var(--c-bg-card)] px-5 py-[22px]"
                     style="box-shadow: 0 1px 0 rgba(0, 0, 0, 0.04)"
                 >
                     <div
@@ -223,7 +223,7 @@ function fmt(n: number): string {
                     </div>
                 </div>
                 <div
-                    class="rounded-[18px] bg-white px-5 py-[22px]"
+                    class="rounded-[18px] bg-[var(--c-bg-card)] px-5 py-[22px]"
                     style="box-shadow: 0 1px 0 rgba(0, 0, 0, 0.04)"
                 >
                     <div
@@ -243,7 +243,7 @@ function fmt(n: number): string {
                     </div>
                 </div>
                 <div
-                    class="rounded-[18px] bg-white px-5 py-[22px]"
+                    class="rounded-[18px] bg-[var(--c-bg-card)] px-5 py-[22px]"
                     style="box-shadow: 0 1px 0 rgba(0, 0, 0, 0.04)"
                 >
                     <div
@@ -267,7 +267,7 @@ function fmt(n: number): string {
                     </div>
                 </div>
                 <div
-                    class="rounded-[18px] bg-white px-5 py-[22px]"
+                    class="rounded-[18px] bg-[var(--c-bg-card)] px-5 py-[22px]"
                     style="box-shadow: 0 1px 0 rgba(0, 0, 0, 0.04)"
                 >
                     <div
@@ -315,7 +315,7 @@ function fmt(n: number): string {
             <div class="mt-12 grid gap-4 md:grid-cols-3">
                 <!-- step 1 -->
                 <div
-                    class="flex flex-col gap-3 rounded-[20px] bg-white px-6 pt-7 pb-[26px]"
+                    class="flex flex-col gap-3 rounded-[20px] bg-[var(--c-bg-card)] px-6 pt-7 pb-[26px]"
                     style="box-shadow: 0 1px 0 rgba(0, 0, 0, 0.04)"
                 >
                     <div
@@ -357,7 +357,7 @@ function fmt(n: number): string {
 
                 <!-- step 2 -->
                 <div
-                    class="flex flex-col gap-3 rounded-[20px] bg-white px-6 pt-7 pb-[26px]"
+                    class="flex flex-col gap-3 rounded-[20px] bg-[var(--c-bg-card)] px-6 pt-7 pb-[26px]"
                     style="box-shadow: 0 1px 0 rgba(0, 0, 0, 0.04)"
                 >
                     <div
@@ -403,7 +403,7 @@ function fmt(n: number): string {
 
                 <!-- step 3 -->
                 <div
-                    class="flex flex-col gap-3 rounded-[20px] bg-white px-6 pt-7 pb-[26px]"
+                    class="flex flex-col gap-3 rounded-[20px] bg-[var(--c-bg-card)] px-6 pt-7 pb-[26px]"
                     style="box-shadow: 0 1px 0 rgba(0, 0, 0, 0.04)"
                 >
                     <div
@@ -501,7 +501,7 @@ function fmt(n: number): string {
                 <div
                     v-for="t in tiers"
                     :key="t.level"
-                    class="relative flex flex-col gap-3 overflow-hidden rounded-[20px] bg-white px-[22px] pt-6 pb-[22px]"
+                    class="relative flex flex-col gap-3 overflow-hidden rounded-[20px] bg-[var(--c-bg-card)] px-[22px] pt-6 pb-[22px]"
                     style="box-shadow: 0 1px 0 rgba(0, 0, 0, 0.04)"
                 >
                     <div
@@ -606,7 +606,7 @@ function fmt(n: number): string {
 
             <div class="mt-12 grid gap-4 md:grid-cols-3">
                 <div
-                    class="flex flex-col gap-2 rounded-[18px] bg-white p-6"
+                    class="flex flex-col gap-2 rounded-[18px] bg-[var(--c-bg-card)] p-6"
                     style="box-shadow: 0 1px 0 rgba(0, 0, 0, 0.04)"
                 >
                     <div
@@ -649,7 +649,7 @@ function fmt(n: number): string {
                     </div>
                 </div>
                 <div
-                    class="flex flex-col gap-2 rounded-[18px] bg-white p-6"
+                    class="flex flex-col gap-2 rounded-[18px] bg-[var(--c-bg-card)] p-6"
                     style="box-shadow: 0 1px 0 rgba(0, 0, 0, 0.04)"
                 >
                     <div
@@ -691,7 +691,7 @@ function fmt(n: number): string {
                     </div>
                 </div>
                 <div
-                    class="flex flex-col gap-2 rounded-[18px] bg-white p-6"
+                    class="flex flex-col gap-2 rounded-[18px] bg-[var(--c-bg-card)] p-6"
                     style="box-shadow: 0 1px 0 rgba(0, 0, 0, 0.04)"
                 >
                     <div

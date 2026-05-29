@@ -173,7 +173,7 @@ function reset(): void {
 
 <template>
     <div
-        class="rounded-[18px] bg-white px-7 py-6"
+        class="rounded-[18px] bg-[var(--c-bg-card)] px-7 py-6"
         style="box-shadow: 0 1px 0 rgba(0, 0, 0, 0.04)"
     >
         <div class="mb-7">
@@ -209,9 +209,9 @@ function reset(): void {
                 </div>
                 <input
                     v-model="row.value"
-                    class="h-9 w-24 rounded-[9px] bg-white px-3 text-right text-sm font-semibold outline-none"
+                    class="h-9 w-24 rounded-[9px] bg-[var(--c-bg-card)] px-3 text-right text-sm font-semibold outline-none"
                     style="
-                        box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.1);
+                        box-shadow: inset 0 0 0 1px var(--c-input-border);
                         font-family: var(--c-font-mono);
                         color: var(--c-fg1);
                     "
@@ -250,9 +250,9 @@ function reset(): void {
                 </div>
                 <input
                     v-model="minWithdraw.value"
-                    class="h-9 w-24 rounded-[9px] bg-white px-3 text-right text-sm font-semibold outline-none"
+                    class="h-9 w-24 rounded-[9px] bg-[var(--c-bg-card)] px-3 text-right text-sm font-semibold outline-none"
                     style="
-                        box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.1);
+                        box-shadow: inset 0 0 0 1px var(--c-input-border);
                         font-family: var(--c-font-mono);
                         color: var(--c-fg1);
                     "
@@ -295,7 +295,7 @@ function reset(): void {
                     @click="toggle(row)"
                 >
                     <div
-                        class="absolute rounded-full bg-white transition-transform duration-200 ease-in-out"
+                        class="absolute rounded-full bg-[var(--c-knob)] transition-transform duration-200 ease-in-out"
                         style="
                             top: 2px;
                             left: 2px;
@@ -357,7 +357,7 @@ function reset(): void {
                     @click="toggle(row)"
                 >
                     <div
-                        class="absolute rounded-full bg-white transition-transform duration-200 ease-in-out"
+                        class="absolute rounded-full bg-[var(--c-knob)] transition-transform duration-200 ease-in-out"
                         style="
                             top: 2px;
                             left: 2px;
@@ -414,9 +414,9 @@ function reset(): void {
                     :type="field.secret ? 'password' : 'text'"
                     :placeholder="field.placeholder"
                     autocomplete="off"
-                    class="h-9 w-64 rounded-[9px] bg-white px-3 text-sm outline-none"
+                    class="h-9 w-64 rounded-[9px] bg-[var(--c-bg-card)] px-3 text-sm outline-none"
                     style="
-                        box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.1);
+                        box-shadow: inset 0 0 0 1px var(--c-input-border);
                         font-family: var(--c-font-mono);
                         color: var(--c-fg1);
                     "
@@ -454,7 +454,7 @@ function reset(): void {
                     @click="westwallet.auto_payout = !westwallet.auto_payout"
                 >
                     <div
-                        class="absolute rounded-full bg-white transition-transform duration-200 ease-in-out"
+                        class="absolute rounded-full bg-[var(--c-knob)] transition-transform duration-200 ease-in-out"
                         style="
                             top: 2px;
                             left: 2px;

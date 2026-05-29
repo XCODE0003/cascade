@@ -86,7 +86,7 @@ function amountColor(sign: AmountSign): string {
 
 <template>
     <div
-        class="overflow-hidden rounded-[20px] bg-white"
+        class="overflow-hidden rounded-[20px] bg-[var(--c-bg-card)]"
         style="box-shadow: 0 1px 0 rgba(0, 0, 0, 0.04)"
     >
         <div class="flex items-center gap-3 px-[22px] pt-[18px] pb-3.5">
@@ -106,7 +106,7 @@ function amountColor(sign: AmountSign): string {
                     class="rounded-[7px] px-[11px] py-[5px] text-xs font-semibold transition-colors"
                     :style="
                         filter === f.key
-                            ? 'background: #fff; color: var(--c-fg1); box-shadow: 0 1px 2px rgba(0,0,0,0.06), 0 0 0 0.5px rgba(0,0,0,0.04)'
+                            ? 'background: var(--c-bg-active); color: var(--c-fg1); box-shadow: 0 1px 2px rgba(0,0,0,0.06), 0 0 0 0.5px rgba(0,0,0,0.04)'
                             : 'background: transparent; color: var(--c-fg1)'
                     "
                     @click="filter = f.key"

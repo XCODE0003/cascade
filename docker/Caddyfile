@@ -1,0 +1,14 @@
+{
+	email support@cascade.it.com
+}
+
+# Primary domain — automatic HTTPS (Let's Encrypt) + HTTP→HTTPS redirect.
+cascade.it.com {
+	reverse_proxy web:80
+}
+
+# Catch-all on port 80 so any other domain pointed at this server still serves
+# over HTTP (add a dedicated block above to give another domain its own cert).
+:80 {
+	reverse_proxy web:80
+}

@@ -2,7 +2,6 @@
 import { router } from '@inertiajs/vue3';
 import { computed, ref } from 'vue';
 
-
 type DepositStatus = 'pending' | 'approved' | 'rejected';
 
 interface Deposit {
@@ -37,11 +36,19 @@ const filtered = computed(() => {
 });
 
 function approve(row: Deposit): void {
-    router.post(`/admin/deposits/${row.raw_id}/approve`, {}, { preserveScroll: true });
+    router.post(
+        `/admin/deposits/${row.raw_id}/approve`,
+        {},
+        { preserveScroll: true },
+    );
 }
 
 function reject(row: Deposit): void {
-    router.post(`/admin/deposits/${row.raw_id}/reject`, {}, { preserveScroll: true });
+    router.post(
+        `/admin/deposits/${row.raw_id}/reject`,
+        {},
+        { preserveScroll: true },
+    );
 }
 
 function formatAmount(amount: number): string {
@@ -49,9 +56,9 @@ function formatAmount(amount: number): string {
 }
 
 const pillColors: Record<DepositStatus, [string, string]> = {
-    pending: ['var(--c-warning-bg)', '#8c5400'],
-    approved: ['var(--c-success-bg)', '#1a6e34'],
-    rejected: ['var(--c-danger-bg)', '#b32420'],
+    pending: ['var(--c-warning-bg)', 'var(--c-warning-fg)'],
+    approved: ['var(--c-success-bg)', 'var(--c-success-fg)'],
+    rejected: ['var(--c-danger-bg)', 'var(--c-danger-fg)'],
 };
 
 const dotColors: Record<DepositStatus, string> = {
@@ -69,7 +76,7 @@ const statusLabels: Record<DepositStatus, string> = {
 
 <template>
     <div
-        class="overflow-hidden rounded-[18px] bg-white"
+        class="overflow-hidden rounded-[18px] bg-[var(--c-bg-card)]"
         style="box-shadow: 0 1px 0 rgba(0, 0, 0, 0.04)"
     >
         <div class="flex items-center gap-3.5 px-6 pt-5 pb-3.5">
@@ -105,7 +112,7 @@ const statusLabels: Record<DepositStatus, string> = {
                     style="color: var(--c-fg1)"
                     :style="
                         filter === f.key
-                            ? 'background: #fff; box-shadow: 0 1px 2px rgba(0,0,0,0.06), 0 0 0 0.5px rgba(0,0,0,0.04)'
+                            ? 'background: var(--c-bg-active); box-shadow: 0 1px 2px rgba(0,0,0,0.06), 0 0 0 0.5px rgba(0,0,0,0.04)'
                             : 'background: transparent'
                     "
                     @click="filter = f.key"

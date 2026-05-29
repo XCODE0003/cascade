@@ -1,0 +1,22 @@
+# Caddy TLS reverse proxy (production). Fronts the `web` (nginx) container and
+# terminates HTTPS with automatic Let's Encrypt certificates.
+#
+# Set `APP_PORT=127.0.0.1:8080` in .env so the `web` container only publishes on
+# localhost and Caddy owns the public 80/443.
+services:
+  caddy:
+    image: caddy:2
+    depends_on:
+      - web
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./docker/Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy-data:/data
+      - caddy-config:/config
+    restart: unless-stopped
+
+volumes:
+  caddy-data:
+  caddy-config:

@@ -23,14 +23,17 @@ const friends = computed(() =>
 const cellsPct = computed(() => Math.round((props.filledCells / 5) * 100));
 
 function fmt(n: number): string {
-    return n.toLocaleString('ru-RU', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    return n.toLocaleString('ru-RU', {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2,
+    });
 }
 </script>
 
 <template>
     <div class="grid grid-cols-1 gap-4 sm:grid-cols-3">
         <div
-            class="flex flex-col gap-1.5 rounded-[18px] bg-white px-[22px] py-5"
+            class="flex flex-col gap-1.5 rounded-[18px] bg-[var(--c-bg-card)] px-[22px] py-5"
             style="box-shadow: 0 1px 0 rgba(0, 0, 0, 0.04)"
         >
             <div
@@ -60,7 +63,7 @@ function fmt(n: number): string {
         </div>
 
         <div
-            class="flex flex-col gap-1.5 rounded-[18px] bg-white px-[22px] py-5"
+            class="flex flex-col gap-1.5 rounded-[18px] bg-[var(--c-bg-card)] px-[22px] py-5"
             style="box-shadow: 0 1px 0 rgba(0, 0, 0, 0.04)"
         >
             <div
@@ -88,13 +91,16 @@ function fmt(n: number): string {
             >
                 <div
                     class="h-full rounded-[3px]"
-                    :style="{ width: cellsPct + '%', background: 'var(--c-success)' }"
+                    :style="{
+                        width: cellsPct + '%',
+                        background: 'var(--c-success)',
+                    }"
                 />
             </div>
         </div>
 
         <div
-            class="flex flex-col gap-1.5 rounded-[18px] bg-white px-[22px] py-5"
+            class="flex flex-col gap-1.5 rounded-[18px] bg-[var(--c-bg-card)] px-[22px] py-5"
             style="box-shadow: 0 1px 0 rgba(0, 0, 0, 0.04)"
         >
             <div

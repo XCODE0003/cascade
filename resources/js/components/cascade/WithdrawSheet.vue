@@ -34,7 +34,7 @@ function submit() {
     <Teleport to="body">
         <div
             v-if="open"
-            class="fixed inset-0 z-[100] flex items-center justify-center"
+            class="fixed inset-0 z-100 flex items-end justify-center sm:items-center"
             style="
                 background: rgba(0, 0, 0, 0.32);
                 animation: cascade-fade 200ms ease;
@@ -42,7 +42,7 @@ function submit() {
             @click="emit('close')"
         >
             <div
-                class="relative w-[420px] rounded-[20px] bg-white p-6"
+                class="relative max-h-[calc(100vh-12px)] w-full overflow-y-auto rounded-t-[20px] bg-(--c-bg-card) p-5 pb-[calc(env(safe-area-inset-bottom)+20px)] sm:max-h-[calc(100vh-48px)] sm:w-[420px] sm:rounded-[20px] sm:p-6 sm:pb-6"
                 style="box-shadow: 0 24px 64px rgba(0, 0, 0, 0.2)"
                 @click.stop
             >
@@ -87,7 +87,10 @@ function submit() {
                         <circle cx="12" cy="12" r="9" />
                         <path d="M12 8v.01M12 11v5" />
                     </svg>
-                    <div class="text-xs leading-relaxed" style="color: #8c5400">
+                    <div
+                        class="text-xs leading-relaxed"
+                        style="color: var(--c-warning-fg)"
+                    >
                         В момент подачи заявки счётчик ячеек обнулится, ваши
                         записи в очередях получат статус «Неактивен» до
                         подтверждения выплаты.
@@ -105,7 +108,7 @@ function submit() {
                         placeholder="T..."
                         class="w-full rounded-[11px] px-4 py-3 text-[13px] outline-none"
                         style="
-                            box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.1);
+                            box-shadow: inset 0 0 0 1px var(--c-input-border);
                             font-family: var(--c-font-mono);
                             color: var(--c-fg1);
                         "
@@ -128,7 +131,9 @@ function submit() {
                         style="background: var(--c-accent)"
                         :style="{
                             opacity: walletAddress.trim() ? 1 : 0.5,
-                            cursor: walletAddress.trim() ? 'pointer' : 'default',
+                            cursor: walletAddress.trim()
+                                ? 'pointer'
+                                : 'default',
                         }"
                         :disabled="!walletAddress.trim()"
                         @click="submit"

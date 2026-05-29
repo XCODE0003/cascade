@@ -22,7 +22,7 @@ const passwordInput = useTemplateRef('passwordInput');
 
 <template>
     <div
-        class="flex flex-col gap-5 rounded-[18px] bg-white px-6 py-6"
+        class="flex flex-col gap-5 rounded-[18px] bg-[var(--c-bg-card)] px-6 py-6"
         style="box-shadow: 0 1px 0 rgba(0, 0, 0, 0.04)"
     >
         <div class="flex flex-col gap-0.5">
@@ -45,7 +45,7 @@ const passwordInput = useTemplateRef('passwordInput');
                 <p class="font-semibold" style="color: var(--c-danger)">
                     Внимание
                 </p>
-                <p class="text-sm" style="color: #b32420">
+                <p class="text-sm" style="color: var(--c-danger-fg)">
                     Действие необратимо — все данные будут удалены навсегда.
                 </p>
             </div>

@@ -75,7 +75,7 @@ defineOptions({
         style="background: var(--c-bg)"
     >
         <div
-            class="relative flex items-center gap-8 overflow-hidden rounded-3xl bg-white px-8 py-7"
+            class="relative flex items-center gap-8 overflow-hidden rounded-3xl bg-[var(--c-bg-card)] px-8 py-7"
             style="box-shadow: 0 1px 0 rgba(0, 0, 0, 0.04)"
         >
             <!-- radial glow -->

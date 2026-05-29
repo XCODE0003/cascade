@@ -39,7 +39,7 @@ type PillSpec = [string, string, string, string];
 const PILLS: Record<TxStatus, PillSpec> = {
     done: [
         'var(--c-success-bg)',
-        '#1a6e34',
+        'var(--c-success-fg)',
         'var(--c-success)',
         'Подтверждена',
     ],
@@ -51,11 +51,16 @@ const PILLS: Record<TxStatus, PillSpec> = {
     ],
     pending: [
         'var(--c-warning-bg)',
-        '#8c5400',
+        'var(--c-warning-fg)',
         'var(--c-warning)',
         'В ожидании',
     ],
-    rejected: ['var(--c-danger-bg)', '#b32420', 'var(--c-danger)', 'Отклонена'],
+    rejected: [
+        'var(--c-danger-bg)',
+        'var(--c-danger-fg)',
+        'var(--c-danger)',
+        'Отклонена',
+    ],
 };
 
 const DEPOSIT_STATUS: Record<string, TxStatus> = {
@@ -123,7 +128,7 @@ function formatAmount(value: number): string {
 
 <template>
     <div
-        class="overflow-hidden rounded-[18px] bg-white"
+        class="overflow-hidden rounded-[18px] bg-[var(--c-bg-card)]"
         style="box-shadow: 0 1px 0 rgba(0, 0, 0, 0.04)"
     >
         <div class="flex items-baseline gap-3 px-6 pt-[18px] pb-3.5">
@@ -152,7 +157,7 @@ function formatAmount(value: number): string {
                     style="color: var(--c-fg1)"
                     :style="
                         filter === f.key
-                            ? 'background: #fff; box-shadow: 0 1px 2px rgba(0,0,0,0.06), 0 0 0 0.5px rgba(0,0,0,0.04)'
+                            ? 'background: var(--c-bg-active); box-shadow: 0 1px 2px rgba(0,0,0,0.06), 0 0 0 0.5px rgba(0,0,0,0.04)'
                             : 'background: transparent'
                     "
                     @click="filter = f.key"

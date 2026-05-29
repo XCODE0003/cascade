@@ -28,7 +28,7 @@ const user = computed(() => page.props.auth.user);
     <h1 class="sr-only">Настройки профиля</h1>
 
     <div
-        class="flex flex-col gap-5 rounded-[18px] bg-white px-6 py-6"
+        class="flex flex-col gap-5 rounded-[18px] bg-[var(--c-bg-card)] px-6 py-6"
         style="box-shadow: 0 1px 0 rgba(0, 0, 0, 0.04)"
     >
         <div class="flex flex-col gap-0.5">
@@ -62,11 +62,11 @@ const user = computed(() => page.props.auth.user);
                     required
                     autocomplete="name"
                     placeholder="Ваше имя"
-                    class="h-11 rounded-[11px] border-0 bg-white px-3.5 text-[15px] outline-none"
+                    class="h-11 rounded-[11px] border-0 bg-[var(--c-bg-card)] px-3.5 text-[15px] outline-none"
                     style="
                         color: var(--c-fg1);
                         font-family: var(--c-font-text);
-                        box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.1);
+                        box-shadow: inset 0 0 0 1px var(--c-input-border);
                     "
                 />
                 <InputError :message="errors.name" />
@@ -87,11 +87,11 @@ const user = computed(() => page.props.auth.user);
                     required
                     autocomplete="username"
                     placeholder="email@example.com"
-                    class="h-11 rounded-[11px] border-0 bg-white px-3.5 text-[15px] outline-none"
+                    class="h-11 rounded-[11px] border-0 bg-[var(--c-bg-card)] px-3.5 text-[15px] outline-none"
                     style="
                         color: var(--c-fg1);
                         font-family: var(--c-font-text);
-                        box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.1);
+                        box-shadow: inset 0 0 0 1px var(--c-input-border);
                     "
                 />
                 <InputError :message="errors.email" />

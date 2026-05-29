@@ -12,6 +12,7 @@ import {
 import AppLogo from '@/components/AppLogo.vue';
 import NavMain from '@/components/NavMain.vue';
 import NavUser from '@/components/NavUser.vue';
+import ThemeToggle from '@/components/ThemeToggle.vue';
 import {
     Sidebar,
     SidebarContent,
@@ -64,6 +65,7 @@ const footerNavItems = computed<NavItem[]>(() => [
 
         <SidebarFooter>
             <NavMain :items="footerNavItems" label="Сервис" />
+            <ThemeToggle />
             <NavUser />
         </SidebarFooter>
     </Sidebar>

@@ -54,7 +54,10 @@ defineOptions({
         style="background: var(--c-bg)"
     >
         <div class="grid grid-cols-1 gap-4 lg:grid-cols-2">
-            <RefLinkCard :active="props.referralActive" :link="props.referralLink" />
+            <RefLinkCard
+                :active="props.referralActive"
+                :link="props.referralLink"
+            />
             <MissedEarnings :total-missed="props.totalMissed" />
         </div>
 

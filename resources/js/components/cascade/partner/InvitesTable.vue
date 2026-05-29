@@ -33,7 +33,10 @@ const invites = computed<Invite[]>(() =>
     props.partners.map((p) => ({
         user: 'u_' + p.id,
         level: p.level !== null ? 'Level ' + p.level : 'не куплен',
-        earned: p.earned.toLocaleString('ru-RU', { minimumFractionDigits: 2, maximumFractionDigits: 2 }),
+        earned: p.earned.toLocaleString('ru-RU', {
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2,
+        }),
         joined: p.joined,
         status: p.active ? 'active' : p.level !== null ? 'grey' : 'empty',
     })),
@@ -49,7 +52,7 @@ const pillStyle: Record<InviteStatus, { bg: string; fg: string; dot: string }> =
     {
         active: {
             bg: 'var(--c-success-bg)',
-            fg: '#1a6e34',
+            fg: 'var(--c-success-fg)',
             dot: 'var(--c-success)',
         },
         grey: {
@@ -77,7 +80,7 @@ function initials(user: string): string {
 
 <template>
     <div
-        class="overflow-hidden rounded-[18px] bg-white"
+        class="overflow-hidden rounded-[18px] bg-[var(--c-bg-card)]"
         style="box-shadow: 0 1px 0 rgba(0, 0, 0, 0.04)"
     >
         <div class="flex items-baseline gap-3 px-6 pt-[18px] pb-3.5">
@@ -88,7 +91,8 @@ function initials(user: string): string {
                 Приглашённые
             </div>
             <div class="text-[12px]" style="color: var(--c-fg3)">
-                {{ props.partnersCount }} рефералов · {{ props.activeCount }} активных
+                {{ props.partnersCount }} рефералов ·
+                {{ props.activeCount }} активных
             </div>
         </div>
 

@@ -23,22 +23,36 @@ const TIERS: { id: string; color: string; label: string }[] = [
     { id: '4', color: 'var(--c-level-4)', label: 'Очередь 2000' },
 ];
 
-const visibleTiers = computed(() => TIERS.filter((t) => t.id in props.initialQueues));
+const visibleTiers = computed(() =>
+    TIERS.filter((t) => t.id in props.initialQueues),
+);
 
 const tier = ref<string>(visibleTiers.value[0]?.id ?? '1');
 
 const data = computed(() => props.initialQueues[tier.value] ?? []);
 
 function moveToFront(row: QueueRow): void {
-    router.post(`/admin/queue/${row.raw_id}/move-front`, {}, { preserveScroll: true });
+    router.post(
+        `/admin/queue/${row.raw_id}/move-front`,
+        {},
+        { preserveScroll: true },
+    );
 }
 
 function moveToBack(row: QueueRow): void {
-    router.post(`/admin/queue/${row.raw_id}/move-back`, {}, { preserveScroll: true });
+    router.post(
+        `/admin/queue/${row.raw_id}/move-back`,
+        {},
+        { preserveScroll: true },
+    );
 }
 
 function remove(row: QueueRow): void {
-    router.post(`/admin/queue/${row.raw_id}/remove`, {}, { preserveScroll: true });
+    router.post(
+        `/admin/queue/${row.raw_id}/remove`,
+        {},
+        { preserveScroll: true },
+    );
 }
 
 function timerColor(status: QueueRowStatus): string {
@@ -57,7 +71,7 @@ function timerColor(status: QueueRowStatus): string {
 
 <template>
     <div
-        class="overflow-hidden rounded-[18px] bg-white"
+        class="overflow-hidden rounded-[18px] bg-[var(--c-bg-card)]"
         style="box-shadow: 0 1px 0 rgba(0, 0, 0, 0.04)"
     >
         <div class="flex items-center gap-3.5 px-6 pt-5 pb-3.5">
@@ -93,7 +107,7 @@ function timerColor(status: QueueRowStatus): string {
                     style="color: var(--c-fg1)"
                     :style="
                         tier === t.id
-                            ? 'background: #fff; box-shadow: 0 1px 2px rgba(0,0,0,0.06), 0 0 0 0.5px rgba(0,0,0,0.04)'
+                            ? 'background: var(--c-bg-active); box-shadow: 0 1px 2px rgba(0,0,0,0.06), 0 0 0 0.5px rgba(0,0,0,0.04)'
                             : 'background: transparent'
                     "
                     @click="tier = t.id"

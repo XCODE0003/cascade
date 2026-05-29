@@ -1,8 +1,7 @@
 <script setup lang="ts">
-const props = withDefaults(
-    defineProps<{ totalMissed?: number }>(),
-    { totalMissed: 0 },
-);
+const props = withDefaults(defineProps<{ totalMissed?: number }>(), {
+    totalMissed: 0,
+});
 
 function fmt(n: number): string {
     return n.toLocaleString('ru-RU').replace(/,/g, ' ');
@@ -11,7 +10,7 @@ function fmt(n: number): string {
 
 <template>
     <div
-        class="relative flex flex-col gap-3.5 overflow-hidden rounded-[20px] bg-white px-6 py-[22px]"
+        class="relative flex flex-col gap-3.5 overflow-hidden rounded-[20px] bg-[var(--c-bg-card)] px-6 py-[22px]"
         style="box-shadow: 0 1px 0 rgba(0, 0, 0, 0.04)"
     >
         <div

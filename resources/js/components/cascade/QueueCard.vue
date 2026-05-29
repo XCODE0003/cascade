@@ -54,7 +54,7 @@ function fmt(n: number): string {
 
 <template>
     <div
-        class="flex flex-col gap-4 rounded-[20px] bg-white px-[22px] pt-5 pb-[22px]"
+        class="flex flex-col gap-4 rounded-[20px] bg-[var(--c-bg-card)] px-[22px] pt-5 pb-[22px]"
         style="box-shadow: 0 1px 0 rgba(0, 0, 0, 0.04)"
     >
         <!-- head -->
@@ -256,7 +256,7 @@ function fmt(n: number): string {
                 @click="emit('toggleAuto')"
             >
                 <span
-                    class="absolute top-0.5 left-0.5 h-[18px] w-[18px] rounded-full bg-white transition-transform duration-[160ms]"
+                    class="absolute top-0.5 left-0.5 h-[18px] w-[18px] rounded-full bg-[var(--c-knob)] transition-transform duration-[160ms]"
                     style="box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15)"
                     :style="
                         autoReinvest

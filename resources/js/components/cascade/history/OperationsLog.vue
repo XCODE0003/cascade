@@ -43,28 +43,90 @@ interface FilterOption {
     dot: string;
 }
 
-const props = withDefaults(defineProps<{ rows?: BackendRow[] }>(), { rows: () => [] });
+const props = withDefaults(defineProps<{ rows?: BackendRow[] }>(), {
+    rows: () => [],
+});
 
 const KINDS: Record<string, KindMeta> = {
-    ref: { dot: '#34C759', amount: '#34C759', icon: '+', label: 'Реферальный бонус' },
-    cell: { dot: '#B98900', amount: '#B98900', icon: '●', label: 'Закрашена ячейка' },
+    ref: {
+        dot: '#34C759',
+        amount: '#34C759',
+        icon: '+',
+        label: 'Реферальный бонус',
+    },
+    cell: {
+        dot: '#B98900',
+        amount: '#B98900',
+        icon: '●',
+        label: 'Закрашена ячейка',
+    },
     reinv: { dot: '#FF3B30', amount: '#FF3B30', icon: '↻', label: 'Реинвест' },
-    autorei: { dot: '#FF3B30', amount: '#FF3B30', icon: '↻', label: 'Авто-реинвест за прогулы' },
-    hold: { dot: '#FF9F0A', amount: '#FF9F0A', icon: '⏳', label: 'Заявка на вывод' },
-    warn: { dot: '#FF9F0A', amount: '#FF9F0A', icon: '⏳', label: 'Заявка на вывод' },
-    payout: { dot: '#FF9F0A', amount: '#FF9F0A', icon: '↑', label: 'Выплата отправлена' },
+    autorei: {
+        dot: '#FF3B30',
+        amount: '#FF3B30',
+        icon: '↻',
+        label: 'Авто-реинвест за прогулы',
+    },
+    hold: {
+        dot: '#FF9F0A',
+        amount: '#FF9F0A',
+        icon: '⏳',
+        label: 'Заявка на вывод',
+    },
+    warn: {
+        dot: '#FF9F0A',
+        amount: '#FF9F0A',
+        icon: '⏳',
+        label: 'Заявка на вывод',
+    },
+    payout: {
+        dot: '#FF9F0A',
+        amount: '#FF9F0A',
+        icon: '↑',
+        label: 'Выплата отправлена',
+    },
     neg: { dot: '#FF3B30', amount: '#FF3B30', icon: '↑', label: 'Списание' },
     deposit: { dot: '#007AFF', amount: '#007AFF', icon: '↓', label: 'Депозит' },
-    upgrade: { dot: '#5856D6', amount: '#5856D6', icon: '↑', label: 'Апгрейд с баланса' },
-    bonus: { dot: '#FFCC00', amount: '#34C759', icon: '★', label: 'Бонусная ячейка' },
-    fee: { dot: '#8E8E93', amount: '#8E8E93', icon: '−', label: 'Комиссия сервиса' },
-    restore: { dot: '#34C759', amount: '#34C759', icon: '↩', label: 'Возврат средств' },
+    upgrade: {
+        dot: '#5856D6',
+        amount: '#5856D6',
+        icon: '↑',
+        label: 'Апгрейд с баланса',
+    },
+    bonus: {
+        dot: '#FFCC00',
+        amount: '#34C759',
+        icon: '★',
+        label: 'Бонусная ячейка',
+    },
+    fee: {
+        dot: '#8E8E93',
+        amount: '#8E8E93',
+        icon: '−',
+        label: 'Комиссия сервиса',
+    },
+    restore: {
+        dot: '#34C759',
+        amount: '#34C759',
+        icon: '↩',
+        label: 'Возврат средств',
+    },
     neu: { dot: '#007AFF', amount: '#007AFF', icon: '•', label: 'Операция' },
-    gold: { dot: '#B98900', amount: '#B98900', icon: '●', label: 'Закрашена ячейка' },
+    gold: {
+        dot: '#B98900',
+        amount: '#B98900',
+        icon: '●',
+        label: 'Закрашена ячейка',
+    },
     other: { dot: '#8E8E93', amount: '#8E8E93', icon: '·', label: 'Операция' },
 };
 
-const DEFAULT_KIND: KindMeta = { dot: '#8E8E93', amount: '#8E8E93', icon: '·', label: 'Операция' };
+const DEFAULT_KIND: KindMeta = {
+    dot: '#8E8E93',
+    amount: '#8E8E93',
+    icon: '·',
+    label: 'Операция',
+};
 
 function kindMeta(kind: string): KindMeta {
     return KINDS[kind] ?? DEFAULT_KIND;
@@ -138,7 +200,7 @@ const visibleGroups = computed(() =>
 
 <template>
     <div
-        class="overflow-hidden rounded-[18px] bg-white"
+        class="overflow-hidden rounded-[18px] bg-[var(--c-bg-card)]"
         style="box-shadow: 0 1px 0 rgba(0, 0, 0, 0.04)"
     >
         <div
@@ -166,7 +228,7 @@ const visibleGroups = computed(() =>
                         style="font-family: inherit; color: var(--c-fg1)"
                         :style="
                             filter === f.key
-                                ? 'background: #fff; box-shadow: 0 1px 2px rgba(0,0,0,0.06), 0 0 0 0.5px rgba(0,0,0,0.04)'
+                                ? 'background: var(--c-bg-active); box-shadow: 0 1px 2px rgba(0,0,0,0.06), 0 0 0 0.5px rgba(0,0,0,0.04)'
                                 : 'background: transparent'
                         "
                         @click="filter = f.key"

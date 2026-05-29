@@ -64,7 +64,7 @@ const headers = [
 
 <template>
     <div
-        class="overflow-hidden rounded-[18px] bg-white"
+        class="overflow-hidden rounded-[18px] bg-[var(--c-bg-card)]"
         style="box-shadow: 0 1px 0 rgba(0, 0, 0, 0.04)"
     >
         <div class="flex items-center gap-3 px-6 pt-[18px] pb-3.5">
@@ -85,10 +85,10 @@ const headers = [
             <input
                 v-model="query"
                 placeholder="Поиск по id, имени, email, адресу"
-                class="ml-auto h-9 w-72 rounded-[10px] border-0 bg-white px-3.5 text-[13px] outline-none"
+                class="ml-auto h-9 w-72 rounded-[10px] border-0 bg-[var(--c-bg-card)] px-3.5 text-[13px] outline-none"
                 style="
                     color: var(--c-fg1);
-                    box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.1);
+                    box-shadow: inset 0 0 0 1px var(--c-input-border);
                 "
             />
         </div>

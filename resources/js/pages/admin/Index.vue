@@ -135,7 +135,7 @@ defineOptions({
                 style="color: var(--c-fg1)"
                 :style="
                     tab === t.key
-                        ? 'background: #fff; box-shadow: 0 1px 2px rgba(0,0,0,0.06), 0 0 0 0.5px rgba(0,0,0,0.04)'
+                        ? 'background: var(--c-bg-active); box-shadow: 0 1px 2px rgba(0,0,0,0.06), 0 0 0 0.5px rgba(0,0,0,0.04)'
                         : 'background: transparent'
                 "
                 @click="tab = t.key"

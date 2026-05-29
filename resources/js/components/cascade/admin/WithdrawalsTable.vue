@@ -38,11 +38,19 @@ const filtered = computed(() => {
 });
 
 function approve(row: Withdrawal): void {
-    router.post(`/admin/withdrawals/${row.raw_id}/approve`, {}, { preserveScroll: true });
+    router.post(
+        `/admin/withdrawals/${row.raw_id}/approve`,
+        {},
+        { preserveScroll: true },
+    );
 }
 
 function reject(row: Withdrawal): void {
-    router.post(`/admin/withdrawals/${row.raw_id}/reject`, {}, { preserveScroll: true });
+    router.post(
+        `/admin/withdrawals/${row.raw_id}/reject`,
+        {},
+        { preserveScroll: true },
+    );
 }
 
 function formatAmount(amount: number): string {
@@ -62,9 +70,9 @@ function holdProgress(row: Withdrawal): number {
 
 const pillColors: Record<WithdrawalStatus, [string, string]> = {
     hold: ['var(--c-accent-bg)', 'var(--c-accent-press)'],
-    pending: ['var(--c-warning-bg)', '#8c5400'],
-    approved: ['var(--c-success-bg)', '#1a6e34'],
-    rejected: ['var(--c-danger-bg)', '#b32420'],
+    pending: ['var(--c-warning-bg)', 'var(--c-warning-fg)'],
+    approved: ['var(--c-success-bg)', 'var(--c-success-fg)'],
+    rejected: ['var(--c-danger-bg)', 'var(--c-danger-fg)'],
 };
 
 const dotColors: Record<WithdrawalStatus, string> = {
@@ -84,7 +92,7 @@ const statusLabels: Record<WithdrawalStatus, string> = {
 
 <template>
     <div
-        class="overflow-hidden rounded-[18px] bg-white"
+        class="overflow-hidden rounded-[18px] bg-[var(--c-bg-card)]"
         style="box-shadow: 0 1px 0 rgba(0, 0, 0, 0.04)"
     >
         <div class="flex items-center gap-3.5 px-6 pt-5 pb-3.5">
@@ -120,7 +128,7 @@ const statusLabels: Record<WithdrawalStatus, string> = {
                     style="color: var(--c-fg1)"
                     :style="
                         filter === f.key
-                            ? 'background: #fff; box-shadow: 0 1px 2px rgba(0,0,0,0.06), 0 0 0 0.5px rgba(0,0,0,0.04)'
+                            ? 'background: var(--c-bg-active); box-shadow: 0 1px 2px rgba(0,0,0,0.06), 0 0 0 0.5px rgba(0,0,0,0.04)'
                             : 'background: transparent'
                     "
                     @click="filter = f.key"

@@ -53,9 +53,10 @@ export function initializeTheme(): void {
         return;
     }
 
-    // Cascade uses a light-only Apple-style design — force light regardless of
-    // any saved preference or the OS dark-mode setting.
-    document.documentElement.classList.remove('dark');
+    const saved =
+        (localStorage.getItem('appearance') as Appearance | null) ?? 'light';
+
+    updateTheme(saved);
 }
 
 const appearance = ref<Appearance>('light');

@@ -23,10 +23,22 @@
         <meta name="twitter:title" content="{{ $appName }}">
         <meta name="twitter:description" content="{{ $seoDescription }}">
 
-        {{-- Cascade is a light-only Apple-style design. --}}
+        {{-- Apply saved theme before paint to avoid a flash. --}}
+        <script>
+            (function () {
+                try {
+                    var a = localStorage.getItem('appearance') || 'light';
+                    var dark = a === 'dark' || (a === 'system' && window.matchMedia('(prefers-color-scheme: dark)').matches);
+                    if (dark) document.documentElement.classList.add('dark');
+                } catch (e) {}
+            })();
+        </script>
         <style>
             html {
                 background-color: #fbfbfd;
+            }
+            html.dark {
+                background-color: #000000;
             }
         </style>
 

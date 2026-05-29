@@ -59,7 +59,7 @@ const finders: { x: number; y: number }[] = [
 
 <template>
     <div
-        class="flex flex-col gap-3.5 rounded-[20px] bg-white px-6 pt-6 pb-[22px]"
+        class="flex flex-col gap-3.5 rounded-[20px] bg-[var(--c-bg-card)] px-6 pt-6 pb-[22px]"
         style="box-shadow: 0 1px 0 rgba(0, 0, 0, 0.04)"
     >
         <div class="flex items-baseline gap-2.5">
@@ -74,7 +74,7 @@ const finders: { x: number; y: number }[] = [
 
         <div class="flex items-center gap-[18px]">
             <div
-                class="h-[124px] w-[124px] shrink-0 rounded-2xl bg-white p-2"
+                class="h-[124px] w-[124px] shrink-0 rounded-2xl bg-[var(--c-bg-card)] p-2"
                 style="box-shadow: inset 0 0 0 1px var(--c-hairline)"
             >
                 <svg
@@ -137,7 +137,7 @@ const finders: { x: number; y: number }[] = [
                     </div>
                     <button
                         :disabled="!hasAddress"
-                        class="inline-flex h-[30px] items-center gap-1.5 rounded-lg bg-white px-3 text-xs font-semibold"
+                        class="inline-flex h-[30px] items-center gap-1.5 rounded-lg bg-[var(--c-bg-card)] px-3 text-xs font-semibold"
                         :class="
                             hasAddress ? '' : 'cursor-not-allowed opacity-50'
                         "

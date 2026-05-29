@@ -28,7 +28,7 @@ function copy(): void {
 
 <template>
     <div
-        class="flex flex-col gap-4 rounded-[20px] bg-white px-6 py-[22px]"
+        class="flex flex-col gap-4 rounded-[20px] bg-[var(--c-bg-card)] px-6 py-[22px]"
         style="box-shadow: 0 1px 0 rgba(0, 0, 0, 0.04)"
     >
         <div class="flex items-center gap-3">
@@ -42,7 +42,7 @@ function copy(): void {
                 class="ml-auto inline-flex items-center gap-1.5 rounded-full px-[9px] py-[3px] text-[11px] font-semibold"
                 :style="
                     active
-                        ? 'background: var(--c-success-bg); color: #1a6e34'
+                        ? 'background: var(--c-success-bg); color: var(--c-success-fg)'
                         : 'background: var(--c-neutral-bg); color: var(--c-fg2)'
                 "
             >
@@ -69,7 +69,7 @@ function copy(): void {
                 {{ props.link }}
             </div>
             <button
-                class="inline-flex h-9 items-center gap-1.5 rounded-[9px] bg-white px-3.5 text-[13px] font-semibold"
+                class="inline-flex h-9 items-center gap-1.5 rounded-[9px] bg-[var(--c-bg-card)] px-3.5 text-[13px] font-semibold"
                 style="
                     color: var(--c-fg1);
                     box-shadow:
@@ -115,7 +115,7 @@ function copy(): void {
         <div
             v-if="!active"
             class="flex gap-2.5 rounded-xl px-3.5 py-3 text-[12px] leading-[1.45]"
-            style="background: var(--c-warning-bg); color: #8c5400"
+            style="background: var(--c-warning-bg); color: var(--c-warning-fg)"
         >
             <svg
                 class="shrink-0"

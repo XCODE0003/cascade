@@ -2,7 +2,7 @@
 
 <template>
     <div
-        class="flex aspect-square size-8 items-center justify-center rounded-md bg-white"
+        class="flex aspect-square size-8 items-center justify-center rounded-md bg-[var(--c-bg-card)]"
     >
         <img src="/glyph.svg" alt="Cascade" class="size-5" />
     </div>

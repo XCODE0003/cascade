@@ -51,7 +51,7 @@ defineOptions({
     >
         <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
             <div
-                class="flex flex-col gap-1.5 rounded-[18px] bg-white px-5 py-[18px]"
+                class="flex flex-col gap-1.5 rounded-[18px] bg-[var(--c-bg-card)] px-5 py-[18px]"
                 style="box-shadow: 0 1px 0 rgba(0, 0, 0, 0.04)"
             >
                 <div
@@ -69,7 +69,9 @@ defineOptions({
                     "
                 >
                     + {{ fmt(props.totalIncome) }}
-                    <span class="text-sm font-medium" style="color: var(--c-fg3)"
+                    <span
+                        class="text-sm font-medium"
+                        style="color: var(--c-fg3)"
                         >USDT</span
                     >
                 </div>
@@ -79,7 +81,7 @@ defineOptions({
             </div>
 
             <div
-                class="flex flex-col gap-1.5 rounded-[18px] bg-white px-5 py-[18px]"
+                class="flex flex-col gap-1.5 rounded-[18px] bg-[var(--c-bg-card)] px-5 py-[18px]"
                 style="box-shadow: 0 1px 0 rgba(0, 0, 0, 0.04)"
             >
                 <div
@@ -97,7 +99,9 @@ defineOptions({
                     "
                 >
                     {{ props.totalReinvest }}
-                    <span class="text-sm font-medium" style="color: var(--c-fg3)"
+                    <span
+                        class="text-sm font-medium"
+                        style="color: var(--c-fg3)"
                         >шт</span
                     >
                 </div>
@@ -107,7 +111,7 @@ defineOptions({
             </div>
 
             <div
-                class="flex flex-col gap-1.5 rounded-[18px] bg-white px-5 py-[18px]"
+                class="flex flex-col gap-1.5 rounded-[18px] bg-[var(--c-bg-card)] px-5 py-[18px]"
                 style="box-shadow: 0 1px 0 rgba(0, 0, 0, 0.04)"
             >
                 <div
@@ -125,7 +129,9 @@ defineOptions({
                     "
                 >
                     − {{ fmt(props.totalWithdrawn) }}
-                    <span class="text-sm font-medium" style="color: var(--c-fg3)"
+                    <span
+                        class="text-sm font-medium"
+                        style="color: var(--c-fg3)"
                         >USDT</span
                     >
                 </div>
@@ -135,7 +141,7 @@ defineOptions({
             </div>
 
             <div
-                class="flex flex-col gap-1.5 rounded-[18px] bg-white px-5 py-[18px]"
+                class="flex flex-col gap-1.5 rounded-[18px] bg-[var(--c-bg-card)] px-5 py-[18px]"
                 style="box-shadow: 0 1px 0 rgba(0, 0, 0, 0.04)"
             >
                 <div
