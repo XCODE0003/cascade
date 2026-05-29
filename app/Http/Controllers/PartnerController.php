@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\LedgerEntry;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
 use Inertia\Response;
 
@@ -22,9 +21,11 @@ class PartnerController extends Controller
             ->where('type', 'referral_bonus')
             ->sum('amount');
 
+        // Summed in PHP (DB-agnostic) since `meta` is a JSON column.
         $totalMissed = (float) $user->ledgerEntries()
             ->where('type', 'bonus_cell_missed')
-            ->sum(DB::raw('CAST(json_extract(meta, "$.missed_amount") AS REAL)'));
+            ->get()
+            ->sum(fn (LedgerEntry $e) => (float) ($e->meta['missed_amount'] ?? 0));
 
         $activeCount = 0;
         $partners = $user->referrals->map(function ($ref) use (&$activeCount) {
