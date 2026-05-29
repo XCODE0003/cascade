@@ -1,0 +1,54 @@
+- generic [ref=e3]:
+  - complementary [ref=e4]:
+    - link "Cascade" [ref=e5] [cursor=pointer]:
+      - /url: /
+      - generic [ref=e6]: Cascade
+    - generic [ref=e7]:
+      - generic [ref=e8]: Прозрачная очередь ликвидности
+      - generic [ref=e9]: Регистрация — меньше минуты.
+      - generic [ref=e10]: Один аккаунт даёт доступ ко всем четырём очередям. Начать можно с минимального уровня — 20 USDT.
+      - list [ref=e11]:
+        - listitem [ref=e12]:
+          - img [ref=e14]
+          - generic [ref=e16]: 0% комиссии при выводе средств
+        - listitem [ref=e17]:
+          - img [ref=e19]
+          - generic [ref=e21]: 4 изолированных уровня — ликвидность не пересекается
+        - listitem [ref=e22]:
+          - img [ref=e24]
+          - generic [ref=e26]: 72-часовой холд на выплаты с возможностью отката
+        - listitem [ref=e27]:
+          - img [ref=e29]
+          - generic [ref=e31]: "Прозрачность: история операций в кабинете в реальном времени"
+    - generic [ref=e32]: © 2026 Cascade. Это не инвестиционный продукт с фиксированным процентом.
+  - generic [ref=e34]:
+    - generic [ref=e35]:
+      - heading "Create an account" [level=1] [ref=e36]
+      - paragraph [ref=e37]: Enter your details below to create your account
+    - generic [ref=e38]:
+      - generic [ref=e39]:
+        - generic [ref=e40]:
+          - generic [ref=e41]: Name
+          - textbox "Name" [active] [ref=e42]:
+            - /placeholder: Full name
+        - generic [ref=e43]:
+          - generic [ref=e44]: Email address
+          - textbox "Email address" [ref=e45]:
+            - /placeholder: email@example.com
+        - generic [ref=e46]:
+          - generic [ref=e47]: Password
+          - generic [ref=e48]:
+            - textbox "Password" [ref=e49]
+            - button "Show password" [ref=e50]:
+              - img [ref=e51]
+        - generic [ref=e54]:
+          - generic [ref=e55]: Confirm password
+          - generic [ref=e56]:
+            - textbox "Confirm password" [ref=e57]
+            - button "Show password" [ref=e58]:
+              - img [ref=e59]
+        - button "Create account" [ref=e62]
+      - generic [ref=e63]:
+        - text: Already have an account?
+        - link "Log in" [ref=e64] [cursor=pointer]:
+          - /url: /login

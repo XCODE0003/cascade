@@ -1,0 +1,56 @@
+- generic [ref=e3]:
+  - complementary [ref=e4]:
+    - link "Cascade" [ref=e5] [cursor=pointer]:
+      - /url: /
+      - generic [ref=e6]: Cascade
+    - generic [ref=e7]:
+      - generic [ref=e8]: Прозрачная очередь ликвидности
+      - generic [ref=e9]: Регистрация — меньше минуты.
+      - generic [ref=e10]: Один аккаунт даёт доступ ко всем четырём очередям. Начать можно с минимального уровня — 20 USDT.
+      - list [ref=e11]:
+        - listitem [ref=e12]:
+          - img [ref=e14]
+          - generic [ref=e16]: 0% комиссии при выводе средств
+        - listitem [ref=e17]:
+          - img [ref=e19]
+          - generic [ref=e21]: 4 изолированных уровня — ликвидность не пересекается
+        - listitem [ref=e22]:
+          - img [ref=e24]
+          - generic [ref=e26]: 72-часовой холд на выплаты с возможностью отката
+        - listitem [ref=e27]:
+          - img [ref=e29]
+          - generic [ref=e31]: "Прозрачность: история операций в кабинете в реальном времени"
+    - generic [ref=e32]: © 2026 Cascade. Это не инвестиционный продукт с фиксированным процентом.
+  - generic [ref=e34]:
+    - generic [ref=e35]:
+      - heading "Log in to your account" [level=1] [ref=e36]
+      - paragraph [ref=e37]: Enter your email and password below to log in
+    - generic [ref=e38]:
+      - button "Sign in with a passkey" [ref=e40]:
+        - img
+        - text: Sign in with a passkey
+      - generic [ref=e44]: Or continue with email
+    - generic [ref=e45]:
+      - generic [ref=e46]:
+        - generic [ref=e47]:
+          - generic [ref=e48]: Email address
+          - textbox "Email address" [active] [ref=e49]:
+            - /placeholder: email@example.com
+        - generic [ref=e50]:
+          - generic [ref=e51]:
+            - generic [ref=e52]: Password
+            - link "Forgot your password?" [ref=e53] [cursor=pointer]:
+              - /url: /forgot-password
+          - generic [ref=e54]:
+            - textbox "Password" [ref=e55]
+            - button "Show password" [ref=e56]:
+              - img [ref=e57]
+        - generic [ref=e61]:
+          - checkbox "Remember me" [ref=e62]:
+            - checkbox [ref=e63]
+          - generic [ref=e64]: Remember me
+        - button "Log in" [ref=e65]
+      - generic [ref=e66]:
+        - text: Don't have an account?
+        - link "Sign up" [ref=e67] [cursor=pointer]:
+          - /url: /register

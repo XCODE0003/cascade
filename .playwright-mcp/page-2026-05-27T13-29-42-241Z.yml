@@ -1,0 +1,39 @@
+- main [ref=e4]:
+  - button "Home" [ref=e5] [cursor=pointer]:
+    - img [ref=e6]
+    - generic [ref=e8]: Home
+  - link "Home" [ref=e9] [cursor=pointer]:
+    - /url: /markets
+    - img [ref=e11]
+    - generic [ref=e12]: localhost
+  - generic [ref=e13]:
+    - generic [ref=e14]:
+      - generic [ref=e15]: "4"
+      - generic [ref=e16]: "4"
+    - heading "Page not found" [level=1] [ref=e17]
+    - paragraph [ref=e18]: The page you're looking for doesn't exist or has been moved.
+    - generic [ref=e19]:
+      - link "Go to homepage" [ref=e20] [cursor=pointer]:
+        - /url: /markets
+        - img [ref=e21]
+        - text: Go to homepage
+      - link "Explore markets" [ref=e24] [cursor=pointer]:
+        - /url: /markets
+        - img [ref=e25]
+        - text: Explore markets
+  - generic [ref=e28]:
+    - generic [ref=e29]:
+      - img [ref=e31]
+      - generic [ref=e34]:
+        - strong [ref=e35]: Secure & Private
+        - generic [ref=e36]: Your data is protected with industry-leading security
+    - generic [ref=e37]:
+      - img [ref=e39]
+      - generic [ref=e41]:
+        - strong [ref=e42]: Fast Access
+        - generic [ref=e43]: Join thousands of traders in under 30 seconds
+    - generic [ref=e44]:
+      - img [ref=e46]
+      - generic [ref=e48]:
+        - strong [ref=e49]: Real Opportunities
+        - generic [ref=e50]: Trade on real events. Real markets. Real profits.

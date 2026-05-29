@@ -1,0 +1,52 @@
+x-php: &php
+  build:
+    context: .
+    target: app
+  image: cascade-app
+  env_file: .env
+  environment: &php-env
+    APP_ENV: production
+    CONTAINER_ROLE: worker
+    DB_CONNECTION: sqlite
+    DB_DATABASE: /var/www/html/storage/app/db/database.sqlite
+    QUEUE_CONNECTION: database
+    CACHE_STORE: database
+    SESSION_DRIVER: file
+  volumes:
+    - cascade-storage:/var/www/html/storage
+  restart: unless-stopped
+
+services:
+  app:
+    <<: *php
+    environment:
+      <<: *php-env
+      CONTAINER_ROLE: app
+    expose:
+      - "9000"
+
+  web:
+    build:
+      context: .
+      target: web
+    image: cascade-web
+    depends_on:
+      - app
+    ports:
+      - "8080:80"
+    restart: unless-stopped
+
+  queue:
+    <<: *php
+    depends_on:
+      - app
+    command: php artisan queue:work --sleep=3 --tries=3 --max-time=3600
+
+  scheduler:
+    <<: *php
+    depends_on:
+      - app
+    command: php artisan schedule:work
+
+volumes:
+  cascade-storage:

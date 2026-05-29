@@ -1,0 +1,134 @@
+- generic [ref=e3]:
+  - generic [ref=e6]:
+    - list [ref=e8]:
+      - listitem [ref=e9]:
+        - link "Cascade Cascade" [ref=e10] [cursor=pointer]:
+          - /url: /dashboard
+          - img "Cascade" [ref=e12]
+          - generic [ref=e14]: Cascade
+    - generic [ref=e16]:
+      - generic [ref=e17]: Личный кабинет
+      - list [ref=e18]:
+        - listitem [ref=e19]:
+          - link "Кабинет" [ref=e20] [cursor=pointer]:
+            - /url: /dashboard
+            - img [ref=e21]
+            - generic [ref=e22]: Кабинет
+        - listitem [ref=e23]:
+          - link "Кошелёк" [ref=e24] [cursor=pointer]:
+            - /url: /wallet
+            - img [ref=e25]
+            - generic [ref=e28]: Кошелёк
+        - listitem [ref=e29]:
+          - link "Партнёры" [ref=e30] [cursor=pointer]:
+            - /url: /partners
+            - img [ref=e31]
+            - generic [ref=e36]: Партнёры
+        - listitem [ref=e37]:
+          - link "История" [ref=e38] [cursor=pointer]:
+            - /url: /history
+            - img [ref=e39]
+            - generic [ref=e42]: История
+    - generic [ref=e43]:
+      - generic [ref=e44]:
+        - generic [ref=e45]: Сервис
+        - list [ref=e46]:
+          - listitem [ref=e47]:
+            - link "Админка" [ref=e48] [cursor=pointer]:
+              - /url: /admin
+              - img [ref=e49]
+              - generic [ref=e52]: Админка
+          - listitem [ref=e53]:
+            - link "Настройки" [ref=e54] [cursor=pointer]:
+              - /url: /settings/profile
+              - img [ref=e55]
+              - generic [ref=e58]: Настройки
+      - list [ref=e59]:
+        - listitem [ref=e60]:
+          - button "Т Тест" [ref=e61]:
+            - generic [ref=e63]: Т
+            - generic [ref=e65]: Тест
+            - img [ref=e66]
+  - main [ref=e69]:
+    - generic [ref=e71]:
+      - button "Toggle sidebar" [ref=e72]:
+        - img
+        - generic [ref=e73]: Toggle sidebar
+      - navigation "breadcrumb" [ref=e74]:
+        - list [ref=e75]:
+          - listitem [ref=e76]:
+            - link "Кабинет" [disabled] [ref=e77]
+    - generic [ref=e78]:
+      - generic [ref=e79]:
+        - generic [ref=e80]:
+          - generic [ref=e81]: Внутренний баланс
+          - generic [ref=e82]: 1 248,00USDT
+        - generic [ref=e83]:
+          - button "Пополнить" [ref=e84]:
+            - img [ref=e85]
+            - text: Пополнить
+          - button "Вывод" [ref=e87]:
+            - img [ref=e88]
+            - text: Вывод
+      - generic [ref=e90]:
+        - generic [ref=e91]: Очереди
+        - generic [ref=e92]: 4 независимых уровня · ликвидность не пересекается
+      - generic [ref=e93]:
+        - generic [ref=e94]:
+          - generic [ref=e95]:
+            - generic [ref=e96]: Level 1
+            - generic [ref=e98]: не активен
+          - generic [ref=e99]:
+            - generic [ref=e100]: 20USDT
+            - generic [ref=e101]: "Выплата за цикл: 30 USDT"
+          - generic [ref=e109]: Не активирован
+          - button "Активировать" [ref=e111]:
+            - img [ref=e112]
+            - text: Активировать
+        - generic [ref=e114]:
+          - generic [ref=e115]:
+            - generic [ref=e116]: Level 2
+            - generic [ref=e118]: не активен
+          - generic [ref=e119]:
+            - generic [ref=e120]: 100USDT
+            - generic [ref=e121]: "Выплата за цикл: 150 USDT"
+          - generic [ref=e129]: Не активирован
+          - button "Активировать" [ref=e131]:
+            - img [ref=e132]
+            - text: Активировать
+        - generic [ref=e134]:
+          - generic [ref=e135]:
+            - generic [ref=e136]: Level 3
+            - generic [ref=e138]: не активен
+          - generic [ref=e139]:
+            - generic [ref=e140]: 700USDT
+            - generic [ref=e141]: "Выплата за цикл: 1 050 USDT"
+          - generic [ref=e149]: Не активирован
+          - button "Активировать" [ref=e151]:
+            - img [ref=e152]
+            - text: Активировать
+        - generic [ref=e154]:
+          - generic [ref=e155]:
+            - generic [ref=e156]: Level 4
+            - generic [ref=e158]: не активен
+          - generic [ref=e159]:
+            - generic [ref=e160]: 2 000USDT
+            - generic [ref=e161]: "Выплата за цикл: 3 000 USDT"
+          - generic [ref=e169]: Не активирован
+          - button "Активировать" [ref=e171]:
+            - img [ref=e172]
+            - text: Активировать
+      - generic [ref=e174]:
+        - generic [ref=e175]: Активность
+        - generic [ref=e176]: Последние 7 дней
+      - generic [ref=e177]:
+        - generic [ref=e178]:
+          - generic [ref=e179]: История операций
+          - generic [ref=e180]:
+            - button "Все" [ref=e181]
+            - button "Доходы" [ref=e182]
+            - button "Расходы" [ref=e183]
+            - button "Холд" [ref=e184]
+        - generic [ref=e185]: Операций пока нет
+  - region "Notifications alt+T":
+    - list

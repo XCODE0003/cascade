@@ -1,0 +1,148 @@
+- generic [ref=e3]:
+  - generic [ref=e6]:
+    - list [ref=e8]:
+      - listitem [ref=e9]:
+        - link "Cascade Cascade" [ref=e10] [cursor=pointer]:
+          - /url: /dashboard
+          - img "Cascade" [ref=e12]
+          - generic [ref=e14]: Cascade
+    - generic [ref=e16]:
+      - generic [ref=e17]: Личный кабинет
+      - list [ref=e18]:
+        - listitem [ref=e19]:
+          - link "Кабинет" [ref=e20] [cursor=pointer]:
+            - /url: /dashboard
+            - img [ref=e21]
+            - generic [ref=e22]: Кабинет
+        - listitem [ref=e23]:
+          - link "Кошелёк" [ref=e24] [cursor=pointer]:
+            - /url: /wallet
+            - img [ref=e25]
+            - generic [ref=e28]: Кошелёк
+        - listitem [ref=e29]:
+          - link "Партнёры" [ref=e30] [cursor=pointer]:
+            - /url: /partners
+            - img [ref=e31]
+            - generic [ref=e36]: Партнёры
+        - listitem [ref=e37]:
+          - link "История" [ref=e38] [cursor=pointer]:
+            - /url: /history
+            - img [ref=e39]
+            - generic [ref=e42]: История
+    - generic [ref=e43]:
+      - generic [ref=e44]:
+        - generic [ref=e45]: Сервис
+        - list [ref=e46]:
+          - listitem [ref=e47]:
+            - link "Админка" [ref=e48] [cursor=pointer]:
+              - /url: /admin
+              - img [ref=e49]
+              - generic [ref=e52]: Админка
+          - listitem [ref=e53]:
+            - link "Настройки" [ref=e54] [cursor=pointer]:
+              - /url: /settings/profile
+              - img [ref=e55]
+              - generic [ref=e58]: Настройки
+      - list [ref=e59]:
+        - listitem [ref=e60]:
+          - button "Т Тест" [ref=e61]:
+            - generic [ref=e63]: Т
+            - generic [ref=e65]: Тест
+            - img [ref=e66]
+  - main [ref=e69]:
+    - generic [ref=e71]:
+      - button "Toggle sidebar" [ref=e72]:
+        - img
+        - generic [ref=e73]: Toggle sidebar
+      - navigation "breadcrumb" [ref=e74]:
+        - list [ref=e75]:
+          - listitem [ref=e76]:
+            - link "Админка" [disabled] [ref=e77]
+    - generic [ref=e78]:
+      - generic [ref=e79]:
+        - button "Депозиты" [active] [ref=e80]
+        - button "Выплаты" [ref=e81]
+        - button "Очереди" [ref=e82]
+        - button "Настройки" [ref=e83]
+      - generic [ref=e190]:
+        - generic [ref=e192]:
+          - generic [ref=e193]: Депозиты
+          - generic [ref=e194]: Подтверждение запускает сплит 10 / 60 / 30 и обновляет очередь
+        - generic [ref=e196]:
+          - button "Ожидают" [ref=e197]
+          - button "Подтверждены" [ref=e198]
+          - button "Все" [ref=e199]
+        - table [ref=e201]:
+          - rowgroup [ref=e202]:
+            - row "ID Пользователь Уровень Сумма Реферер Время Статус Действие" [ref=e203]:
+              - columnheader "ID" [ref=e204]
+              - columnheader "Пользователь" [ref=e205]
+              - columnheader "Уровень" [ref=e206]
+              - columnheader "Сумма" [ref=e207]
+              - columnheader "Реферер" [ref=e208]
+              - columnheader "Время" [ref=e209]
+              - columnheader "Статус" [ref=e210]
+              - columnheader "Действие" [ref=e211]
+          - rowgroup [ref=e212]:
+            - row "#DEP-04881 u_4821 Level 2 100 USDT u_3019 2 мин Ожидает Подтвердить Детали" [ref=e213]:
+              - cell "#DEP-04881" [ref=e214]
+              - cell "u_4821" [ref=e215]
+              - cell "Level 2" [ref=e216]
+              - cell "100 USDT" [ref=e217]
+              - cell "u_3019" [ref=e218]
+              - cell "2 мин" [ref=e219]
+              - cell "Ожидает" [ref=e220]:
+                - generic [ref=e221]: Ожидает
+              - cell "Подтвердить Детали" [ref=e223]:
+                - generic [ref=e224]:
+                  - button "Подтвердить" [ref=e225]:
+                    - img [ref=e226]
+                    - text: Подтвердить
+                  - button "Детали" [ref=e228]
+            - row "#DEP-04880 u_9182 Level 1 20 USDT — 5 мин Ожидает Подтвердить Детали" [ref=e229]:
+              - cell "#DEP-04880" [ref=e230]
+              - cell "u_9182" [ref=e231]
+              - cell "Level 1" [ref=e232]
+              - cell "20 USDT" [ref=e233]
+              - cell "—" [ref=e234]
+              - cell "5 мин" [ref=e235]
+              - cell "Ожидает" [ref=e236]:
+                - generic [ref=e237]: Ожидает
+              - cell "Подтвердить Детали" [ref=e239]:
+                - generic [ref=e240]:
+                  - button "Подтвердить" [ref=e241]:
+                    - img [ref=e242]
+                    - text: Подтвердить
+                  - button "Детали" [ref=e244]
+            - row "#DEP-04879 u_5512 Level 3 700 USDT u_2210 8 мин Ожидает Подтвердить Детали" [ref=e245]:
+              - cell "#DEP-04879" [ref=e246]
+              - cell "u_5512" [ref=e247]
+              - cell "Level 3" [ref=e248]
+              - cell "700 USDT" [ref=e249]
+              - cell "u_2210" [ref=e250]
+              - cell "8 мин" [ref=e251]
+              - cell "Ожидает" [ref=e252]:
+                - generic [ref=e253]: Ожидает
+              - cell "Подтвердить Детали" [ref=e255]:
+                - generic [ref=e256]:
+                  - button "Подтвердить" [ref=e257]:
+                    - img [ref=e258]
+                    - text: Подтвердить
+                  - button "Детали" [ref=e260]
+            - row "#DEP-04878 u_7702 Level 4 2 000 USDT u_1101 14 мин Ожидает Подтвердить Детали" [ref=e261]:
+              - cell "#DEP-04878" [ref=e262]
+              - cell "u_7702" [ref=e263]
+              - cell "Level 4" [ref=e264]
+              - cell "2 000 USDT" [ref=e265]
+              - cell "u_1101" [ref=e266]
+              - cell "14 мин" [ref=e267]
+              - cell "Ожидает" [ref=e268]:
+                - generic [ref=e269]: Ожидает
+              - cell "Подтвердить Детали" [ref=e271]:
+                - generic [ref=e272]:
+                  - button "Подтвердить" [ref=e273]:
+                    - img [ref=e274]
+                    - text: Подтвердить
+                  - button "Детали" [ref=e276]
+  - region "Notifications alt+T":
+    - list

@@ -1,0 +1,16 @@
+[     205ms] [LOG] 🔍 Browser logger active (MCP server detected). Posting to: http://localhost:8001/_boost/browser-logs @ http://localhost:8001/dashboard:150
+[     361ms] [WARNING] [Vue warn]: Hydration node mismatch:
+- rendered on server: JSHandle@node  
+- expected on client: Symbol(v-cmt) 
+  at <DepositSheet open=false default-level=2 balance=1248  ... > 
+  at <Dashboard errors= {} name="Laravel" auth= {user: Object}  ... > 
+  at <SidebarInset key=0 class="overflow-x-hidden" > 
+  at <AppContent variant="sidebar" class="overflow-x-hidden" > 
+  at <TooltipProvider delay-duration=0 > 
+  at <SidebarProvider key=1 default-open=true > 
+  at <AppShell variant="sidebar" > 
+  at <AppSidebarLayout breadcrumbs= [Object] > 
+  at <AppLayout errors= {} name="Laravel" auth= {user: Object}  ... > 
+  at <Inertia initialPage= {component: Dashboard, props: Object, url: /dashboard, version: cc327efe5e714959a58f1c2d90bc0902, sharedProps: Array(4)} initialComponent= {layout: Object, __name: Dashboard, props: Object, setup: , __hmrId: 34521018} resolveComponent=fn<resolveComponent>  ... > 
+  at <App> @ http://localhost:8001/dashboard:209
+[     363ms] [ERROR] Hydration completed but contains mismatches. @ http://localhost:8001/dashboard:209

@@ -1,0 +1,51 @@
+[     149ms] [LOG] 🔍 Browser logger active (MCP server detected). Posting to: http://localhost:8001/_boost/browser-logs @ http://localhost:8001/admin:150
+[   42671ms] [WARNING] [Vue warn]: Extraneous non-props attributes (errors, name, auth, sidebarOpen) were passed to component but could not be automatically inherited because component renders fragment or text or teleport root nodes. 
+  at <Index errors= {} name="Laravel" auth= {user: Object}  ... > 
+  at <SidebarInset key=0 class="overflow-x-hidden" > 
+  at <AppContent variant="sidebar" class="overflow-x-hidden" > 
+  at <TooltipProvider delay-duration=0 > 
+  at <SidebarProvider key=1 default-open=true > 
+  at <AppShell variant="sidebar" > 
+  at <AppSidebarLayout breadcrumbs= [Object] > 
+  at <AppLayout errors= {} name="Laravel" auth= {user: Object}  ... > 
+  at <Inertia initialPage= {component: admin/Index, props: Object, url: /admin, version: cc327efe5e714959a58f1c2d90bc0902, sharedProps: Array(4)} initialComponent= {layout: Object, __name: Index, setup: , __hmrId: 181fdf23, render: } resolveComponent=fn<resolveComponent>  ... > 
+  at <App> @ http://localhost:8001/admin:209
+[  306731ms] [WARNING] [Vue warn]: Extraneous non-props attributes (errors, name, auth, sidebarOpen) were passed to component but could not be automatically inherited because component renders fragment or text or teleport root nodes. 
+  at <Index errors= {} name="Laravel" auth= {user: Object}  ... > 
+  at <SidebarInset key=0 class="overflow-x-hidden" > 
+  at <AppContent variant="sidebar" class="overflow-x-hidden" > 
+  at <TooltipProvider delay-duration=0 > 
+  at <SidebarProvider key=1 default-open=true > 
+  at <AppShell variant="sidebar" > 
+  at <AppSidebarLayout breadcrumbs= [Object] > 
+  at <AppLayout errors= {} name="Laravel" auth= {user: Object}  ... > 
+  at <Inertia initialPage= {component: admin/Index, props: Object, url: /admin, version: cc327efe5e714959a58f1c2d90bc0902, sharedProps: Array(4)} initialComponent= {layout: Object, __name: Index, setup: , __hmrId: 181fdf23, render: } resolveComponent=fn<resolveComponent>  ... > 
+  at <App> @ http://localhost:8001/admin:209
+[  437028ms] [WARNING] [Vue warn]: Extraneous non-props attributes (errors, name, auth, sidebarOpen) were passed to component but could not be automatically inherited because component renders fragment or text or teleport root nodes. 
+  at <Index errors= {} name="Laravel" auth= {user: Object}  ... > 
+  at <SidebarInset key=0 class="overflow-x-hidden" > 
+  at <AppContent variant="sidebar" class="overflow-x-hidden" > 
+  at <TooltipProvider delay-duration=0 > 
+  at <SidebarProvider key=1 default-open=true > 
+  at <AppShell variant="sidebar" > 
+  at <AppSidebarLayout breadcrumbs= [Object] > 
+  at <AppLayout errors= {} name="Laravel" auth= {user: Object}  ... > 
+  at <Inertia initialPage= {component: admin/Index, props: Object, url: /admin, version: cc327efe5e714959a58f1c2d90bc0902, sharedProps: Array(4)} initialComponent= {layout: Object, __name: Index, setup: , __hmrId: 181fdf23, render: } resolveComponent=fn<resolveComponent>  ... > 
+  at <App> @ http://localhost:8001/admin:209
+[  595101ms] [LOG] 🔍 Browser logger active (MCP server detected). Posting to: http://localhost:8001/_boost/browser-logs @ http://localhost:8001/admin:150
+[  598722ms] [LOG] 🔍 Browser logger active (MCP server detected). Posting to: http://localhost:8001/_boost/browser-logs @ http://localhost:8001/admin:150
+[  604508ms] [LOG] 🔍 Browser logger active (MCP server detected). Posting to: http://localhost:8001/_boost/browser-logs @ http://localhost:8001/admin:150
+[  658017ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:5174/resources/js/components/cascade/DepositSheet.vue?vue=&type=style&index=0&scoped=56eefef0&lang.css=&t=1779890594778:0
+[ 1163917ms] [LOG] 🔍 Browser logger active (MCP server detected). Posting to: http://localhost:8001/_boost/browser-logs @ http://localhost:8001/admin:150
+[ 1170012ms] [LOG] 🔍 Browser logger active (MCP server detected). Posting to: http://localhost:8001/_boost/browser-logs @ http://localhost:8001/admin:150
+[ 1990747ms] [LOG] [vite] server connection lost. Polling for restart... @ http://localhost:8001/admin:209
+[ 1991622ms] [LOG] 🔍 Browser logger active (MCP server detected). Posting to: http://localhost:8001/_boost/browser-logs @ http://localhost:8001/admin:150
+[ 5466551ms] [LOG] [vite] server connection lost. Polling for restart... @ http://localhost:8001/admin:209
+[ 5467423ms] [LOG] 🔍 Browser logger active (MCP server detected). Posting to: http://localhost:8001/_boost/browser-logs @ http://localhost:8001/admin:150
+[13285673ms] [LOG] [vite] server connection lost. Polling for restart... @ http://localhost:8001/admin:209
+[13286152ms] [LOG] 🔍 Browser logger active (MCP server detected). Posting to: http://localhost:8001/_boost/browser-logs @ http://localhost:8001/login:150
+[15887466ms] [LOG] [vite] server connection lost. Polling for restart... @ http://localhost:8001/login:209
+[15888702ms] [LOG] 🔍 Browser logger active (MCP server detected). Posting to: http://localhost:8001/_boost/browser-logs @ http://localhost:8001/login:150
+[24282730ms] [LOG] 🔍 Browser logger active (MCP server detected). Posting to: http://localhost:8001/_boost/browser-logs @ http://localhost:8001/login:150
+[24291504ms] [LOG] 🔍 Browser logger active (MCP server detected). Posting to: http://localhost:8001/_boost/browser-logs @ http://localhost:8001/login:150
+[24295608ms] [LOG] 🔍 Browser logger active (MCP server detected). Posting to: http://localhost:8001/_boost/browser-logs @ http://localhost:8001/login:150

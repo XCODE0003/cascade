@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Cascade — Mobile</title>
+<link rel="stylesheet" href="../../colors_and_type.css">
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+<style>
+  html, body { height: 100%; margin: 0; }
+  body { font-family: var(--font-text); background: var(--bg); overflow: hidden; }
+  #root { height: 100vh; display: flex; align-items: stretch; justify-content: center; }
+  /* Frame the mobile app on wider viewports for preview */
+  .phone {
+    width: 100%; max-width: 420px;
+    height: 100%; max-height: 880px;
+    background: var(--bg);
+    position: relative;
+    display: flex; flex-direction: column;
+    overflow: hidden;
+  }
+  @media (min-width: 500px) {
+    .phone {
+      border-radius: 44px;
+      box-shadow: 0 30px 80px rgba(0,0,0,0.10), 0 8px 24px rgba(0,0,0,0.06), inset 0 0 0 1px rgba(0,0,0,0.06);
+      margin: 20px 0;
+    }
+  }
+  ::-webkit-scrollbar { width: 0; }
+</style>
+</head>
+<body>
+<template id="__bundler_thumbnail" data-bg-color="#FBFBFD">
+  <svg viewBox="0 0 400 800" xmlns="http://www.w3.org/2000/svg">
+    <!-- Phone frame -->
+    <rect x="40" y="40" width="320" height="720" rx="56" fill="#FFFFFF" stroke="rgba(0,0,0,0.08)" stroke-width="1"/>
+    <!-- Header pill -->
+    <rect x="72" y="120" width="120" height="20" rx="6" fill="#1D1D1F"/>
+    <!-- Balance hero -->
+    <rect x="72" y="170" width="256" height="120" rx="20" fill="#F5F5F7"/>
+    <rect x="92" y="200" width="80"  height="10" rx="4" fill="#86868B"/>
+    <rect x="92" y="220" width="180" height="28" rx="6" fill="#1D1D1F"/>
+    <rect x="92" y="260" width="100" height="14" rx="7" fill="#34C759"/>
+    <!-- 4 queue cards with 5-cell counters -->
+    <g>
+      <rect x="72" y="320" width="256" height="84" rx="16" fill="#F5F5F7"/>
+      <circle cx="92" cy="344" r="5" fill="#5AC8FA"/>
+      <rect x="106" y="338" width="80" height="12" rx="4" fill="#1D1D1F" opacity="0.7"/>
+      <g transform="translate(92,372)"><rect width="44" height="16" rx="4" fill="#34C759"/><rect x="48" width="44" height="16" rx="4" fill="#34C759"/><rect x="96" width="44" height="16" rx="4" fill="#34C759"/><rect x="144" width="44" height="16" rx="4" fill="#34C759"/><rect x="192" width="44" height="16" rx="4" fill="#34C759"/></g>
+
+      <rect x="72" y="416" width="256" height="84" rx="16" fill="#F5F5F7"/>
+      <circle cx="92" cy="440" r="5" fill="#007AFF"/>
+      <rect x="106" y="434" width="80" height="12" rx="4" fill="#1D1D1F" opacity="0.7"/>
+      <g transform="translate(92,468)"><rect width="44" height="16" rx="4" fill="#34C759"/><rect x="48" width="44" height="16" rx="4" fill="#34C759"/><rect x="96" width="44" height="16" rx="4" fill="#34C759"/><rect x="144" width="44" height="16" rx="4" fill="#ECECEF"/><rect x="192" width="44" height="16" rx="4" fill="#ECECEF"/></g>
+
+      <rect x="72" y="512" width="256" height="84" rx="16" fill="#F5F5F7"/>
+      <circle cx="92" cy="536" r="5" fill="#5856D6"/>
+      <rect x="106" y="530" width="80" height="12" rx="4" fill="#1D1D1F" opacity="0.7"/>
+      <g transform="translate(92,564)"><rect width="44" height="16" rx="4" fill="#ECECEF"/><rect x="48" width="44" height="16" rx="4" fill="#ECECEF"/><rect x="96" width="44" height="16" rx="4" fill="#ECECEF"/><rect x="144" width="44" height="16" rx="4" fill="#ECECEF"/><rect x="192" width="44" height="16" rx="4" fill="#ECECEF"/></g>
+    </g>
+    <!-- Bottom tab bar -->
+    <rect x="72" y="660" width="256" height="60" rx="14" fill="#FFFFFF" stroke="rgba(0,0,0,0.08)"/>
+    <g fill="#007AFF"><circle cx="100" cy="690" r="4"/></g>
+    <g fill="#86868B"><circle cx="148" cy="690" r="4"/><circle cx="200" cy="690" r="4"/><circle cx="252" cy="690" r="4"/><circle cx="300" cy="690" r="4"/></g>
+  </svg>
+</template>
+<div id="root"></div>
+
+<script type="text/babel" src="../dashboard/Icons.jsx"></script>
+<script type="text/babel" src="MobileShell.jsx"></script>
+<script type="text/babel" src="BottomTabBar.jsx"></script>
+<script type="text/babel" src="Sheet.jsx"></script>
+<script type="text/babel" src="DashboardScreen.jsx"></script>
+<script type="text/babel" src="WalletScreen.jsx"></script>
+<script type="text/babel" src="PartnerScreen.jsx"></script>
+<script type="text/babel" src="HistoryScreen.jsx"></script>
+<script type="text/babel" src="ProfileScreen.jsx"></script>
+<script type="text/babel" src="App.jsx"></script>
+<script type="text/babel">
+  ReactDOM.createRoot(document.getElementById('root')).render(<MobileApp/>);
+</script>
+</body>
+</html>

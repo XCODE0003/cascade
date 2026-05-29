@@ -1,0 +1,151 @@
+- generic [ref=e3]:
+  - generic [ref=e6]:
+    - list [ref=e8]:
+      - listitem [ref=e9]:
+        - link "Cascade Cascade" [ref=e10] [cursor=pointer]:
+          - /url: /dashboard
+          - img "Cascade" [ref=e12]
+          - generic [ref=e14]: Cascade
+    - generic [ref=e16]:
+      - generic [ref=e17]: Личный кабинет
+      - list [ref=e18]:
+        - listitem [ref=e19]:
+          - link "Кабинет" [ref=e20] [cursor=pointer]:
+            - /url: /dashboard
+            - img [ref=e21]
+            - generic [ref=e22]: Кабинет
+        - listitem [ref=e23]:
+          - link "Кошелёк" [ref=e24] [cursor=pointer]:
+            - /url: /wallet
+            - img [ref=e25]
+            - generic [ref=e28]: Кошелёк
+        - listitem [ref=e29]:
+          - link "Партнёры" [ref=e30] [cursor=pointer]:
+            - /url: /partners
+            - img [ref=e31]
+            - generic [ref=e36]: Партнёры
+        - listitem [ref=e37]:
+          - link "История" [ref=e38] [cursor=pointer]:
+            - /url: /history
+            - img [ref=e39]
+            - generic [ref=e42]: История
+    - generic [ref=e43]:
+      - generic [ref=e44]:
+        - generic [ref=e45]: Сервис
+        - list [ref=e46]:
+          - listitem [ref=e47]:
+            - link "Админка" [ref=e48] [cursor=pointer]:
+              - /url: /admin
+              - img [ref=e49]
+              - generic [ref=e52]: Админка
+          - listitem [ref=e53]:
+            - link "Настройки" [ref=e54] [cursor=pointer]:
+              - /url: /settings/profile
+              - img [ref=e55]
+              - generic [ref=e58]: Настройки
+      - list [ref=e59]:
+        - listitem [ref=e60]:
+          - button "Т Тест" [ref=e61]:
+            - generic [ref=e63]: Т
+            - generic [ref=e65]: Тест
+            - img [ref=e66]
+  - main [ref=e69]:
+    - generic [ref=e71]:
+      - button "Toggle sidebar" [ref=e72]:
+        - img
+        - generic [ref=e73]: Toggle sidebar
+      - navigation "breadcrumb" [ref=e74]:
+        - list [ref=e75]:
+          - listitem [ref=e76]:
+            - link "Админка" [disabled] [ref=e77]
+    - generic [ref=e78]:
+      - generic [ref=e79]:
+        - button "Депозиты" [ref=e80]
+        - button "Выплаты" [ref=e81]
+        - button "Очереди" [ref=e82]
+        - button "Настройки" [ref=e83]
+      - generic [ref=e84]:
+        - generic [ref=e86]:
+          - generic [ref=e87]: Заявки на вывод
+          - generic [ref=e88]: Кнопка «Выплатить» активна только по истечении 72-часового холда
+        - generic [ref=e90]:
+          - button "Активные" [ref=e91]
+          - button "Выплачены" [ref=e92]
+          - button "Отклонены" [ref=e93]
+        - table [ref=e95]:
+          - rowgroup [ref=e96]:
+            - row "ID Пользователь Сумма Холд Создана Статус Действие" [ref=e97]:
+              - columnheader "ID" [ref=e98]
+              - columnheader "Пользователь" [ref=e99]
+              - columnheader "Сумма" [ref=e100]
+              - columnheader "Холд" [ref=e101]
+              - columnheader "Создана" [ref=e102]
+              - columnheader "Статус" [ref=e103]
+              - columnheader "Действие" [ref=e104]
+          - rowgroup [ref=e105]:
+            - row "#WD-1281 u_4821 1 050,00 USDT 6ч сегодня 09:14 Холд Выплатить" [ref=e106]:
+              - cell "#WD-1281" [ref=e107]
+              - cell "u_4821" [ref=e108]
+              - cell "1 050,00 USDT" [ref=e109]
+              - cell "6ч" [ref=e110]:
+                - generic [ref=e114]: 6ч
+              - cell "сегодня 09:14" [ref=e115]
+              - cell "Холд" [ref=e116]:
+                - generic [ref=e117]: Холд
+              - cell "Выплатить" [ref=e119]:
+                - generic [ref=e120]:
+                  - button "Выплатить" [disabled] [ref=e121]:
+                    - img [ref=e122]
+                    - text: Выплатить
+                  - button [ref=e124]:
+                    - img [ref=e125]
+            - row "#WD-1280 u_3019 30,00 USDT 18ч сегодня 02:30 Холд Выплатить" [ref=e127]:
+              - cell "#WD-1280" [ref=e128]
+              - cell "u_3019" [ref=e129]
+              - cell "30,00 USDT" [ref=e130]
+              - cell "18ч" [ref=e131]:
+                - generic [ref=e135]: 18ч
+              - cell "сегодня 02:30" [ref=e136]
+              - cell "Холд" [ref=e137]:
+                - generic [ref=e138]: Холд
+              - cell "Выплатить" [ref=e140]:
+                - generic [ref=e141]:
+                  - button "Выплатить" [disabled] [ref=e142]:
+                    - img [ref=e143]
+                    - text: Выплатить
+                  - button [ref=e145]:
+                    - img [ref=e146]
+            - row "#WD-1279 u_5512 150,00 USDT 0ч вчера 11:22 Готова к выплате Выплатить" [ref=e148]:
+              - cell "#WD-1279" [ref=e149]
+              - cell "u_5512" [ref=e150]
+              - cell "150,00 USDT" [ref=e151]
+              - cell "0ч" [ref=e152]:
+                - generic [ref=e156]: 0ч
+              - cell "вчера 11:22" [ref=e157]
+              - cell "Готова к выплате" [ref=e158]:
+                - generic [ref=e159]: Готова к выплате
+              - cell "Выплатить" [ref=e161]:
+                - generic [ref=e162]:
+                  - button "Выплатить" [ref=e163] [cursor=pointer]:
+                    - img [ref=e164]
+                    - text: Выплатить
+                  - button [ref=e166]:
+                    - img [ref=e167]
+            - row "#WD-1278 u_7702 3 000,00 USDT 0ч вчера 08:45 Готова к выплате Выплатить" [ref=e169]:
+              - cell "#WD-1278" [ref=e170]
+              - cell "u_7702" [ref=e171]
+              - cell "3 000,00 USDT" [ref=e172]
+              - cell "0ч" [ref=e173]:
+                - generic [ref=e177]: 0ч
+              - cell "вчера 08:45" [ref=e178]
+              - cell "Готова к выплате" [ref=e179]:
+                - generic [ref=e180]: Готова к выплате
+              - cell "Выплатить" [ref=e182]:
+                - generic [ref=e183]:
+                  - button "Выплатить" [ref=e184] [cursor=pointer]:
+                    - img [ref=e185]
+                    - text: Выплатить
+                  - button [ref=e187]:
+                    - img [ref=e188]
+  - region "Notifications alt+T":
+    - list

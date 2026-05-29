@@ -1,0 +1,209 @@
+- generic [ref=e68]:
+  - generic [ref=e71]:
+    - list [ref=e73]:
+      - listitem [ref=e74]:
+        - link "Cascade Cascade" [ref=e75] [cursor=pointer]:
+          - /url: /dashboard
+          - img "Cascade" [ref=e77]
+          - generic [ref=e79]: Cascade
+    - generic [ref=e81]:
+      - generic [ref=e82]: Platform
+      - list [ref=e83]:
+        - listitem [ref=e84]:
+          - link "Кабинет" [ref=e85] [cursor=pointer]:
+            - /url: /dashboard
+            - img [ref=e86]
+            - generic [ref=e87]: Кабинет
+        - listitem [ref=e88]:
+          - link "Кошелёк" [ref=e89] [cursor=pointer]:
+            - /url: /wallet
+            - img [ref=e90]
+            - generic [ref=e93]: Кошелёк
+        - listitem [ref=e94]:
+          - link "Партнёры" [ref=e95] [cursor=pointer]:
+            - /url: /partners
+            - img [ref=e96]
+            - generic [ref=e101]: Партнёры
+        - listitem [ref=e102]:
+          - link "История" [ref=e103] [cursor=pointer]:
+            - /url: /history
+            - img [ref=e104]
+            - generic [ref=e107]: История
+    - generic [ref=e108]:
+      - generic [ref=e109]:
+        - generic [ref=e110]: Platform
+        - list [ref=e111]:
+          - listitem [ref=e112]:
+            - link "Админка" [ref=e113] [cursor=pointer]:
+              - /url: /admin
+              - img [ref=e114]
+              - generic [ref=e117]: Админка
+          - listitem [ref=e118]:
+            - link "Настройки" [ref=e119] [cursor=pointer]:
+              - /url: /settings/profile
+              - img [ref=e120]
+              - generic [ref=e123]: Настройки
+      - list [ref=e124]:
+        - listitem [ref=e125]:
+          - button "Т Тест" [ref=e126]:
+            - generic [ref=e128]: Т
+            - generic [ref=e130]: Тест
+            - img [ref=e131]
+  - main [ref=e134]:
+    - generic [ref=e136]:
+      - button "Toggle sidebar" [ref=e137]:
+        - img
+        - generic [ref=e138]: Toggle sidebar
+      - navigation "breadcrumb" [ref=e139]:
+        - list [ref=e140]:
+          - listitem [ref=e141]:
+            - link "Кабинет" [disabled] [ref=e142]
+    - generic [ref=e143]:
+      - generic [ref=e144]:
+        - generic [ref=e145]:
+          - generic [ref=e146]: Внутренний баланс
+          - generic [ref=e147]: 1 248,00USDT
+        - generic [ref=e148]:
+          - button "Пополнить" [ref=e149]:
+            - img [ref=e150]
+            - text: Пополнить
+          - button "Вывод" [ref=e152]:
+            - img [ref=e153]
+            - text: Вывод
+      - generic [ref=e155]:
+        - generic [ref=e156]: Очереди
+        - generic [ref=e157]: 4 независимых уровня · ликвидность не пересекается
+      - generic [ref=e158]:
+        - generic [ref=e159]:
+          - generic [ref=e160]:
+            - generic [ref=e161]: Level 1
+            - generic [ref=e163]: 5 / 5
+          - generic [ref=e164]:
+            - generic [ref=e165]: 20USDT
+            - generic [ref=e166]: "Выплата за цикл: 30 USDT"
+          - generic [ref=e174]:
+            - img [ref=e175]
+            - text: Готов к выводу
+          - generic [ref=e177]:
+            - button "Реинвест" [ref=e178]:
+              - img [ref=e179]
+              - text: Реинвест
+            - button "Апгрейд" [ref=e182]:
+              - img [ref=e183]
+              - text: Апгрейд
+          - generic [ref=e185]:
+            - generic [ref=e186]: Авто-вход после цикла
+            - button [ref=e187]
+        - generic [ref=e189]:
+          - generic [ref=e190]:
+            - generic [ref=e191]: Level 2
+            - generic [ref=e193]: 3 / 5
+          - generic [ref=e194]:
+            - generic [ref=e195]: 100USDT
+            - generic [ref=e196]: "Выплата за цикл: 150 USDT"
+          - generic [ref=e204]:
+            - img [ref=e205]
+            - text: "Замок: 4 д 12:32:08"
+          - generic [ref=e208]:
+            - button "Реинвест" [disabled] [ref=e209]:
+              - img [ref=e210]
+              - text: Реинвест
+            - button "Апгрейд" [ref=e213]:
+              - img [ref=e214]
+              - text: Апгрейд
+          - generic [ref=e216]:
+            - generic [ref=e217]: Авто-вход после цикла
+            - button [ref=e218]
+        - generic [ref=e220]:
+          - generic [ref=e221]:
+            - generic [ref=e222]: Level 3
+            - generic [ref=e224]: не активен
+          - generic [ref=e225]:
+            - generic [ref=e226]: 700USDT
+            - generic [ref=e227]: "Выплата за цикл: 1 050 USDT"
+          - generic [ref=e235]: Не активирован
+          - button "Активировать" [ref=e237]:
+            - img [ref=e238]
+            - text: Активировать
+        - generic [ref=e240]:
+          - generic [ref=e241]:
+            - generic [ref=e242]: Level 4
+            - generic [ref=e244]: 2 / 5
+          - generic [ref=e245]:
+            - generic [ref=e246]: 2 000USDT
+            - generic [ref=e247]: "Выплата за цикл: 3 000 USDT"
+          - generic [ref=e255]:
+            - img [ref=e256]
+            - text: "Замок: 6 д 03:14:55"
+          - generic [ref=e259]:
+            - button "Реинвест" [disabled] [ref=e260]:
+              - img [ref=e261]
+              - text: Реинвест
+            - button "Апгрейд" [ref=e264]:
+              - img [ref=e265]
+              - text: Апгрейд
+          - generic [ref=e267]:
+            - generic [ref=e268]: Авто-вход после цикла
+            - button [ref=e269]
+      - generic [ref=e271]:
+        - generic [ref=e272]: Активность
+        - generic [ref=e273]: Последние 7 дней
+      - generic [ref=e274]:
+        - generic [ref=e275]:
+          - generic [ref=e276]: История операций
+          - generic [ref=e277]:
+            - button "Все" [ref=e278]
+            - button "Доходы" [ref=e279]
+            - button "Расходы" [ref=e280]
+            - button "Холд" [ref=e281]
+        - generic [ref=e282]:
+          - generic [ref=e283]: +
+          - generic [ref=e284]:
+            - generic [ref=e285]: Реферальный бонус
+            - generic [ref=e286]: от user_4821 · Level 2
+          - generic [ref=e287]: +60,00 USDT
+          - generic [ref=e288]: 14:23
+        - generic [ref=e289]:
+          - generic [ref=e290]: ●
+          - generic [ref=e291]:
+            - generic [ref=e292]: Закрашена ячейка
+            - generic [ref=e293]: Очередь 700 · ячейка 3 из 5
+          - generic [ref=e294]: +210,00 USDT
+          - generic [ref=e295]: 13:55
+        - generic [ref=e296]:
+          - generic [ref=e297]: ●
+          - generic [ref=e298]:
+            - generic [ref=e299]: Закрашена ячейка
+            - generic [ref=e300]: Очередь 100 · ячейка 2 из 5
+          - generic [ref=e301]: +30,00 USDT
+          - generic [ref=e302]: 12:01
+        - generic [ref=e303]:
+          - generic [ref=e304]: ⏳
+          - generic [ref=e305]:
+            - generic [ref=e306]: Заявка на вывод · холд
+            - generic [ref=e307]: Освободится через 36 ч 12 мин
+          - generic [ref=e308]: −1 050,00 USDT
+          - generic [ref=e309]: вчера
+        - generic [ref=e310]:
+          - generic [ref=e311]: ↻
+          - generic [ref=e312]:
+            - generic [ref=e313]: Реинвест
+            - generic [ref=e314]: Каскад в Очередь 100
+          - generic [ref=e315]: −90,00 USDT
+          - generic [ref=e316]: вчера
+        - generic [ref=e317]:
+          - generic [ref=e318]: ↓
+          - generic [ref=e319]:
+            - generic [ref=e320]: Депозит подтверждён
+            - generic [ref=e321]: Level 3 · 700 USDT
+          - generic [ref=e322]: +0,00 USDT
+          - generic [ref=e323]: 2 дн
+        - generic [ref=e324]:
+          - generic [ref=e325]: +
+          - generic [ref=e326]:
+            - generic [ref=e327]: Реферальный бонус
+            - generic [ref=e328]: от user_9182 · Level 1
+          - generic [ref=e329]: +12,00 USDT
+          - generic [ref=e330]: 2 дн
+  - region "Notifications alt+T":
+    - list

@@ -1,0 +1,167 @@
+- generic [ref=e3]:
+  - generic [ref=e6]:
+    - list [ref=e8]:
+      - listitem [ref=e9]:
+        - link "Cascade Cascade" [ref=e10] [cursor=pointer]:
+          - /url: /dashboard
+          - img "Cascade" [ref=e12]
+          - generic [ref=e14]: Cascade
+    - generic [ref=e16]:
+      - generic [ref=e17]: Личный кабинет
+      - list [ref=e18]:
+        - listitem [ref=e19]:
+          - link "Кабинет" [ref=e20] [cursor=pointer]:
+            - /url: /dashboard
+            - img [ref=e21]
+            - generic [ref=e22]: Кабинет
+        - listitem [ref=e23]:
+          - link "Кошелёк" [ref=e24] [cursor=pointer]:
+            - /url: /wallet
+            - img [ref=e25]
+            - generic [ref=e28]: Кошелёк
+        - listitem [ref=e29]:
+          - link "Партнёры" [ref=e30] [cursor=pointer]:
+            - /url: /partners
+            - img [ref=e31]
+            - generic [ref=e36]: Партнёры
+        - listitem [ref=e37]:
+          - link "История" [ref=e38] [cursor=pointer]:
+            - /url: /history
+            - img [ref=e39]
+            - generic [ref=e42]: История
+    - generic [ref=e43]:
+      - generic [ref=e44]:
+        - generic [ref=e45]: Сервис
+        - list [ref=e46]:
+          - listitem [ref=e47]:
+            - link "Админка" [ref=e48] [cursor=pointer]:
+              - /url: /admin
+              - img [ref=e49]
+              - generic [ref=e52]: Админка
+          - listitem [ref=e53]:
+            - link "Настройки" [ref=e54] [cursor=pointer]:
+              - /url: /settings/profile
+              - img [ref=e55]
+              - generic [ref=e58]: Настройки
+      - list [ref=e59]:
+        - listitem [ref=e60]:
+          - button "Т Тест" [ref=e61]:
+            - generic [ref=e63]: Т
+            - generic [ref=e65]: Тест
+            - img [ref=e66]
+  - main [ref=e69]:
+    - generic [ref=e71]:
+      - button "Toggle sidebar" [ref=e72]:
+        - img
+        - generic [ref=e73]: Toggle sidebar
+      - navigation "breadcrumb" [ref=e74]:
+        - list [ref=e75]:
+          - listitem [ref=e76]:
+            - link "Партнёры" [disabled] [ref=e77]
+    - generic [ref=e78]:
+      - generic [ref=e79]:
+        - generic [ref=e80]:
+          - generic [ref=e81]:
+            - generic [ref=e82]: Реферальная ссылка
+            - generic [ref=e83]: Активна
+          - generic [ref=e85]:
+            - generic [ref=e86]: cascade.app/r/481923
+            - button "Копировать" [ref=e87]:
+              - img [ref=e88]
+              - text: Копировать
+        - generic [ref=e91]:
+          - generic [ref=e93]:
+            - generic [ref=e94]: Упущенная прибыль
+            - generic [ref=e95]: Бонусы, ушедшие в очередь из-за «обрезки»
+          - generic [ref=e96]: 2 040 USDT
+          - generic [ref=e97]:
+            - generic [ref=e98]:
+              - generic [ref=e99]: u_7702
+              - generic [ref=e100]: купил Level 4 · ваш макс Level 2
+              - generic [ref=e101]: −1 200 USDT
+            - generic [ref=e102]:
+              - generic [ref=e103]: u_2007
+              - generic [ref=e104]: купил Level 3 · ваш макс Level 2
+              - generic [ref=e105]: −420 USDT
+            - generic [ref=e106]:
+              - generic [ref=e107]: u_1101
+              - generic [ref=e108]: купил Level 3 · ваш макс Level 2
+              - generic [ref=e109]: −420 USDT
+      - generic [ref=e110]:
+        - generic [ref=e111]:
+          - generic [ref=e112]: Заработано бонусов · всего
+          - generic [ref=e113]: 284,00 USDT
+          - generic [ref=e114]: + 60 USDT за последнюю неделю
+        - generic [ref=e115]:
+          - generic [ref=e116]: Бонусных ячеек
+          - generic [ref=e117]: 3 / 5
+          - generic [ref=e118]: На Level 2 (текущий активный пакет)
+        - generic [ref=e121]:
+          - generic [ref=e122]: Правило 5 друзей
+          - generic [ref=e123]: 3 / 5
+          - generic [ref=e124]: Пригласите ещё 2, чтобы закрыть цикл
+      - generic [ref=e131]:
+        - generic [ref=e132]:
+          - generic [ref=e133]: Приглашённые
+          - generic [ref=e134]: 5 рефералов · 3 активных
+        - table [ref=e135]:
+          - rowgroup [ref=e136]:
+            - row "Пользователь Уровень Заработано вами Присоединился Статус" [ref=e137]:
+              - columnheader "Пользователь" [ref=e138]
+              - columnheader "Уровень" [ref=e139]
+              - columnheader "Заработано вами" [ref=e140]
+              - columnheader "Присоединился" [ref=e141]
+              - columnheader "Статус" [ref=e142]
+          - rowgroup [ref=e143]:
+            - row "48 u_4821 Level 2 +60,00 USDT 5 дн назад Активен" [ref=e144]:
+              - cell "48 u_4821" [ref=e145]:
+                - generic [ref=e146]:
+                  - generic [ref=e147]: "48"
+                  - generic [ref=e148]: u_4821
+              - cell "Level 2" [ref=e149]
+              - cell "+60,00 USDT" [ref=e150]
+              - cell "5 дн назад" [ref=e151]
+              - cell "Активен" [ref=e152]:
+                - generic [ref=e153]: Активен
+            - row "91 u_9182 Level 1 +12,00 USDT 5 дн назад Активен" [ref=e155]:
+              - cell "91 u_9182" [ref=e156]:
+                - generic [ref=e157]:
+                  - generic [ref=e158]: "91"
+                  - generic [ref=e159]: u_9182
+              - cell "Level 1" [ref=e160]
+              - cell "+12,00 USDT" [ref=e161]
+              - cell "5 дн назад" [ref=e162]
+              - cell "Активен" [ref=e163]:
+                - generic [ref=e164]: Активен
+            - row "30 u_3019 Level 2 +60,00 USDT 8 дн назад Активен" [ref=e166]:
+              - cell "30 u_3019" [ref=e167]:
+                - generic [ref=e168]:
+                  - generic [ref=e169]: "30"
+                  - generic [ref=e170]: u_3019
+              - cell "Level 2" [ref=e171]
+              - cell "+60,00 USDT" [ref=e172]
+              - cell "8 дн назад" [ref=e173]
+              - cell "Активен" [ref=e174]:
+                - generic [ref=e175]: Активен
+            - row "77 u_7702 Level 4 +0,00 USDT 2 нед назад Неактивен в очереди" [ref=e177]:
+              - cell "77 u_7702" [ref=e178]:
+                - generic [ref=e179]:
+                  - generic [ref=e180]: "77"
+                  - generic [ref=e181]: u_7702
+              - cell "Level 4" [ref=e182]
+              - cell "+0,00 USDT" [ref=e183]
+              - cell "2 нед назад" [ref=e184]
+              - cell "Неактивен в очереди" [ref=e185]:
+                - generic [ref=e186]: Неактивен в очереди
+            - row "55 u_5512 не куплен +0,00 USDT 3 нед назад Не активирован" [ref=e188]:
+              - cell "55 u_5512" [ref=e189]:
+                - generic [ref=e190]:
+                  - generic [ref=e191]: "55"
+                  - generic [ref=e192]: u_5512
+              - cell "не куплен" [ref=e193]
+              - cell "+0,00 USDT" [ref=e194]
+              - cell "3 нед назад" [ref=e195]
+              - cell "Не активирован" [ref=e196]:
+                - generic [ref=e197]: Не активирован
+  - region "Notifications alt+T":
+    - list

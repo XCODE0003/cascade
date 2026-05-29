@@ -1,0 +1,150 @@
+- generic [ref=e3]:
+  - generic [ref=e6]:
+    - list [ref=e8]:
+      - listitem [ref=e9]:
+        - link "Cascade Cascade" [ref=e10] [cursor=pointer]:
+          - /url: /dashboard
+          - img "Cascade" [ref=e12]
+          - generic [ref=e14]: Cascade
+    - generic [ref=e16]:
+      - generic [ref=e17]: Личный кабинет
+      - list [ref=e18]:
+        - listitem [ref=e19]:
+          - link "Кабинет" [ref=e20] [cursor=pointer]:
+            - /url: /dashboard
+            - img [ref=e21]
+            - generic [ref=e22]: Кабинет
+        - listitem [ref=e23]:
+          - link "Кошелёк" [ref=e24] [cursor=pointer]:
+            - /url: /wallet
+            - img [ref=e25]
+            - generic [ref=e28]: Кошелёк
+        - listitem [ref=e29]:
+          - link "Партнёры" [ref=e30] [cursor=pointer]:
+            - /url: /partners
+            - img [ref=e31]
+            - generic [ref=e36]: Партнёры
+        - listitem [ref=e37]:
+          - link "История" [ref=e38] [cursor=pointer]:
+            - /url: /history
+            - img [ref=e39]
+            - generic [ref=e42]: История
+    - generic [ref=e43]:
+      - generic [ref=e44]:
+        - generic [ref=e45]: Сервис
+        - list [ref=e46]:
+          - listitem [ref=e47]:
+            - link "Админка" [ref=e48] [cursor=pointer]:
+              - /url: /admin
+              - img [ref=e49]
+              - generic [ref=e52]: Админка
+          - listitem [ref=e53]:
+            - link "Настройки" [ref=e54] [cursor=pointer]:
+              - /url: /settings/profile
+              - img [ref=e55]
+              - generic [ref=e58]: Настройки
+      - list [ref=e59]:
+        - listitem [ref=e60]:
+          - button "Т Тест" [ref=e61]:
+            - generic [ref=e63]: Т
+            - generic [ref=e65]: Тест
+            - img [ref=e66]
+  - main [ref=e69]:
+    - generic [ref=e71]:
+      - button "Toggle sidebar" [ref=e72]:
+        - img
+        - generic [ref=e73]: Toggle sidebar
+      - navigation "breadcrumb" [ref=e74]:
+        - list [ref=e75]:
+          - listitem [ref=e76]:
+            - link "Админка" [disabled] [ref=e77]
+    - generic [ref=e78]:
+      - generic [ref=e79]:
+        - button "Депозиты" [ref=e80]
+        - button "Выплаты" [ref=e81]
+        - button "Очереди" [active] [ref=e82]
+        - button "Настройки" [ref=e83]
+      - generic [ref=e189]:
+        - generic [ref=e191]:
+          - generic [ref=e192]: Очереди
+          - generic [ref=e193]: Каждый уровень — изолированный «котёл». Ликвидность не пересекается между тарифами.
+        - generic [ref=e195]:
+          - button "Очередь 20 5" [ref=e196]:
+            - text: Очередь 20
+            - generic [ref=e198]: "5"
+          - button "Очередь 100 4" [ref=e199]:
+            - text: Очередь 100
+            - generic [ref=e201]: "4"
+          - button "Очередь 700 2" [ref=e202]:
+            - text: Очередь 700
+            - generic [ref=e204]: "2"
+          - button "Очередь 2000 1" [ref=e205]:
+            - text: Очередь 2000
+            - generic [ref=e207]: "1"
+        - generic [ref=e208]:
+          - generic [ref=e209]: "1"
+          - generic [ref=e210]:
+            - generic [ref=e211]: u_4821
+            - generic [ref=e212]: В очереди с 5 д назад
+          - generic [ref=e219]: 2 д 14:22:08
+          - generic [ref=e220]:
+            - button "В начало" [ref=e221]:
+              - img [ref=e222]
+            - button "В конец" [ref=e224]:
+              - img [ref=e225]
+            - button "Удалить" [ref=e227]:
+              - img [ref=e228]
+        - generic [ref=e230]:
+          - generic [ref=e231]: "2"
+          - generic [ref=e232]:
+            - generic [ref=e233]: u_9182
+            - generic [ref=e234]: В очереди с 3 д назад
+          - generic [ref=e241]: 4 д 06:00:00
+          - generic [ref=e242]:
+            - button "В начало" [ref=e243]:
+              - img [ref=e244]
+            - button "В конец" [ref=e246]:
+              - img [ref=e247]
+            - button "Удалить" [ref=e249]:
+              - img [ref=e250]
+        - generic [ref=e252]:
+          - generic [ref=e253]: "3"
+          - generic [ref=e254]:
+            - generic [ref=e255]: u_3019
+            - generic [ref=e256]: В очереди с 2 д назад
+          - generic [ref=e263]: 5 д 12:14:00
+          - generic [ref=e264]:
+            - button "В начало" [ref=e265]:
+              - img [ref=e266]
+            - button "В конец" [ref=e268]:
+              - img [ref=e269]
+            - button "Удалить" [ref=e271]:
+              - img [ref=e272]
+        - generic [ref=e274]:
+          - generic [ref=e275]: "4"
+          - generic [ref=e276]:
+            - generic [ref=e277]: u_7702
+            - generic [ref=e278]: В очереди с вчера
+          - generic [ref=e285]: 6 д 21:08:00
+          - generic [ref=e286]:
+            - button "В начало" [ref=e287]:
+              - img [ref=e288]
+            - button "В конец" [ref=e290]:
+              - img [ref=e291]
+            - button "Удалить" [ref=e293]:
+              - img [ref=e294]
+        - generic [ref=e296]:
+          - generic [ref=e297]: "5"
+          - generic [ref=e298]:
+            - generic [ref=e299]: u_8893
+            - generic [ref=e300]: В очереди с 12 мин назад
+          - generic [ref=e307]: 6 д 23:48:11
+          - generic [ref=e308]:
+            - button "В начало" [ref=e309]:
+              - img [ref=e310]
+            - button "В конец" [ref=e312]:
+              - img [ref=e313]
+            - button "Удалить" [ref=e315]:
+              - img [ref=e316]
+  - region "Notifications alt+T":
+    - list

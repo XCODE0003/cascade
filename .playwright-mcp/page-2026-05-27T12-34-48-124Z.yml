@@ -1,0 +1,210 @@
+- generic [ref=e3]:
+  - generic [ref=e6]:
+    - list [ref=e8]:
+      - listitem [ref=e9]:
+        - link "Cascade Cascade" [ref=e10] [cursor=pointer]:
+          - /url: /dashboard
+          - img "Cascade" [ref=e12]
+          - generic [ref=e14]: Cascade
+    - generic [ref=e16]:
+      - generic [ref=e17]: Личный кабинет
+      - list [ref=e18]:
+        - listitem [ref=e19]:
+          - link "Кабинет" [ref=e20] [cursor=pointer]:
+            - /url: /dashboard
+            - img [ref=e21]
+            - generic [ref=e22]: Кабинет
+        - listitem [ref=e23]:
+          - link "Кошелёк" [ref=e24] [cursor=pointer]:
+            - /url: /wallet
+            - img [ref=e25]
+            - generic [ref=e28]: Кошелёк
+        - listitem [ref=e29]:
+          - link "Партнёры" [ref=e30] [cursor=pointer]:
+            - /url: /partners
+            - img [ref=e31]
+            - generic [ref=e36]: Партнёры
+        - listitem [ref=e37]:
+          - link "История" [ref=e38] [cursor=pointer]:
+            - /url: /history
+            - img [ref=e39]
+            - generic [ref=e42]: История
+    - generic [ref=e43]:
+      - generic [ref=e44]:
+        - generic [ref=e45]: Сервис
+        - list [ref=e46]:
+          - listitem [ref=e47]:
+            - link "Админка" [ref=e48] [cursor=pointer]:
+              - /url: /admin
+              - img [ref=e49]
+              - generic [ref=e52]: Админка
+          - listitem [ref=e53]:
+            - link "Настройки" [ref=e54] [cursor=pointer]:
+              - /url: /settings/profile
+              - img [ref=e55]
+              - generic [ref=e58]: Настройки
+      - list [ref=e59]:
+        - listitem [ref=e60]:
+          - button "Т Тест" [ref=e61]:
+            - generic [ref=e63]: Т
+            - generic [ref=e65]: Тест
+            - img [ref=e66]
+  - main [ref=e69]:
+    - generic [ref=e71]:
+      - button "Toggle sidebar" [ref=e72]:
+        - img
+        - generic [ref=e73]: Toggle sidebar
+      - navigation "breadcrumb" [ref=e74]:
+        - list [ref=e75]:
+          - listitem [ref=e76]:
+            - link "Кошелёк" [disabled] [ref=e77]
+    - generic [ref=e78]:
+      - generic [ref=e79]:
+        - generic [ref=e80]:
+          - generic [ref=e81]: Внутренний баланс
+          - generic [ref=e82]: 1 248,00USDT
+        - generic [ref=e84]:
+          - generic [ref=e85]: + 1 680,00
+          - generic [ref=e86]: Пополнено · всего
+        - generic [ref=e87]:
+          - generic [ref=e88]: − 432,00
+          - generic [ref=e89]: Выведено · всего
+        - generic [ref=e90]:
+          - generic [ref=e91]: "1"
+          - generic [ref=e92]: Заявка в холде
+      - generic [ref=e93]:
+        - generic [ref=e94]:
+          - generic [ref=e95]:
+            - generic [ref=e96]: Пополнить · USDT
+            - generic [ref=e97]: Сеть TRC-20
+          - generic [ref=e98]:
+            - img [ref=e100]
+            - generic [ref=e205]:
+              - generic [ref=e206]: Ваш адрес для пополнения
+              - generic [ref=e207]:
+                - generic [ref=e208]: TKzxd8RcM4N5xT8wpDqLnVj4nAhM7eq2yX
+                - button "Копировать" [ref=e209]:
+                  - img [ref=e210]
+                  - text: Копировать
+              - generic [ref=e213]:
+                - img [ref=e214]
+                - generic [ref=e216]: Переводите только USDT в сети TRC-20. Депозит зачисляется после подтверждения администратором.
+        - generic [ref=e217]:
+          - generic [ref=e218]:
+            - generic [ref=e219]: Вывод средств
+            - generic [ref=e220]: Без комиссии · TRC-20
+          - generic [ref=e221]:
+            - generic [ref=e222]: Доступно к выводу
+            - generic [ref=e223]: 1 248 USDT
+          - generic [ref=e224]:
+            - generic [ref=e225]: Сумма
+            - textbox "0,00" [ref=e226]
+            - generic [ref=e227]:
+              - button "Мин. 30" [ref=e228]
+              - button "50%" [ref=e229]
+              - button "Всё" [ref=e230]
+          - generic [ref=e231]:
+            - generic [ref=e232]: Адрес кошелька
+            - textbox "TRC-20 адрес" [ref=e233]
+          - generic [ref=e234]:
+            - img [ref=e235]
+            - generic [ref=e237]: Заявка получит статус «В ожидании выплаты», ваши записи в очередях перейдут в серый статус. Холд — 72 часа. Минимальная сумма — 30 USDT.
+          - button "Создать заявку" [disabled] [ref=e238]
+      - generic [ref=e239]:
+        - generic [ref=e240]:
+          - generic [ref=e241]:
+            - generic [ref=e242]: Транзакции
+            - generic [ref=e243]: Депозиты и заявки на вывод
+          - generic [ref=e244]:
+            - button "Все" [ref=e245]
+            - button "Депозиты" [ref=e246]
+            - button "Выводы" [ref=e247]
+        - table [ref=e248]:
+          - rowgroup [ref=e249]:
+            - row "ID Тип Сумма Хэш Дата Статус" [ref=e250]:
+              - columnheader "ID" [ref=e251]
+              - columnheader "Тип" [ref=e252]
+              - columnheader "Сумма" [ref=e253]
+              - columnheader "Хэш" [ref=e254]
+              - columnheader "Дата" [ref=e255]
+              - columnheader "Статус" [ref=e256]
+          - rowgroup [ref=e257]:
+            - row "#WD-1281 Вывод −1 050,00 USDT — сегодня 09:14 Холд 72 ч" [ref=e258]:
+              - cell "#WD-1281" [ref=e259]
+              - cell "Вывод" [ref=e260]:
+                - generic [ref=e261]:
+                  - img [ref=e263]
+                  - text: Вывод
+              - cell "−1 050,00 USDT" [ref=e265]
+              - cell "—" [ref=e266]
+              - cell "сегодня 09:14" [ref=e267]
+              - cell "Холд 72 ч" [ref=e268]:
+                - generic [ref=e269]: Холд 72 ч
+            - row "#DEP-04881 Пополнение +100,00 USDT 0x8a3c…f192 сегодня 08:30 В ожидании" [ref=e271]:
+              - cell "#DEP-04881" [ref=e272]
+              - cell "Пополнение" [ref=e273]:
+                - generic [ref=e274]:
+                  - img [ref=e276]
+                  - text: Пополнение
+              - cell "+100,00 USDT" [ref=e278]
+              - cell "0x8a3c…f192" [ref=e279]
+              - cell "сегодня 08:30" [ref=e280]
+              - cell "В ожидании" [ref=e281]:
+                - generic [ref=e282]: В ожидании
+            - row "#DEP-04877 Пополнение +100,00 USDT 0x71b2…d4c0 вчера 22:18 Подтверждена" [ref=e284]:
+              - cell "#DEP-04877" [ref=e285]
+              - cell "Пополнение" [ref=e286]:
+                - generic [ref=e287]:
+                  - img [ref=e289]
+                  - text: Пополнение
+              - cell "+100,00 USDT" [ref=e291]
+              - cell "0x71b2…d4c0" [ref=e292]
+              - cell "вчера 22:18" [ref=e293]
+              - cell "Подтверждена" [ref=e294]:
+                - generic [ref=e295]: Подтверждена
+            - row "#WD-1278 Вывод −30,00 USDT 0xa28c…91ee вчера 14:02 Подтверждена" [ref=e297]:
+              - cell "#WD-1278" [ref=e298]
+              - cell "Вывод" [ref=e299]:
+                - generic [ref=e300]:
+                  - img [ref=e302]
+                  - text: Вывод
+              - cell "−30,00 USDT" [ref=e304]
+              - cell "0xa28c…91ee" [ref=e305]
+              - cell "вчера 14:02" [ref=e306]
+              - cell "Подтверждена" [ref=e307]:
+                - generic [ref=e308]: Подтверждена
+            - row "#DEP-04875 Пополнение +700,00 USDT 0x4f12…8c34 3 дн назад Подтверждена" [ref=e310]:
+              - cell "#DEP-04875" [ref=e311]
+              - cell "Пополнение" [ref=e312]:
+                - generic [ref=e313]:
+                  - img [ref=e315]
+                  - text: Пополнение
+              - cell "+700,00 USDT" [ref=e317]
+              - cell "0x4f12…8c34" [ref=e318]
+              - cell "3 дн назад" [ref=e319]
+              - cell "Подтверждена" [ref=e320]:
+                - generic [ref=e321]: Подтверждена
+            - row "#WD-1276 Вывод −150,00 USDT — 3 дн назад Отклонена" [ref=e323]:
+              - cell "#WD-1276" [ref=e324]
+              - cell "Вывод" [ref=e325]:
+                - generic [ref=e326]:
+                  - img [ref=e328]
+                  - text: Вывод
+              - cell "−150,00 USDT" [ref=e330]
+              - cell "—" [ref=e331]
+              - cell "3 дн назад" [ref=e332]
+              - cell "Отклонена" [ref=e333]:
+                - generic [ref=e334]: Отклонена
+            - row "#DEP-04868 Пополнение +20,00 USDT 0xc902…a134 6 дн назад Подтверждена" [ref=e336]:
+              - cell "#DEP-04868" [ref=e337]
+              - cell "Пополнение" [ref=e338]:
+                - generic [ref=e339]:
+                  - img [ref=e341]
+                  - text: Пополнение
+              - cell "+20,00 USDT" [ref=e343]
+              - cell "0xc902…a134" [ref=e344]
+              - cell "6 дн назад" [ref=e345]
+              - cell "Подтверждена" [ref=e346]:
+                - generic [ref=e347]: Подтверждена
+  - region "Notifications alt+T":
+    - list
