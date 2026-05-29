@@ -128,10 +128,12 @@ function formatAmount(value: number): string {
 
 <template>
     <div
-        class="overflow-hidden rounded-[18px] bg-[var(--c-bg-card)]"
+        class="overflow-hidden rounded-[18px] bg-(--c-bg-card)"
         style="box-shadow: 0 1px 0 rgba(0, 0, 0, 0.04)"
     >
-        <div class="flex items-baseline gap-3 px-6 pt-[18px] pb-3.5">
+        <div
+            class="flex flex-wrap items-baseline gap-3 px-4 pt-[18px] pb-3.5 sm:px-6"
+        >
             <div>
                 <div
                     class="text-[18px] font-semibold tracking-[-0.01em]"
@@ -147,7 +149,7 @@ function formatAmount(value: number): string {
                 </div>
             </div>
             <div
-                class="ml-auto inline-flex gap-0.5 rounded-[9px] p-0.5"
+                class="inline-flex gap-0.5 rounded-[9px] p-0.5 sm:ml-auto"
                 style="background: var(--c-bg-elevated)"
             >
                 <button
@@ -167,7 +169,8 @@ function formatAmount(value: number): string {
             </div>
         </div>
 
-        <table class="w-full border-collapse">
+        <div class="overflow-x-auto">
+            <table class="min-w-[780px] w-full border-collapse">
             <thead>
                 <tr>
                     <th
@@ -323,6 +326,7 @@ function formatAmount(value: number): string {
                     </td>
                 </tr>
             </tbody>
-        </table>
+            </table>
+        </div>
     </div>
 </template>

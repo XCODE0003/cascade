@@ -76,7 +76,7 @@ function submit(): void {
 
 <template>
     <div
-        class="flex flex-col gap-3.5 rounded-[20px] bg-[var(--c-bg-card)] px-6 pt-6 pb-[22px]"
+        class="flex min-w-0 flex-col gap-3.5 rounded-[20px] bg-(--c-bg-card) px-4 pt-5 pb-5 sm:px-6 sm:pt-6 sm:pb-[22px]"
         style="box-shadow: 0 1px 0 rgba(0, 0, 0, 0.04)"
     >
         <div class="flex items-baseline gap-2.5">
@@ -115,7 +115,7 @@ function submit(): void {
             >
             <input
                 :value="amount"
-                class="h-11 rounded-[11px] border-0 bg-[var(--c-bg-card)] px-3.5 text-[18px] font-semibold outline-none"
+                class="h-11 rounded-[11px] border-0 bg-(--c-bg-card) px-3.5 text-[18px] font-semibold outline-none"
                 style="
                     color: var(--c-fg1);
                     font-family: var(--c-font-mono);
@@ -125,7 +125,7 @@ function submit(): void {
                 placeholder="0,00"
                 @input="onAmountInput"
             />
-            <div class="mt-1.5 flex gap-1.5">
+            <div class="mt-1.5 flex flex-wrap gap-1.5">
                 <button
                     class="rounded-full border-0 px-[11px] py-[5px] text-xs font-semibold"
                     style="
@@ -165,7 +165,7 @@ function submit(): void {
             >
             <input
                 v-model="address"
-                class="h-11 rounded-[11px] border-0 bg-[var(--c-bg-card)] px-3.5 text-[15px] outline-none"
+                class="h-11 rounded-[11px] border-0 bg-(--c-bg-card) px-3.5 text-[15px] outline-none"
                 style="
                     color: var(--c-fg1);
                     font-family: var(--c-font-text);

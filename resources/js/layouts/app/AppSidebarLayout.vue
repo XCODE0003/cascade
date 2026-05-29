@@ -18,7 +18,10 @@ withDefaults(defineProps<Props>(), {
 <template>
     <AppShell variant="sidebar">
         <AppSidebar />
-        <AppContent variant="sidebar" class="overflow-x-hidden">
+        <AppContent
+            variant="sidebar"
+            class="overflow-x-hidden pb-[calc(env(safe-area-inset-bottom)+82px)] md:pb-0"
+        >
             <AppSidebarHeader :breadcrumbs="breadcrumbs" />
             <slot />
         </AppContent>

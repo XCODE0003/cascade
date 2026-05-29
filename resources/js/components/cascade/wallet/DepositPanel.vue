@@ -59,7 +59,7 @@ const finders: { x: number; y: number }[] = [
 
 <template>
     <div
-        class="flex flex-col gap-3.5 rounded-[20px] bg-[var(--c-bg-card)] px-6 pt-6 pb-[22px]"
+        class="flex min-w-0 flex-col gap-3.5 rounded-[20px] bg-(--c-bg-card) px-4 pt-5 pb-5 sm:px-6 sm:pt-6 sm:pb-[22px]"
         style="box-shadow: 0 1px 0 rgba(0, 0, 0, 0.04)"
     >
         <div class="flex items-baseline gap-2.5">
@@ -72,9 +72,9 @@ const finders: { x: number; y: number }[] = [
             <div class="text-xs" style="color: var(--c-fg3)">Сеть TRC-20</div>
         </div>
 
-        <div class="flex items-center gap-[18px]">
+        <div class="flex flex-col gap-3.5 sm:flex-row sm:items-center sm:gap-[18px]">
             <div
-                class="h-[124px] w-[124px] shrink-0 rounded-2xl bg-[var(--c-bg-card)] p-2"
+                class="h-[124px] w-[124px] shrink-0 rounded-2xl bg-(--c-bg-card) p-2"
                 style="box-shadow: inset 0 0 0 1px var(--c-hairline)"
             >
                 <svg
@@ -118,16 +118,16 @@ const finders: { x: number; y: number }[] = [
                 </svg>
             </div>
 
-            <div class="flex flex-1 flex-col gap-2.5">
+            <div class="flex min-w-0 flex-1 flex-col gap-2.5">
                 <div class="text-xs font-semibold" style="color: var(--c-fg2)">
                     Ваш адрес для пополнения
                 </div>
                 <div
-                    class="flex items-center gap-2 rounded-[10px] py-2 pr-2 pl-3.5"
+                    class="flex min-w-0 items-center gap-2 rounded-[10px] py-2 pr-2 pl-3.5"
                     style="background: var(--c-bg-elevated)"
                 >
                     <div
-                        class="flex-1 overflow-hidden text-[13px] text-ellipsis whitespace-nowrap"
+                        class="min-w-0 flex-1 overflow-hidden text-[13px] text-ellipsis whitespace-nowrap"
                         :style="{
                             color: hasAddress ? 'var(--c-fg1)' : 'var(--c-fg3)',
                             fontFamily: 'var(--c-font-mono)',
@@ -137,11 +137,12 @@ const finders: { x: number; y: number }[] = [
                     </div>
                     <button
                         :disabled="!hasAddress"
-                        class="inline-flex h-[30px] items-center gap-1.5 rounded-lg bg-[var(--c-bg-card)] px-3 text-xs font-semibold"
+                        class="inline-flex h-[30px] items-center gap-1.5 rounded-lg bg-(--c-bg-card) px-3 text-xs font-semibold"
                         :class="
                             hasAddress ? '' : 'cursor-not-allowed opacity-50'
                         "
                         style="
+                            flex-shrink: 0;
                             color: var(--c-fg1);
                             box-shadow:
                                 0 1px 2px rgba(0, 0, 0, 0.06),

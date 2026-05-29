@@ -173,7 +173,7 @@ function reset(): void {
 
 <template>
     <div
-        class="rounded-[18px] bg-[var(--c-bg-card)] px-7 py-6"
+        class="rounded-[18px] bg-(--c-bg-card) px-4 py-5 sm:px-7 sm:py-6"
         style="box-shadow: 0 1px 0 rgba(0, 0, 0, 0.04)"
     >
         <div class="mb-7">
@@ -186,7 +186,7 @@ function reset(): void {
             <div
                 v-for="(row, i) in timings"
                 :key="row.key"
-                class="flex items-center gap-4 py-3.5"
+                class="flex flex-col gap-3 py-3.5 sm:flex-row sm:items-center sm:gap-4"
                 :style="
                     i === 0
                         ? ''
@@ -209,7 +209,7 @@ function reset(): void {
                 </div>
                 <input
                     v-model="row.value"
-                    class="h-9 w-24 rounded-[9px] bg-[var(--c-bg-card)] px-3 text-right text-sm font-semibold outline-none"
+                    class="h-9 w-full rounded-[9px] bg-(--c-bg-card) px-3 text-left text-sm font-semibold outline-none sm:w-24 sm:text-right"
                     style="
                         box-shadow: inset 0 0 0 1px var(--c-input-border);
                         font-family: var(--c-font-mono);
@@ -217,7 +217,7 @@ function reset(): void {
                     "
                 />
                 <span
-                    class="ml-1.5 text-xs"
+                    class="text-xs sm:ml-1.5"
                     style="color: var(--c-fg3); min-width: 40px"
                 >
                     {{ row.unit }}
@@ -232,7 +232,7 @@ function reset(): void {
             >
                 Финансовые лимиты
             </div>
-            <div class="flex items-center gap-4 py-3.5">
+            <div class="flex flex-col gap-3 py-3.5 sm:flex-row sm:items-center sm:gap-4">
                 <div class="flex-1">
                     <div
                         class="text-sm font-semibold"
@@ -250,7 +250,7 @@ function reset(): void {
                 </div>
                 <input
                     v-model="minWithdraw.value"
-                    class="h-9 w-24 rounded-[9px] bg-[var(--c-bg-card)] px-3 text-right text-sm font-semibold outline-none"
+                    class="h-9 w-full rounded-[9px] bg-(--c-bg-card) px-3 text-left text-sm font-semibold outline-none sm:w-24 sm:text-right"
                     style="
                         box-shadow: inset 0 0 0 1px var(--c-input-border);
                         font-family: var(--c-font-mono);
@@ -258,7 +258,7 @@ function reset(): void {
                     "
                 />
                 <span
-                    class="ml-1.5 text-xs"
+                    class="text-xs sm:ml-1.5"
                     style="color: var(--c-fg3); min-width: 40px"
                 >
                     USDT
@@ -267,7 +267,7 @@ function reset(): void {
             <div
                 v-for="row in financialToggles"
                 :key="row.title"
-                class="flex items-center gap-4 py-3.5"
+                class="flex flex-col gap-3 py-3.5 sm:flex-row sm:items-center sm:gap-4"
                 style="border-top: 1px solid var(--c-hairline-soft)"
             >
                 <div class="flex-1">
@@ -295,7 +295,7 @@ function reset(): void {
                     @click="toggle(row)"
                 >
                     <div
-                        class="absolute rounded-full bg-[var(--c-knob)] transition-transform duration-200 ease-in-out"
+                        class="absolute rounded-full bg-(--c-knob) transition-transform duration-200 ease-in-out"
                         style="
                             top: 2px;
                             left: 2px;
@@ -325,7 +325,7 @@ function reset(): void {
             <div
                 v-for="(row, i) in securityToggles"
                 :key="row.title"
-                class="flex items-center gap-4 py-3.5"
+                class="flex flex-col gap-3 py-3.5 sm:flex-row sm:items-center sm:gap-4"
                 :style="
                     i === 0
                         ? ''
@@ -357,7 +357,7 @@ function reset(): void {
                     @click="toggle(row)"
                 >
                     <div
-                        class="absolute rounded-full bg-[var(--c-knob)] transition-transform duration-200 ease-in-out"
+                        class="absolute rounded-full bg-(--c-knob) transition-transform duration-200 ease-in-out"
                         style="
                             top: 2px;
                             left: 2px;
@@ -388,7 +388,7 @@ function reset(): void {
             <div
                 v-for="(field, i) in walletFields"
                 :key="field.key"
-                class="flex items-center gap-4 py-3.5"
+                class="flex flex-col gap-3 py-3.5 sm:flex-row sm:items-center sm:gap-4"
                 :style="
                     i === 0
                         ? ''
@@ -414,7 +414,7 @@ function reset(): void {
                     :type="field.secret ? 'password' : 'text'"
                     :placeholder="field.placeholder"
                     autocomplete="off"
-                    class="h-9 w-64 rounded-[9px] bg-[var(--c-bg-card)] px-3 text-sm outline-none"
+                    class="h-9 w-full rounded-[9px] bg-(--c-bg-card) px-3 text-sm outline-none sm:w-64"
                     style="
                         box-shadow: inset 0 0 0 1px var(--c-input-border);
                         font-family: var(--c-font-mono);
@@ -424,7 +424,7 @@ function reset(): void {
             </div>
 
             <div
-                class="flex items-center gap-4 py-3.5"
+                class="flex flex-col gap-3 py-3.5 sm:flex-row sm:items-center sm:gap-4"
                 style="border-top: 1px solid var(--c-hairline-soft)"
             >
                 <div class="flex-1">
@@ -454,7 +454,7 @@ function reset(): void {
                     @click="westwallet.auto_payout = !westwallet.auto_payout"
                 >
                     <div
-                        class="absolute rounded-full bg-[var(--c-knob)] transition-transform duration-200 ease-in-out"
+                        class="absolute rounded-full bg-(--c-knob) transition-transform duration-200 ease-in-out"
                         style="
                             top: 2px;
                             left: 2px;
@@ -475,18 +475,18 @@ function reset(): void {
         </div>
 
         <div
-            class="mt-7 flex justify-end gap-2.5 pt-5"
+            class="mt-7 flex flex-col-reverse gap-2.5 pt-5 sm:flex-row sm:justify-end"
             style="border-top: 1px solid var(--c-hairline)"
         >
             <button
-                class="h-10 rounded-[11px] px-5 text-sm font-semibold"
+                class="h-10 rounded-[11px] px-5 text-sm font-semibold sm:w-auto"
                 style="background: var(--c-bg-elevated); color: var(--c-fg1)"
                 @click="reset"
             >
                 Сбросить
             </button>
             <button
-                class="h-10 rounded-[11px] px-5 text-sm font-semibold text-white"
+                class="h-10 rounded-[11px] px-5 text-sm font-semibold text-white sm:w-auto"
                 style="background: var(--c-accent)"
                 @click="save"
             >

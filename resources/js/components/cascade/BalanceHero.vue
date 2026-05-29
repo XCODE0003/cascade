@@ -19,7 +19,7 @@ function fmt(n: number): string {
 
 <template>
     <div
-        class="relative flex items-end gap-6 overflow-hidden rounded-3xl bg-[var(--c-bg-card)] px-8 py-7"
+        class="relative overflow-hidden rounded-3xl bg-(--c-bg-card) px-4 py-5 sm:px-6 sm:py-6 lg:px-8 lg:py-7"
         style="box-shadow: 0 1px 0 rgba(0, 0, 0, 0.04)"
     >
         <!-- radial glow -->
@@ -34,7 +34,7 @@ function fmt(n: number): string {
             "
         />
 
-        <div class="relative z-10 flex-1">
+        <div class="relative z-10 min-w-0">
             <div
                 class="text-[13px] font-semibold tracking-[-0.005em]"
                 style="color: var(--c-fg2)"
@@ -42,7 +42,7 @@ function fmt(n: number): string {
                 Внутренний баланс
             </div>
             <div
-                class="mt-1.5 text-[56px] leading-[1.05] font-bold tracking-[-0.03em]"
+                class="mt-1.5 text-[42px] leading-[1.05] font-bold tracking-[-0.03em] sm:text-[48px] lg:text-[56px]"
                 style="
                     color: var(--c-fg1);
                     font-family: var(--c-font-display);
@@ -51,16 +51,16 @@ function fmt(n: number): string {
             >
                 {{ fmt(balance)
                 }}<span
-                    class="ml-2 text-2xl font-medium"
+                    class="ml-2 text-xl font-medium sm:text-2xl"
                     style="color: var(--c-fg3)"
                     >USDT</span
                 >
             </div>
         </div>
 
-        <div class="relative z-10 flex shrink-0 gap-2.5">
+        <div class="relative z-10 mt-4 grid grid-cols-2 gap-2.5 sm:flex sm:shrink-0">
             <button
-                class="flex h-11 items-center gap-2 rounded-[14px] px-[22px] text-[15px] font-semibold transition-transform duration-[160ms] active:scale-95"
+                class="flex h-11 min-w-0 items-center justify-center gap-2 rounded-[14px] px-3 text-[14px] font-semibold transition-transform duration-160 active:scale-95 sm:px-[22px] sm:text-[15px]"
                 style="background: var(--c-bg-elevated); color: var(--c-fg1)"
                 @click="emit('deposit')"
             >
@@ -80,7 +80,7 @@ function fmt(n: number): string {
             </button>
             <button
                 :disabled="!canWithdraw"
-                class="flex h-11 items-center gap-2 rounded-[14px] px-[22px] text-[15px] font-semibold transition-transform duration-[160ms]"
+                class="flex h-11 min-w-0 items-center justify-center gap-2 rounded-[14px] px-3 text-[14px] font-semibold transition-transform duration-160 sm:px-[22px] sm:text-[15px]"
                 :class="canWithdraw ? 'active:scale-95' : 'cursor-not-allowed'"
                 :style="
                     canWithdraw

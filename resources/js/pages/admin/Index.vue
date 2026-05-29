@@ -121,27 +121,29 @@ defineOptions({
     <Head title="Админка" />
 
     <div
-        class="flex h-full flex-1 flex-col gap-[18px] p-6 lg:p-8"
+        class="flex h-full flex-1 flex-col gap-[18px] p-4 sm:p-6 lg:p-8"
         style="background: var(--c-bg)"
     >
         <div
-            class="inline-flex gap-0.5 self-start rounded-[9px] p-0.5"
+            class="rounded-[9px] p-0.5"
             style="background: var(--c-bg-elevated)"
         >
-            <button
-                v-for="t in tabs"
-                :key="t.key"
-                class="rounded-[7px] px-3.5 py-2 text-[13px] font-semibold transition-colors"
-                style="color: var(--c-fg1)"
-                :style="
-                    tab === t.key
-                        ? 'background: var(--c-bg-active); box-shadow: 0 1px 2px rgba(0,0,0,0.06), 0 0 0 0.5px rgba(0,0,0,0.04)'
-                        : 'background: transparent'
-                "
-                @click="tab = t.key"
-            >
-                {{ t.label }}
-            </button>
+            <div class="grid grid-cols-2 gap-0.5 sm:flex sm:flex-wrap">
+                <button
+                    v-for="t in tabs"
+                    :key="t.key"
+                    class="rounded-[7px] px-3 py-2 text-[13px] font-semibold transition-colors sm:px-3.5"
+                    style="color: var(--c-fg1)"
+                    :style="
+                        tab === t.key
+                            ? 'background: var(--c-bg-active); box-shadow: 0 1px 2px rgba(0,0,0,0.06), 0 0 0 0.5px rgba(0,0,0,0.04)'
+                            : 'background: transparent'
+                    "
+                    @click="tab = t.key"
+                >
+                    {{ t.label }}
+                </button>
+            </div>
         </div>
 
         <Overview v-if="tab === 'overview'" :stats="stats" />
