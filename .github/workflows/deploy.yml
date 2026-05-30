@@ -69,6 +69,7 @@ jobs:
           command_timeout: 20m
           script: |
             set -e
+            git config --global --add safe.directory /opt/cascade
             cd /opt/cascade
             git fetch --all --prune
             git reset --hard origin/main
