@@ -41,7 +41,8 @@ return [
         'private_key' => env('WESTWALLET_PRIVATE_KEY'),
         // WestWallet currency code for USDT on the TRON (TRC-20) network.
         'currency' => env('WESTWALLET_CURRENCY', 'USDTTRC'),
-        // Shared secret used to verify incoming IPN callbacks.
+        // WestWallet has no IPN signature — it authenticates by source IP.
+        // Comma-separated allowlist of IPN source IPs (default 5.188.51.47).
         'ipn_secret' => env('WESTWALLET_IPN_SECRET'),
         // When true, approving a withdrawal triggers an on-chain payout via the
         // WestWallet API. Off by default — admins pay out manually until the

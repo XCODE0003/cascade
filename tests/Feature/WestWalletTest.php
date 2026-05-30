@@ -1,9 +1,11 @@
 <?php
 
 use App\Jobs\GenerateUserDepositAddress;
+use App\Models\Deposit;
 use App\Models\User;
 use App\Services\WestWallet\WestWalletClient;
 use App\Services\WestWallet\WestWalletException;
+use Database\Seeders\LevelSeeder;
 use Illuminate\Support\Facades\Http;
 
 it('generates an address and sends signed auth headers', function () {
@@ -82,25 +84,27 @@ it('skips address generation when westwallet is not configured', function () {
     expect($user->refresh()->deposit_address)->toBeNull();
 });
 
-it('rejects an ipn callback with an invalid signature', function () {
-    config(['services.westwallet.ipn_secret' => 'shhh']);
+it('rejects an ipn callback from a non-allowlisted IP', function () {
+    config(['services.westwallet.ipn_secret' => '5.188.51.47']);
 
+    // Test client IP is 127.0.0.1, not in the allowlist.
     $this->postJson(route('webhooks.westwallet'), [
         'address' => 'TXyz',
         'status' => 'completed',
-    ], ['X-Sign' => 'wrong'])
+    ])
         ->assertStatus(403);
 });
 
-it('ignores an ipn callback for an unknown address', function () {
+it('ignores an ipn callback for an unknown user', function () {
     config(['services.westwallet.ipn_secret' => null]);
 
     $this->postJson(route('webhooks.westwallet'), [
         'address' => 'TUnknownAddress',
         'status' => 'completed',
+        'amount' => '20',
     ])
         ->assertOk()
-        ->assertJson(['status' => 'unknown address']);
+        ->assertJson(['status' => 'unknown user']);
 });
 
 it('ignores an ipn callback for a non-final status', function () {
@@ -112,4 +116,33 @@ it('ignores an ipn callback for a non-final status', function () {
     ])
         ->assertOk()
         ->assertJson(['status' => 'ignored']);
+});
+
+it('confirms a pending deposit and runs the split on a completed IPN', function () {
+    $this->seed(LevelSeeder::class);
+    config(['services.westwallet.ipn_secret' => null]);
+
+    $user = User::factory()->create(['deposit_address' => 'TDepositAddr123']);
+    $deposit = Deposit::create([
+        'user_id' => $user->id,
+        'level_id' => 1,
+        'amount' => 20,
+        'wallet_address' => 'TDepositAddr123',
+        'type' => 'external',
+        'status' => 'pending',
+    ]);
+
+    $this->postJson(route('webhooks.westwallet'), [
+        'address' => 'TDepositAddr123',
+        'status' => 'completed',
+        'amount' => '20',
+        'currency' => 'USDTTRC',
+        'label' => 'user:'.$user->id,
+        'blockchain_hash' => '0xabc123',
+    ])
+        ->assertOk()
+        ->assertJson(['status' => 'ok']);
+
+    expect($deposit->fresh()->status)->toBe('approved')
+        ->and($deposit->fresh()->tx_hash)->toBe('0xabc123');
 });

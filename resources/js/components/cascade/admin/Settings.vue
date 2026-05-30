@@ -105,10 +105,10 @@ const walletFields: WalletField[] = [
     },
     {
         key: 'ipn_secret',
-        title: 'IPN Secret',
-        sub: 'Секрет для проверки подписи входящих IPN-уведомлений.',
-        secret: true,
-        placeholder: '—',
+        title: 'IPN — разрешённые IP',
+        sub: 'IP-адреса WestWallet для приёма IPN (через запятую). По умолчанию 5.188.51.47.',
+        secret: false,
+        placeholder: '5.188.51.47',
     },
 ];
 
