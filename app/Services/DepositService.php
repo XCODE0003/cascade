@@ -9,6 +9,7 @@ use App\Models\SystemSetting;
 use App\Models\User;
 use App\Services\WestWallet\WestWalletClient;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class DepositService
 {
@@ -203,14 +204,25 @@ class DepositService
             return null;
         }
 
-        $result = $this->westWallet->generateAddress(
-            currency: (string) config('services.westwallet.currency'),
-            ipnUrl: route('webhooks.westwallet'),
-            label: 'user:'.$user->id,
-        );
+        // Never let a gateway hiccup turn into a 500 — the deposit is still
+        // created (admin can assign an address manually / IPN will reconcile).
+        try {
+            $result = $this->westWallet->generateAddress(
+                currency: (string) config('services.westwallet.currency'),
+                ipnUrl: route('webhooks.westwallet'),
+                label: 'user:'.$user->id,
+            );
 
-        $user->forceFill(['deposit_address' => $result['address']])->save();
+            $user->forceFill(['deposit_address' => $result['address']])->save();
 
-        return $result['address'];
+            return $result['address'];
+        } catch (\Throwable $e) {
+            Log::warning('WestWallet address generation failed.', [
+                'user_id' => $user->id,
+                'error' => $e->getMessage(),
+            ]);
+
+            return null;
+        }
     }
 }

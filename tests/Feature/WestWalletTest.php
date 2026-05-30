@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Http;
 it('generates an address and sends signed auth headers', function () {
     Http::fake([
         'api.westwallet.io/*' => Http::response([
+            'error' => 'ok',
             'address' => 'TXyz1234567890abcdef',
             'dest_tag' => null,
             'currency' => 'USDTTRC',
@@ -23,8 +24,8 @@ it('generates an address and sends signed auth headers', function () {
 
     Http::assertSent(function ($request) {
         return $request->hasHeader('X-API-KEY', 'pub-key')
-            && $request->hasHeader('X-NONCE')
-            && $request->hasHeader('X-API-SIGN')
+            && $request->hasHeader('X-ACCESS-TIMESTAMP')
+            && $request->hasHeader('X-ACCESS-SIGN')
             && str_contains((string) $request->body(), 'USDTTRC');
     });
 });

@@ -86,10 +86,12 @@ function amountColor(sign: AmountSign): string {
 
 <template>
     <div
-        class="overflow-hidden rounded-[20px] bg-[var(--c-bg-card)]"
+        class="overflow-hidden rounded-[20px] bg-(--c-bg-card)"
         style="box-shadow: 0 1px 0 rgba(0, 0, 0, 0.04)"
     >
-        <div class="flex items-center gap-3 px-[22px] pt-[18px] pb-3.5">
+        <div
+            class="flex flex-col items-start gap-3 px-4 pt-[18px] pb-3.5 sm:flex-row sm:items-center sm:px-[22px]"
+        >
             <div
                 class="text-[17px] font-semibold tracking-[-0.01em]"
                 style="color: var(--c-fg1); font-family: var(--c-font-display)"
@@ -97,22 +99,26 @@ function amountColor(sign: AmountSign): string {
                 История операций
             </div>
             <div
-                class="ml-auto inline-flex gap-0.5 rounded-[9px] p-0.5"
-                style="background: var(--c-bg-elevated)"
+                class="w-full overflow-x-auto sm:ml-auto sm:w-auto"
             >
-                <button
-                    v-for="f in filters"
-                    :key="f.key"
-                    class="rounded-[7px] px-[11px] py-[5px] text-xs font-semibold transition-colors"
-                    :style="
-                        filter === f.key
-                            ? 'background: var(--c-bg-active); color: var(--c-fg1); box-shadow: 0 1px 2px rgba(0,0,0,0.06), 0 0 0 0.5px rgba(0,0,0,0.04)'
-                            : 'background: transparent; color: var(--c-fg1)'
-                    "
-                    @click="filter = f.key"
+                <div
+                    class="inline-flex min-w-max gap-0.5 rounded-[9px] p-0.5"
+                    style="background: var(--c-bg-elevated)"
                 >
-                    {{ f.label }}
-                </button>
+                    <button
+                        v-for="f in filters"
+                        :key="f.key"
+                        class="rounded-[7px] px-[11px] py-[5px] text-xs font-semibold transition-colors"
+                        :style="
+                            filter === f.key
+                                ? 'background: var(--c-bg-active); color: var(--c-fg1); box-shadow: 0 1px 2px rgba(0,0,0,0.06), 0 0 0 0.5px rgba(0,0,0,0.04)'
+                                : 'background: transparent; color: var(--c-fg1)'
+                        "
+                        @click="filter = f.key"
+                    >
+                        {{ f.label }}
+                    </button>
+                </div>
             </div>
         </div>
 
@@ -130,7 +136,7 @@ function amountColor(sign: AmountSign): string {
         <div
             v-for="(row, i) in visibleRows"
             :key="i"
-            class="flex items-center gap-3.5 px-[22px] py-3"
+            class="flex items-start gap-3.5 px-4 py-3 sm:items-center sm:px-[22px]"
             style="border-top: 1px solid var(--c-hairline-soft)"
         >
             <div
@@ -153,21 +159,23 @@ function amountColor(sign: AmountSign): string {
                     {{ row.sub }}
                 </div>
             </div>
-            <div
-                class="text-sm font-semibold"
-                :style="{
-                    color: amountColor(row.sign),
-                    fontFamily: 'var(--c-font-mono)',
-                    fontVariantNumeric: 'tabular-nums',
-                }"
-            >
-                {{ row.amount }} USDT
-            </div>
-            <div
-                class="text-[11px]"
-                style="color: var(--c-fg3); font-family: var(--c-font-mono)"
-            >
-                {{ row.time }}
+            <div class="ml-auto flex shrink-0 flex-col items-end gap-0.5">
+                <div
+                    class="text-sm font-semibold"
+                    :style="{
+                        color: amountColor(row.sign),
+                        fontFamily: 'var(--c-font-mono)',
+                        fontVariantNumeric: 'tabular-nums',
+                    }"
+                >
+                    {{ row.amount }} USDT
+                </div>
+                <div
+                    class="text-[11px]"
+                    style="color: var(--c-fg3); font-family: var(--c-font-mono)"
+                >
+                    {{ row.time }}
+                </div>
             </div>
         </div>
     </div>

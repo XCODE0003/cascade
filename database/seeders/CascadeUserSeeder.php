@@ -10,11 +10,12 @@ class CascadeUserSeeder extends Seeder
 {
     public function run(): void
     {
-        User::updateOrCreate(
+        // firstOrCreate (not updateOrCreate): demo accounts are created once and
+        // never clobbered on subsequent deploys/seeds (preserves password changes).
+        User::firstOrCreate(
             ['email' => 'test@cascade.dev'],
             [
                 'name' => 'Тест',
-                'email' => 'test@cascade.dev',
                 'password' => Hash::make('password123'),
                 'email_verified_at' => now(),
                 'balance' => 1248.00,
@@ -22,11 +23,10 @@ class CascadeUserSeeder extends Seeder
             ]
         );
 
-        User::updateOrCreate(
+        User::firstOrCreate(
             ['email' => 'admin@cascade.dev'],
             [
                 'name' => 'Admin',
-                'email' => 'admin@cascade.dev',
                 'password' => Hash::make('admin123'),
                 'email_verified_at' => now(),
                 'balance' => 0,

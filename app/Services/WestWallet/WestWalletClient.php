@@ -8,9 +8,11 @@ use Illuminate\Support\Facades\Http;
 /**
  * Thin client for the WestWallet REST API (https://westwallet.io/api_docs).
  *
- * Authentication uses an HMAC-SHA256 signature. Every request carries three
- * headers: the public key, a unix-timestamp nonce, and the signature computed
- * over `nonce + json_body` using the private key.
+ * Auth (per the official client): each request carries
+ *   X-API-KEY            — public key
+ *   X-ACCESS-TIMESTAMP   — unix timestamp
+ *   X-ACCESS-SIGN        — HMAC-SHA256(private_key, "{timestamp}{json_body}")
+ * A successful response has "error": "ok".
  */
 class WestWalletClient
 {
@@ -32,13 +34,11 @@ class WestWalletClient
      */
     public function generateAddress(string $currency, ?string $ipnUrl = null, ?string $label = null): array
     {
-        $payload = array_filter([
+        $response = $this->request('POST', '/address/generate', [
             'currency' => $currency,
-            'ipn_url' => $ipnUrl,
-            'label' => $label,
-        ], fn ($value) => $value !== null && $value !== '');
-
-        $response = $this->request('POST', '/address/generate', $payload);
+            'ipn_url' => $ipnUrl ?? '',
+            'label' => $label ?? '',
+        ]);
 
         if (empty($response['address'])) {
             throw new WestWalletException('WestWallet did not return an address: '.json_encode($response));
@@ -58,14 +58,14 @@ class WestWalletClient
      */
     public function sendPayout(string $currency, string $address, float $amount, ?string $label = null): array
     {
-        $payload = array_filter([
+        $response = $this->request('POST', '/wallet/create_withdrawal', [
             'currency' => $currency,
-            'address' => $address,
             'amount' => number_format($amount, 8, '.', ''),
-            'label' => $label,
-        ], fn ($value) => $value !== null && $value !== '');
-
-        $response = $this->request('POST', '/create_withdrawal', $payload);
+            'address' => $address,
+            'dest_tag' => '',
+            'description' => $label ?? '',
+            'priority' => 'medium',
+        ]);
 
         return [
             'id' => isset($response['id']) ? (string) $response['id'] : null,
@@ -83,33 +83,35 @@ class WestWalletClient
             throw new WestWalletException('WestWallet credentials are not configured.');
         }
 
-        $body = json_encode($payload, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
-        $nonce = (string) time();
-        $signature = hash_hmac('sha256', $nonce.$body, (string) $this->privateKey);
+        $body = $payload === []
+            ? ''
+            : json_encode($payload, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
+        $timestamp = (string) time();
+        $signature = hash_hmac('sha256', $timestamp.$body, (string) $this->privateKey);
 
         $response = $this->httpClient()
             ->withHeaders([
                 'X-API-KEY' => $this->publicKey,
-                'X-NONCE' => $nonce,
-                'X-API-SIGN' => $signature,
+                'X-ACCESS-SIGN' => $signature,
+                'X-ACCESS-TIMESTAMP' => $timestamp,
             ])
             ->withBody($body, 'application/json')
             ->send($method, $endpoint);
 
-        if ($response->failed()) {
-            throw new WestWalletException(
-                "WestWallet request to {$endpoint} failed with status {$response->status()}: {$response->body()}"
-            );
+        if (in_array($response->status(), [401, 403], true)) {
+            throw new WestWalletException("WestWallet rejected the request (HTTP {$response->status()}).");
         }
 
         $data = $response->json();
 
         if (! is_array($data)) {
-            throw new WestWalletException("WestWallet returned an unexpected response for {$endpoint}.");
+            throw new WestWalletException("WestWallet returned an unexpected response for {$endpoint} (HTTP {$response->status()}).");
         }
 
-        if (($data['error'] ?? null) !== null) {
-            throw new WestWalletException('WestWallet error: '.json_encode($data['error']));
+        // A successful WestWallet response carries "error": "ok".
+        $error = $data['error'] ?? null;
+        if ($error !== null && $error !== 'ok') {
+            throw new WestWalletException('WestWallet error: '.json_encode($error));
         }
 
         return $data;
