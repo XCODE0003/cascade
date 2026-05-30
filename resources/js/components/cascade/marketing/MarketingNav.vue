@@ -1,15 +1,26 @@
 <script setup lang="ts">
 import { Link } from '@inertiajs/vue3';
+import { Moon, Sun } from 'lucide-vue-next';
+import { computed } from 'vue';
+import { useAppearance } from '@/composables/useAppearance';
 import { login, register } from '@/routes';
 
 const links = ['Как это работает', 'Тарифы', 'Безопасность', 'FAQ'];
+
+const { resolvedAppearance, updateAppearance } = useAppearance();
+
+const isDark = computed(() => resolvedAppearance.value === 'dark');
+
+function toggleTheme(): void {
+    updateAppearance(isDark.value ? 'light' : 'dark');
+}
 </script>
 
 <template>
     <nav
         class="sticky top-0 z-20 flex h-16 items-center px-8"
         style="
-            background: rgba(251, 251, 253, 0.72);
+            background: var(--c-nav-bg);
             backdrop-filter: saturate(180%) blur(20px);
             -webkit-backdrop-filter: saturate(180%) blur(20px);
             border-bottom: 1px solid var(--c-hairline);
@@ -34,6 +45,19 @@ const links = ['Как это работает', 'Тарифы', 'Безопас
                 >
             </div>
             <div class="ml-auto flex items-center gap-2.5">
+                <button
+                    type="button"
+                    @click="toggleTheme"
+                    :aria-label="isDark ? 'Светлая тема' : 'Тёмная тема'"
+                    :title="isDark ? 'Светлая тема' : 'Тёмная тема'"
+                    class="inline-flex h-9 w-9 items-center justify-center rounded-full transition-colors hover:bg-[var(--c-bg-elevated)]"
+                    style="color: var(--c-fg1)"
+                >
+                    <component
+                        :is="isDark ? Sun : Moon"
+                        class="h-[18px] w-[18px]"
+                    />
+                </button>
                 <Link
                     :href="login()"
                     class="px-3 py-2 text-sm font-medium no-underline"

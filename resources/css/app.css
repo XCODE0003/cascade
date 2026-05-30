@@ -183,6 +183,7 @@
     --c-hairline-soft: rgba(60, 60, 67, 0.06);
 
     /* Theme-adaptive helpers (light values preserve the original look) */
+    --c-nav-bg: rgba(251, 251, 253, 0.72);
     --c-bg-active: #ffffff;
     --c-knob: #ffffff;
     --c-input-border: rgba(0, 0, 0, 0.1);
@@ -240,6 +241,7 @@
     --c-hairline: rgba(235, 235, 245, 0.14);
     --c-hairline-soft: rgba(235, 235, 245, 0.08);
     --c-hairline-strong: rgba(235, 235, 245, 0.24);
+    --c-nav-bg: rgba(22, 22, 24, 0.72);
     --c-input-border: rgba(235, 235, 245, 0.22);
 
     --c-accent: #0a84ff;

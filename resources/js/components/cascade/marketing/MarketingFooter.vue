@@ -34,7 +34,7 @@ const columns = [
                     >
                 </div>
                 <div
-                    class="max-w-[360px] text-[13px] leading-relaxed"
+                    class="max-w-[360px] text-[13px] leading-relaxed font-medium"
                     style="color: var(--c-fg2)"
                 >
                     Прозрачная очередь ликвидности. Платформа распределяет 100%
@@ -45,24 +45,24 @@ const columns = [
             <div v-for="col in columns" :key="col.title">
                 <div
                     class="mb-3.5 text-[11px] font-bold tracking-[0.06em] uppercase"
-                    style="color: var(--c-fg3)"
+                    style="color: var(--c-fg2)"
                 >
                     {{ col.title }}
                 </div>
                 <a
                     v-for="link in col.links"
                     :key="link"
-                    class="block cursor-pointer py-[5px] text-[13px] no-underline"
+                    class="block cursor-pointer py-[5px] text-[13px] font-medium no-underline"
                     style="color: var(--c-fg1)"
                     >{{ link }}</a
                 >
             </div>
         </div>
         <div
-            class="mx-auto mt-8 flex max-w-[1200px] items-center justify-between pt-5 text-xs"
+            class="mx-auto mt-8 flex max-w-[1200px] items-center justify-between pt-5 text-xs font-medium"
             style="
                 border-top: 1px solid var(--c-hairline-soft);
-                color: var(--c-fg3);
+                color: var(--c-fg2);
             "
         >
             <span
