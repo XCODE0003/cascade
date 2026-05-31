@@ -5,7 +5,12 @@ import { computed } from 'vue';
 import { useAppearance } from '@/composables/useAppearance';
 import { login, register } from '@/routes';
 
-const links = ['Как это работает', 'Тарифы', 'Безопасность', 'FAQ'];
+const links = [
+    { label: 'Как это работает', href: '/#how' },
+    { label: 'Тарифы', href: '/#tiers' },
+    { label: 'Безопасность', href: '/#security' },
+    { label: 'FAQ', href: '/#faq' },
+];
 
 const { resolvedAppearance, updateAppearance } = useAppearance();
 
@@ -36,12 +41,13 @@ function toggleTheme(): void {
                 >
             </Link>
             <div class="ml-6 hidden gap-6 md:flex">
-                <span
+                <a
                     v-for="link in links"
-                    :key="link"
-                    class="cursor-pointer text-sm font-medium"
+                    :key="link.href"
+                    :href="link.href"
+                    class="cursor-pointer text-sm font-medium no-underline transition-colors hover:text-[var(--c-fg1)]"
                     style="color: var(--c-fg2)"
-                    >{{ link }}</span
+                    >{{ link.label }}</a
                 >
             </div>
             <div class="ml-auto flex items-center gap-2.5">

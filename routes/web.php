@@ -15,6 +15,13 @@ use Illuminate\Support\Facades\Route;
 
 Route::inertia('/', 'Welcome')->name('home');
 
+// Marketing concept pages (linked from the footer).
+Route::inertia('/double-lock', 'marketing/DoubleLock')->name('pages.double-lock');
+Route::inertia('/cascade', 'marketing/Cascade')->name('pages.cascade');
+Route::inertia('/anti-abuse', 'marketing/AntiAbuse')->name('pages.anti-abuse');
+Route::inertia('/acid', 'marketing/Acid')->name('pages.acid');
+Route::inertia('/hold', 'marketing/Hold')->name('pages.hold');
+
 // WestWallet deposit notifications (IPN). CSRF-exempt; verified by signature.
 Route::post('webhooks/westwallet', WestWalletIpnController::class)->name('webhooks.westwallet');
 

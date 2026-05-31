@@ -32,6 +32,53 @@ const splitBars = [
     { flex: 30, label: '30%', bg: 'var(--c-gold)' },
 ];
 
+interface FaqItem {
+    q: string;
+    a: string;
+}
+
+const faq: FaqItem[] = [
+    {
+        q: 'Это инвестиции с гарантированным процентом?',
+        a: 'Нет. Cascade распределяет ровно 100% входящих средств по правилу очереди. Фиксированной доходности нет — ваша выплата собирается из реальных поступлений участников, вставших в очередь после вас.',
+    },
+    {
+        q: 'Сколько можно получить?',
+        a: 'Цикл уровня закрывается на 150% от номинала: 5 ячеек закрашиваются входящими средствами. Для Level 1 это 20 → 30 USDT. Скорость зависит от темпа поступлений в очередь.',
+    },
+    {
+        q: 'Когда можно вывести средства?',
+        a: 'Когда сработает двойной замок: закрашены все 5 ячеек И прошло 7 полных суток с момента входа. После этого заявка проходит холд 72 часа и средства уходят на ваш адрес.',
+    },
+    {
+        q: 'Есть ли комиссия за вывод?',
+        a: 'Платформа не берёт комиссию при выводе — вы получаете ровно сумму своего баланса. Учитывается только сетевая комиссия блокчейна.',
+    },
+    {
+        q: 'Какие уровни доступны?',
+        a: 'Четыре изолированных уровня: 20, 100, 700 и 2000 USDT. Очереди уровней не пересекаются — каждый работает как отдельный контур.',
+    },
+    {
+        q: 'Что будет, если я перестану заходить?',
+        a: 'Если 5/5 ячеек закрыто и вы не возвращаетесь 3 дня, авто-реинвест направляет средства в очередь активным участникам, чтобы касса не зависала на «мёртвых» аккаунтах.',
+    },
+];
+
+const supportChannels = [
+    {
+        label: 'Telegram',
+        value: '@cascade_support',
+        href: 'https://t.me/cascade',
+        external: true,
+    },
+    {
+        label: 'Email',
+        value: 'support@cascade.it.com',
+        href: 'mailto:support@cascade.it.com',
+        external: false,
+    },
+];
+
 function fmt(n: number): string {
     return n.toLocaleString('ru-RU').replace(/,/g, ' ');
 }
@@ -290,7 +337,10 @@ function fmt(n: number): string {
         </section>
 
         <!-- HOW IT WORKS -->
-        <section id="how" class="mx-auto max-w-[1200px] px-8 py-24">
+        <section
+            id="how"
+            class="mx-auto max-w-[1200px] scroll-mt-20 px-8 py-24"
+        >
             <div
                 class="mb-3.5 text-xs font-bold tracking-[0.08em] uppercase"
                 style="color: var(--c-accent)"
@@ -473,7 +523,10 @@ function fmt(n: number): string {
         </section>
 
         <!-- TIERS -->
-        <section class="mx-auto max-w-[1200px] px-8 py-24">
+        <section
+            id="tiers"
+            class="mx-auto max-w-[1200px] scroll-mt-20 px-8 py-24"
+        >
             <div
                 class="mb-3.5 text-xs font-bold tracking-[0.08em] uppercase"
                 style="color: var(--c-accent)"
@@ -582,7 +635,10 @@ function fmt(n: number): string {
         </section>
 
         <!-- SECURITY -->
-        <section class="mx-auto max-w-[1200px] px-8 py-24">
+        <section
+            id="security"
+            class="mx-auto max-w-[1200px] scroll-mt-20 px-8 py-24"
+        >
             <div
                 class="mb-3.5 text-xs font-bold tracking-[0.08em] uppercase"
                 style="color: var(--c-accent)"
@@ -730,6 +786,109 @@ function fmt(n: number): string {
                         участникам. Касса не зависает на «мёртвых» аккаунтах.
                     </div>
                 </div>
+            </div>
+        </section>
+
+        <!-- FAQ -->
+        <section
+            id="faq"
+            class="mx-auto max-w-[1200px] scroll-mt-20 px-8 py-24"
+        >
+            <div
+                class="mb-3.5 text-xs font-bold tracking-[0.08em] uppercase"
+                style="color: var(--c-accent)"
+            >
+                FAQ
+            </div>
+            <h2
+                class="max-w-[720px] text-[44px] leading-[1.1] font-bold tracking-[-0.03em]"
+                style="font-family: var(--c-font-display)"
+            >
+                Частые вопросы.
+            </h2>
+
+            <div class="mt-10 flex max-w-[820px] flex-col gap-3">
+                <details
+                    v-for="item in faq"
+                    :key="item.q"
+                    class="group rounded-[16px] bg-[var(--c-bg-card)] px-6 py-[18px]"
+                    style="box-shadow: 0 1px 0 rgba(0, 0, 0, 0.04)"
+                >
+                    <summary
+                        class="flex cursor-pointer list-none items-center justify-between gap-4 text-[16px] font-semibold"
+                        style="color: var(--c-fg1)"
+                    >
+                        {{ item.q }}
+                        <svg
+                            class="shrink-0 transition-transform group-open:rotate-45"
+                            width="18"
+                            height="18"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="var(--c-fg3)"
+                            stroke-width="1.5"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                        >
+                            <path d="M12 5v14M5 12h14" />
+                        </svg>
+                    </summary>
+                    <p
+                        class="mt-3 text-[15px] leading-relaxed"
+                        style="color: var(--c-fg2)"
+                    >
+                        {{ item.a }}
+                    </p>
+                </details>
+            </div>
+        </section>
+
+        <!-- SUPPORT -->
+        <section
+            id="support"
+            class="mx-auto max-w-[1200px] scroll-mt-20 px-8 py-24"
+        >
+            <div
+                class="mb-3.5 text-xs font-bold tracking-[0.08em] uppercase"
+                style="color: var(--c-accent)"
+            >
+                Поддержка
+            </div>
+            <h2
+                class="max-w-[720px] text-[44px] leading-[1.1] font-bold tracking-[-0.03em]"
+                style="font-family: var(--c-font-display)"
+            >
+                Не нашли ответ? Напишите нам.
+            </h2>
+            <p
+                class="mt-3.5 max-w-[640px] text-[17px] leading-relaxed"
+                style="color: var(--c-fg2)"
+            >
+                Команда поддержки отвечает в течение 24 часов. Для срочных
+                вопросов используйте Telegram.
+            </p>
+
+            <div class="mt-10 grid max-w-[820px] gap-4 sm:grid-cols-2">
+                <a
+                    v-for="channel in supportChannels"
+                    :key="channel.label"
+                    :href="channel.href"
+                    :target="channel.external ? '_blank' : undefined"
+                    :rel="channel.external ? 'noopener noreferrer' : undefined"
+                    class="flex flex-col gap-1 rounded-[18px] bg-[var(--c-bg-card)] px-6 py-5 no-underline transition-colors hover:bg-[var(--c-bg-elevated)]"
+                    style="box-shadow: 0 1px 0 rgba(0, 0, 0, 0.04)"
+                >
+                    <span
+                        class="text-[12px] font-bold tracking-[0.06em] uppercase"
+                        style="color: var(--c-fg3)"
+                        >{{ channel.label }}</span
+                    >
+                    <span
+                        class="text-[17px] font-semibold tracking-[-0.01em]"
+                        style="color: var(--c-fg1)"
+                        >{{ channel.value }}</span
+                    >
+                </a>
             </div>
         </section>
 

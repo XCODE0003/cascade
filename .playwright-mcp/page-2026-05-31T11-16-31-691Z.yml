@@ -1,0 +1,101 @@
+- generic [ref=e1]:
+  - generic [ref=e294]:
+    - navigation [ref=e295]:
+      - generic [ref=e296]:
+        - link "Cascade" [ref=e297] [cursor=pointer]:
+          - /url: /
+          - generic [ref=e298]: Cascade
+        - generic [ref=e299]:
+          - link "Как это работает" [ref=e300] [cursor=pointer]:
+            - /url: /#how
+          - link "Тарифы" [ref=e301] [cursor=pointer]:
+            - /url: /#tiers
+          - link "Безопасность" [ref=e302] [cursor=pointer]:
+            - /url: /#security
+          - link "FAQ" [ref=e303] [cursor=pointer]:
+            - /url: /#faq
+        - generic [ref=e304]:
+          - button "Тёмная тема" [active] [ref=e374]:
+            - img [ref=e375]
+          - link "Войти" [ref=e312] [cursor=pointer]:
+            - /url: /login
+          - link "Регистрация" [ref=e313] [cursor=pointer]:
+            - /url: /register
+    - article [ref=e314]:
+      - link "На главную" [ref=e315] [cursor=pointer]:
+        - /url: /
+        - img [ref=e316]
+        - text: На главную
+      - generic [ref=e318]: Как это работает
+      - heading "Каскад" [level=1] [ref=e319]
+      - paragraph [ref=e320]: Правило, по которому излишек закрытой позиции автоматически переливается следующему в очереди. Деньги всегда движутся сверху вниз и остаются внутри контура.
+      - generic [ref=e321]:
+        - generic [ref=e322]:
+          - generic [ref=e323]: 10 / 60 / 30
+          - generic [ref=e324]: Сплит входа
+        - generic [ref=e325]:
+          - generic [ref=e326]: "5"
+          - generic [ref=e327]: Ячеек в цикле
+        - generic [ref=e328]:
+          - generic [ref=e329]: 150%
+          - generic [ref=e330]: Выплата
+      - generic [ref=e331]:
+        - heading "Что такое каскад" [level=2] [ref=e332]
+        - paragraph [ref=e333]: "Каскад — это правило, по которому движется каждый поступивший на платформу USDT. Деньги не перекидываются вручную и не лежат на общем балансе: они закрашивают ячейки участников строго по порядку очереди."
+        - paragraph [ref=e334]: Когда позиция впереди вас закрывается на 150% от номинала, излишек входящего платежа не теряется и не возвращается — он автоматически переливается следующему в очереди. Этот перелив сверху вниз и есть каскад.
+      - generic [ref=e335]:
+        - heading "Как распределяется депозит" [level=2] [ref=e336]
+        - paragraph [ref=e337]: "Каждый вход делится по правилу 10 / 60 / 30: 10% идёт сервису, 60% — вашему рефереру при соответствии его уровня, 30% — первому в очереди."
+        - paragraph [ref=e338]: "Если уровень реферера не соответствует, его 60% не сгорают: бонус уходит в очередь и ускоряет закрытие ближайших позиций. Деньги всегда остаются внутри контура."
+      - generic [ref=e339]:
+        - heading "Почему касса не уходит в минус" [level=2] [ref=e340]
+        - paragraph [ref=e341]: Платформа распределяет ровно 100% входящих средств и не обещает фиксированный процент. Выплата каждому участнику собирается только из реальных поступлений тех, кто встал в очередь после него.
+        - paragraph [ref=e342]: "Поэтому система самобалансируется: нет внешних обязательств, нет «гарантированной» доходности из ниоткуда — только математика очереди, видимая в реальном времени из кабинета."
+      - generic [ref=e343]:
+        - generic [ref=e344]: Готовы начать?
+        - paragraph [ref=e345]: Регистрация занимает меньше минуты. Старт с Level 1 — 20 USDT, никаких комиссий при выводе.
+        - link "Создать аккаунт" [ref=e346] [cursor=pointer]:
+          - /url: /register
+          - text: Создать аккаунт
+          - img [ref=e347]
+    - contentinfo [ref=e349]:
+      - generic [ref=e350]:
+        - generic [ref=e351]:
+          - generic [ref=e353]: Cascade
+          - generic [ref=e354]: Прозрачная очередь ликвидности. Платформа распределяет 100% входящих средств между участниками по правилу каскада и не может уйти в дефицит.
+        - generic [ref=e355]:
+          - generic [ref=e356]: Продукт
+          - link "Как это работает" [ref=e357] [cursor=pointer]:
+            - /url: /#how
+          - link "Тарифы" [ref=e358] [cursor=pointer]:
+            - /url: /#tiers
+          - link "Двойной замок" [ref=e359] [cursor=pointer]:
+            - /url: /double-lock
+          - link "Каскад" [ref=e360] [cursor=pointer]:
+            - /url: /cascade
+        - generic [ref=e361]:
+          - generic [ref=e362]: Безопасность
+          - link "Анти-абуз" [ref=e363] [cursor=pointer]:
+            - /url: /anti-abuse
+          - link "ACID-транзакции" [ref=e364] [cursor=pointer]:
+            - /url: /acid
+          - link "Холд 72 ч" [ref=e365] [cursor=pointer]:
+            - /url: /hold
+        - generic [ref=e366]:
+          - generic [ref=e367]: Помощь
+          - link "FAQ" [ref=e368] [cursor=pointer]:
+            - /url: /#faq
+          - link "Поддержка" [ref=e369] [cursor=pointer]:
+            - /url: /#support
+          - link "Telegram-канал" [ref=e370] [cursor=pointer]:
+            - /url: https://t.me/cascade
+      - generic [ref=e371]:
+        - generic [ref=e372]: © 2026 Cascade. Это не инвестиционный продукт с фиксированным процентом.
+        - generic [ref=e373]: v 2.0
+  - iframe [ref=e290]:
+    
+  - iframe [ref=e292]:
+    - button "Open Smartsupp chat" [ref=f10e3] [cursor=pointer]:
+      - generic [ref=f10e4]:
+        - generic [ref=f10e5]: Chat
+        - img [ref=f10e9]

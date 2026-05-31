@@ -1,0 +1,150 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e3]:
+    - generic [ref=e6]:
+      - list [ref=e8]:
+        - listitem [ref=e9]:
+          - link "Cascade Cascade" [ref=e10] [cursor=pointer]:
+            - /url: /dashboard
+            - img "Cascade" [ref=e12]
+            - generic [ref=e14]: Cascade
+      - generic [ref=e16]:
+        - generic [ref=e17]: Личный кабинет
+        - list [ref=e18]:
+          - listitem [ref=e19]:
+            - link "Кабинет" [ref=e20] [cursor=pointer]:
+              - /url: /dashboard
+              - img [ref=e21]
+              - generic [ref=e22]: Кабинет
+          - listitem [ref=e23]:
+            - link "Кошелёк" [ref=e24] [cursor=pointer]:
+              - /url: /wallet
+              - img [ref=e25]
+              - generic [ref=e28]: Кошелёк
+          - listitem [ref=e29]:
+            - link "Партнёры" [ref=e30] [cursor=pointer]:
+              - /url: /partners
+              - img [ref=e31]
+              - generic [ref=e36]: Партнёры
+          - listitem [ref=e37]:
+            - link "История" [ref=e38] [cursor=pointer]:
+              - /url: /history
+              - img [ref=e39]
+              - generic [ref=e42]: История
+      - generic [ref=e43]:
+        - generic [ref=e44]:
+          - generic [ref=e45]: Сервис
+          - list [ref=e46]:
+            - listitem [ref=e47]:
+              - link "Настройки" [ref=e48] [cursor=pointer]:
+                - /url: /settings/profile
+                - img [ref=e49]
+                - generic [ref=e52]: Настройки
+        - list [ref=e53]:
+          - listitem [ref=e54]:
+            - button "Светлая тема" [ref=e55]:
+              - img [ref=e56]
+              - generic [ref=e62]: Светлая тема
+        - list [ref=e63]:
+          - listitem [ref=e64]:
+            - button [ref=e65]:
+              - img [ref=e66]
+    - main [ref=e69]:
+      - button "Toggle sidebar" [ref=e72]:
+        - img
+        - generic [ref=e73]: Toggle sidebar
+      - generic [ref=e74]:
+        - navigation [ref=e75]:
+          - generic [ref=e76]:
+            - link "Cascade" [ref=e77] [cursor=pointer]:
+              - /url: /
+              - generic [ref=e78]: Cascade
+            - generic [ref=e79]:
+              - link "Как это работает" [ref=e80] [cursor=pointer]:
+                - /url: /#how
+              - link "Тарифы" [ref=e81] [cursor=pointer]:
+                - /url: /#tiers
+              - link "Безопасность" [ref=e82] [cursor=pointer]:
+                - /url: /#security
+              - link "FAQ" [ref=e83] [cursor=pointer]:
+                - /url: /#faq
+            - generic [ref=e84]:
+              - button "Светлая тема" [ref=e85]:
+                - img [ref=e86]
+              - link "Войти" [ref=e92] [cursor=pointer]:
+                - /url: /login
+              - link "Регистрация" [ref=e93] [cursor=pointer]:
+                - /url: /register
+        - article [ref=e94]:
+          - link "На главную" [ref=e95] [cursor=pointer]:
+            - /url: /
+            - img [ref=e96]
+            - text: На главную
+          - generic [ref=e98]: Безопасность
+          - heading "Двойной замок" [level=1] [ref=e99]
+          - paragraph [ref=e100]: "Вывод открывается только при выполнении двух условий сразу: 5 из 5 ячеек закрашены и прошло 7 полных суток с момента входа."
+          - generic [ref=e101]:
+            - generic [ref=e102]:
+              - generic [ref=e103]: 5 / 5
+              - generic [ref=e104]: Ячеек до вывода
+            - generic [ref=e105]:
+              - generic [ref=e106]: 7 дней
+              - generic [ref=e107]: Минимальный срок
+            - generic [ref=e108]:
+              - generic [ref=e109]: 72 ч
+              - generic [ref=e110]: Холд после
+          - generic [ref=e111]:
+            - heading "Два независимых условия" [level=2] [ref=e112]
+            - paragraph [ref=e113]: Кнопка «Вывод» в кабинете остаётся неактивной, пока одновременно не выполнятся два условия. Первое — закрашены все 5 ячеек вашего уровня, то есть очередь довела вашу позицию до 150% от номинала. Второе — с момента покупки уровня прошло не менее 7 полных суток.
+            - paragraph [ref=e114]: Замок «двойной» именно потому, что ни деньги без времени, ни время без денег не открывают вывод. Это убирает спекулятивный «вход-выход» и держит очередь стабильной для всех участников.
+          - generic [ref=e115]:
+            - heading "Зачем это нужно" [level=2] [ref=e116]
+            - paragraph [ref=e117]: "Очередь работает как замкнутый контур: каждый USDT, который вы получаете, кто-то внёс до вас, а ваш вклад закрывает позиции тех, кто стоит впереди. Если разрешить мгновенный выход, ранние участники забирали бы ликвидность быстрее, чем она поступает, и контур рвался бы."
+            - paragraph [ref=e118]: Семидневное окно синхронизирует темп выплат с темпом входящих средств. В результате платформа распределяет ровно 100% поступлений и технически не может уйти в дефицит.
+          - generic [ref=e119]:
+            - heading "Что происходит после разблокировки" [level=2] [ref=e120]
+            - paragraph [ref=e121]: Когда оба условия выполнены, заявка на вывод уходит в холд на 72 часа — это анти-фрод окно, в течение которого операция может быть проверена. По истечении холда средства отправляются на ваш адрес без комиссии платформы.
+          - generic [ref=e122]:
+            - generic [ref=e123]: Готовы начать?
+            - paragraph [ref=e124]: Регистрация занимает меньше минуты. Старт с Level 1 — 20 USDT, никаких комиссий при выводе.
+            - link "Создать аккаунт" [ref=e125] [cursor=pointer]:
+              - /url: /register
+              - text: Создать аккаунт
+              - img [ref=e126]
+        - generic [ref=e128]:
+          - generic [ref=e129]:
+            - generic [ref=e130]:
+              - generic [ref=e132]: Cascade
+              - generic [ref=e133]: Прозрачная очередь ликвидности. Платформа распределяет 100% входящих средств между участниками по правилу каскада и не может уйти в дефицит.
+            - generic [ref=e134]:
+              - generic [ref=e135]: Продукт
+              - link "Как это работает" [ref=e136] [cursor=pointer]:
+                - /url: /#how
+              - link "Тарифы" [ref=e137] [cursor=pointer]:
+                - /url: /#tiers
+              - link "Двойной замок" [ref=e138] [cursor=pointer]:
+                - /url: /double-lock
+              - link "Каскад" [ref=e139] [cursor=pointer]:
+                - /url: /cascade
+            - generic [ref=e140]:
+              - generic [ref=e141]: Безопасность
+              - link "Анти-абуз" [ref=e142] [cursor=pointer]:
+                - /url: /anti-abuse
+              - link "ACID-транзакции" [ref=e143] [cursor=pointer]:
+                - /url: /acid
+              - link "Холд 72 ч" [ref=e144] [cursor=pointer]:
+                - /url: /hold
+            - generic [ref=e145]:
+              - generic [ref=e146]: Помощь
+              - link "FAQ" [ref=e147] [cursor=pointer]:
+                - /url: /#faq
+              - link "Поддержка" [ref=e148] [cursor=pointer]:
+                - /url: /#support
+              - link "Telegram-канал" [ref=e149] [cursor=pointer]:
+                - /url: https://t.me/cascade
+          - generic [ref=e150]:
+            - generic [ref=e151]: © 2026 Cascade. Это не инвестиционный продукт с фиксированным процентом.
+            - generic [ref=e152]: v 2.0
+    - region "Notifications alt+T":
+      - list
+  - iframe [ref=e153]:
+    

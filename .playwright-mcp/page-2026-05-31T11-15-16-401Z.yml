@@ -1,0 +1,251 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e3]:
+    - navigation [ref=e4]:
+      - generic [ref=e5]:
+        - link "Cascade" [ref=e6] [cursor=pointer]:
+          - /url: /
+          - generic [ref=e7]: Cascade
+        - generic [ref=e8]:
+          - link "Как это работает" [ref=e9] [cursor=pointer]:
+            - /url: /#how
+          - link "Тарифы" [ref=e10] [cursor=pointer]:
+            - /url: /#tiers
+          - link "Безопасность" [ref=e11] [cursor=pointer]:
+            - /url: /#security
+          - link "FAQ" [ref=e12] [cursor=pointer]:
+            - /url: /#faq
+        - generic [ref=e13]:
+          - button "Светлая тема" [ref=e14]:
+            - img [ref=e15]
+          - link "Войти" [ref=e21] [cursor=pointer]:
+            - /url: /login
+          - link "Регистрация" [ref=e22] [cursor=pointer]:
+            - /url: /register
+    - generic [ref=e24]:
+      - generic [ref=e25]: Платформа распределяет 100% входящих средств
+      - heading "Прозрачная очередь ликвидности." [level=1] [ref=e27]:
+        - text: Прозрачная очередь
+        - text: ликвидности.
+      - paragraph [ref=e28]: Cascade — это не инвестиционный проект с фиксированным процентом. Это математическая модель распределения средств между участниками по правилу «живой очереди».
+      - generic [ref=e29]:
+        - link "Начать с Level 1 · 20 USDT" [ref=e30] [cursor=pointer]:
+          - /url: /register
+          - text: Начать с Level 1 · 20 USDT
+          - img [ref=e31]
+        - link "Как это работает" [ref=e33] [cursor=pointer]:
+          - /url: "#how"
+      - generic [ref=e34]:
+        - generic [ref=e35]:
+          - generic [ref=e36]: Активные очереди
+          - generic [ref=e37]: 4 уровня · изолированные котлы
+        - generic [ref=e38]:
+          - generic [ref=e39]:
+            - generic [ref=e40]: Level 1
+            - generic [ref=e42]: 20USDT
+          - generic [ref=e49]:
+            - generic [ref=e50]: Level 2
+            - generic [ref=e52]: 100USDT
+          - generic [ref=e59]:
+            - generic [ref=e60]: Level 3
+            - generic [ref=e62]: 700USDT
+          - generic [ref=e69]:
+            - generic [ref=e70]: Level 4
+            - generic [ref=e72]: 2 000USDT
+    - generic [ref=e80]:
+      - generic [ref=e81]:
+        - generic [ref=e82]: 10/60/30
+        - generic [ref=e83]: "Сплит каждого депозита: сервис · реферер · очередь"
+      - generic [ref=e84]:
+        - generic [ref=e85]: 5 / 5
+        - generic [ref=e86]: Ячеек до закрытия цикла. Выплата — 150% от номинала
+      - generic [ref=e87]:
+        - generic [ref=e88]: 7 дней
+        - generic [ref=e89]: Двойной замок. Минимальное время с момента покупки уровня
+      - generic [ref=e90]:
+        - generic [ref=e91]: 0%
+        - generic [ref=e92]: Комиссия при выводе. Получаете ровно сумму баланса
+    - generic [ref=e93]:
+      - generic [ref=e94]: Как это работает
+      - heading "Три шага между депозитом и выплатой." [level=2] [ref=e95]
+      - paragraph [ref=e96]: Cascade не двигает деньги вне очереди. Каждый USDT, поступивший на платформу, движется по правилам, видимым в реальном времени из кабинета.
+      - generic [ref=e97]:
+        - generic [ref=e98]:
+          - generic [ref=e99]: 01 · ДЕПОЗИТ
+          - generic [ref=e100]: Сплит входа
+          - generic [ref=e101]: 10% — сервису. 60% — рефереру при соответствии его уровня. 30% — первому в очереди по правилу каскада. При «обрезке» бонус 60% не пропадает, а уходит в очередь.
+          - generic [ref=e103]:
+            - generic [ref=e104]: 10%
+            - generic [ref=e105]: 60%
+            - generic [ref=e106]: 30%
+        - generic [ref=e107]:
+          - generic [ref=e108]: 02 · ОЧЕРЕДЬ
+          - generic [ref=e109]: Закрашивание ячеек
+          - generic [ref=e110]: Каждая входящая ячейка заполняет ваш счётчик. Излишек автоматически переходит следующему в очереди — это и есть каскад. 5 ячеек = 150% от вклада.
+        - generic [ref=e118]:
+          - generic [ref=e119]: 03 · ВЫВОД
+          - generic [ref=e120]: Двойной замок
+          - generic [ref=e121]: "Кнопка «Вывод» активируется при выполнении двух условий: 5/5 ячеек закрашены И прошло 7 полных суток с момента входа. Холд — 72 часа."
+          - generic [ref=e122]:
+            - img [ref=e123]
+            - generic [ref=e129]: 4 д 12:32:08 до разблокировки
+    - generic [ref=e130]:
+      - generic [ref=e131]: Тарифы
+      - heading "Четыре изолированных уровня." [level=2] [ref=e132]
+      - paragraph [ref=e133]: Ликвидность каждого уровня — отдельный котёл. Депозиты в очереди 700 закрывают ячейки только участникам очереди 700. Можно покупать все уровни одновременно.
+      - generic [ref=e134]:
+        - generic [ref=e135]:
+          - generic [ref=e137]: Level 1
+          - generic [ref=e138]: 20USDT
+          - generic [ref=e139]:
+            - generic [ref=e140]:
+              - generic [ref=e141]: За ячейку (30%)
+              - generic [ref=e142]: 6 USDT
+            - generic [ref=e143]:
+              - generic [ref=e144]: Цикл (150%)
+              - generic [ref=e145]: 30 USDT
+            - generic [ref=e146]:
+              - generic [ref=e147]: Замок
+              - generic [ref=e148]: 5/5 + 7 д
+        - generic [ref=e149]:
+          - generic [ref=e151]: Level 2
+          - generic [ref=e152]: 100USDT
+          - generic [ref=e153]:
+            - generic [ref=e154]:
+              - generic [ref=e155]: За ячейку (30%)
+              - generic [ref=e156]: 30 USDT
+            - generic [ref=e157]:
+              - generic [ref=e158]: Цикл (150%)
+              - generic [ref=e159]: 150 USDT
+            - generic [ref=e160]:
+              - generic [ref=e161]: Замок
+              - generic [ref=e162]: 5/5 + 7 д
+        - generic [ref=e163]:
+          - generic [ref=e165]: Level 3
+          - generic [ref=e166]: 700USDT
+          - generic [ref=e167]:
+            - generic [ref=e168]:
+              - generic [ref=e169]: За ячейку (30%)
+              - generic [ref=e170]: 210 USDT
+            - generic [ref=e171]:
+              - generic [ref=e172]: Цикл (150%)
+              - generic [ref=e173]: 1 050 USDT
+            - generic [ref=e174]:
+              - generic [ref=e175]: Замок
+              - generic [ref=e176]: 5/5 + 7 д
+        - generic [ref=e177]:
+          - generic [ref=e179]: Level 4
+          - generic [ref=e180]: 2 000USDT
+          - generic [ref=e181]:
+            - generic [ref=e182]:
+              - generic [ref=e183]: За ячейку (30%)
+              - generic [ref=e184]: 600 USDT
+            - generic [ref=e185]:
+              - generic [ref=e186]: Цикл (150%)
+              - generic [ref=e187]: 3 000 USDT
+            - generic [ref=e188]:
+              - generic [ref=e189]: Замок
+              - generic [ref=e190]: 5/5 + 7 д
+    - generic [ref=e191]:
+      - generic [ref=e192]: Безопасность
+      - heading "Платформа технически не может уйти в дефицит." [level=2] [ref=e193]
+      - paragraph [ref=e194]: Распределяется только 100% входящих средств. Никаких фиксированных процентов, никаких внешних обязательств — только математика очереди.
+      - generic [ref=e195]:
+        - generic [ref=e196]:
+          - img [ref=e198]
+          - generic [ref=e201]: ACID-транзакции
+          - generic [ref=e202]:
+            - text: Каждая финансовая операция атомарна.
+            - code [ref=e203]: SELECT FOR UPDATE
+            - text: на счётчике ячеек исключает «состояние гонки» — одна ячейка не может быть зачислена двум людям одновременно.
+        - generic [ref=e204]:
+          - img [ref=e206]
+          - generic [ref=e211]: Анти-абуз
+          - generic [ref=e212]: Самоприглашения и циклические рефералы блокируются по IP и отпечатку браузера. При несоответствии уровней бонус не пропадает — он ускоряет очередь.
+        - generic [ref=e213]:
+          - img [ref=e215]
+          - generic [ref=e218]: Авто-реинвест
+          - generic [ref=e219]: Если 5/5 закрыто и пользователь не возвращается 3 дня, средства принудительно идут в очередь активным участникам. Касса не зависает на «мёртвых» аккаунтах.
+    - generic [ref=e220]:
+      - generic [ref=e221]: FAQ
+      - heading "Частые вопросы." [level=2] [ref=e222]
+      - generic [ref=e223]:
+        - group [ref=e224]:
+          - generic "Это инвестиции с гарантированным процентом?" [ref=e225] [cursor=pointer]:
+            - text: Это инвестиции с гарантированным процентом?
+            - img [ref=e226]
+        - group [ref=e228]:
+          - generic "Сколько можно получить?" [ref=e229] [cursor=pointer]:
+            - text: Сколько можно получить?
+            - img [ref=e230]
+        - group [ref=e232]:
+          - generic "Когда можно вывести средства?" [ref=e233] [cursor=pointer]:
+            - text: Когда можно вывести средства?
+            - img [ref=e234]
+        - group [ref=e236]:
+          - generic "Есть ли комиссия за вывод?" [ref=e237] [cursor=pointer]:
+            - text: Есть ли комиссия за вывод?
+            - img [ref=e238]
+        - group [ref=e240]:
+          - generic "Какие уровни доступны?" [ref=e241] [cursor=pointer]:
+            - text: Какие уровни доступны?
+            - img [ref=e242]
+        - group [ref=e244]:
+          - generic "Что будет, если я перестану заходить?" [ref=e245] [cursor=pointer]:
+            - text: Что будет, если я перестану заходить?
+            - img [ref=e246]
+    - generic [ref=e248]:
+      - generic [ref=e249]: Поддержка
+      - heading "Не нашли ответ? Напишите нам." [level=2] [ref=e250]
+      - paragraph [ref=e251]: Команда поддержки отвечает в течение 24 часов. Для срочных вопросов используйте Telegram.
+      - generic [ref=e252]:
+        - link "Telegram @cascade_support" [ref=e253] [cursor=pointer]:
+          - /url: https://t.me/cascade
+          - generic [ref=e254]: Telegram
+          - generic [ref=e255]: "@cascade_support"
+        - link "Email support@cascade.it.com" [ref=e256] [cursor=pointer]:
+          - /url: mailto:support@cascade.it.com
+          - generic [ref=e257]: Email
+          - generic [ref=e258]: support@cascade.it.com
+    - generic [ref=e259]:
+      - heading "Начните с минимального уровня." [level=2] [ref=e260]
+      - paragraph [ref=e261]: 20 USDT, никаких подписок, никаких комиссий при выводе. Регистрация занимает меньше минуты.
+      - link "Создать аккаунт" [ref=e262] [cursor=pointer]:
+        - /url: /register
+        - text: Создать аккаунт
+        - img [ref=e263]
+    - contentinfo [ref=e265]:
+      - generic [ref=e266]:
+        - generic [ref=e267]:
+          - generic [ref=e269]: Cascade
+          - generic [ref=e270]: Прозрачная очередь ликвидности. Платформа распределяет 100% входящих средств между участниками по правилу каскада и не может уйти в дефицит.
+        - generic [ref=e271]:
+          - generic [ref=e272]: Продукт
+          - link "Как это работает" [ref=e273] [cursor=pointer]:
+            - /url: /#how
+          - link "Тарифы" [ref=e274] [cursor=pointer]:
+            - /url: /#tiers
+          - link "Двойной замок" [ref=e275] [cursor=pointer]:
+            - /url: /double-lock
+          - link "Каскад" [ref=e276] [cursor=pointer]:
+            - /url: /cascade
+        - generic [ref=e277]:
+          - generic [ref=e278]: Безопасность
+          - link "Анти-абуз" [ref=e279] [cursor=pointer]:
+            - /url: /anti-abuse
+          - link "ACID-транзакции" [ref=e280] [cursor=pointer]:
+            - /url: /acid
+          - link "Холд 72 ч" [ref=e281] [cursor=pointer]:
+            - /url: /hold
+        - generic [ref=e282]:
+          - generic [ref=e283]: Помощь
+          - link "FAQ" [ref=e284] [cursor=pointer]:
+            - /url: /#faq
+          - link "Поддержка" [ref=e285] [cursor=pointer]:
+            - /url: /#support
+          - link "Telegram-канал" [ref=e286] [cursor=pointer]:
+            - /url: https://t.me/cascade
+      - generic [ref=e287]:
+        - generic [ref=e288]: © 2026 Cascade. Это не инвестиционный продукт с фиксированным процентом.
+        - generic [ref=e289]: v 2.0
+  - iframe [ref=e290]:
+    

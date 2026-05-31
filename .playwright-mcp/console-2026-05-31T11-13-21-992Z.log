@@ -1,0 +1,23 @@
+[     181ms] [LOG] 🔍 Browser logger active (MCP server detected). Posting to: http://127.0.0.1:8123/_boost/browser-logs @ http://127.0.0.1:8123/double-lock:190
+[     228ms] [ERROR] TypeError: Cannot read properties of null (reading 'name')
+    at Proxy.<anonymous> (http://127.0.0.1:8123/build/assets/app-d-R4AoLE.js:94:110762)
+    at cd (http://127.0.0.1:8123/build/assets/app-d-R4AoLE.js:92:18170)
+    at Ua.s [as fn] (http://127.0.0.1:8123/build/assets/app-d-R4AoLE.js:92:27893)
+    at Ua.run (http://127.0.0.1:8123/build/assets/app-d-R4AoLE.js:90:9866)
+    at ie (http://127.0.0.1:8123/build/assets/app-d-R4AoLE.js:92:28259)
+    at ne (http://127.0.0.1:8123/build/assets/app-d-R4AoLE.js:92:26881)
+    at te (http://127.0.0.1:8123/build/assets/app-d-R4AoLE.js:92:26654)
+    at h (http://127.0.0.1:8123/build/assets/app-d-R4AoLE.js:92:23442)
+    at w (http://127.0.0.1:8123/build/assets/app-d-R4AoLE.js:92:24995)
+    at ee (http://127.0.0.1:8123/build/assets/app-d-R4AoLE.js:92:26358) @ http://127.0.0.1:8123/double-lock:249
+[   34533ms] [ERROR] TypeError: Cannot read properties of null (reading 'name')
+    at Proxy.<anonymous> (http://127.0.0.1:8123/build/assets/app-d-R4AoLE.js:94:110762)
+    at cd (http://127.0.0.1:8123/build/assets/app-d-R4AoLE.js:92:18170)
+    at Ua.s [as fn] (http://127.0.0.1:8123/build/assets/app-d-R4AoLE.js:92:27893)
+    at Ua.run (http://127.0.0.1:8123/build/assets/app-d-R4AoLE.js:90:9866)
+    at ie (http://127.0.0.1:8123/build/assets/app-d-R4AoLE.js:92:28259)
+    at ne (http://127.0.0.1:8123/build/assets/app-d-R4AoLE.js:92:26881)
+    at te (http://127.0.0.1:8123/build/assets/app-d-R4AoLE.js:92:26654)
+    at h (http://127.0.0.1:8123/build/assets/app-d-R4AoLE.js:92:23442)
+    at w (http://127.0.0.1:8123/build/assets/app-d-R4AoLE.js:92:24995)
+    at ee (http://127.0.0.1:8123/build/assets/app-d-R4AoLE.js:92:26358) @ http://127.0.0.1:8123/double-lock:249

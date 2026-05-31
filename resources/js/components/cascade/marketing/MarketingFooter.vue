@@ -1,18 +1,49 @@
 <script setup lang="ts">
-const columns = [
+import { Link } from '@inertiajs/vue3';
+
+interface FooterLink {
+    label: string;
+    href: string;
+}
+
+interface FooterColumn {
+    title: string;
+    links: FooterLink[];
+}
+
+// Telegram channel — replace with the real invite link.
+const TELEGRAM_URL = 'https://t.me/cascade';
+
+const columns: FooterColumn[] = [
     {
         title: 'Продукт',
-        links: ['Как это работает', 'Тарифы', 'Двойной замок', 'Каскад'],
+        links: [
+            { label: 'Как это работает', href: '/#how' },
+            { label: 'Тарифы', href: '/#tiers' },
+            { label: 'Двойной замок', href: '/double-lock' },
+            { label: 'Каскад', href: '/cascade' },
+        ],
     },
     {
         title: 'Безопасность',
-        links: ['Анти-абуз', 'ACID-транзакции', 'Холд 72 ч'],
+        links: [
+            { label: 'Анти-абуз', href: '/anti-abuse' },
+            { label: 'ACID-транзакции', href: '/acid' },
+            { label: 'Холд 72 ч', href: '/hold' },
+        ],
     },
     {
         title: 'Помощь',
-        links: ['FAQ', 'Поддержка', 'Telegram-канал'],
+        links: [
+            { label: 'FAQ', href: '/#faq' },
+            { label: 'Поддержка', href: '/#support' },
+            { label: 'Telegram-канал', href: TELEGRAM_URL },
+        ],
     },
 ];
+
+const isExternal = (href: string): boolean => href.startsWith('http');
+const isAnchor = (href: string): boolean => href.includes('#');
 </script>
 
 <template>
@@ -49,13 +80,31 @@ const columns = [
                 >
                     {{ col.title }}
                 </div>
-                <a
-                    v-for="link in col.links"
-                    :key="link"
-                    class="block cursor-pointer py-[5px] text-[13px] font-medium no-underline"
-                    style="color: var(--c-fg1)"
-                    >{{ link }}</a
-                >
+                <template v-for="link in col.links" :key="link.href">
+                    <a
+                        v-if="isExternal(link.href)"
+                        :href="link.href"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        class="block cursor-pointer py-[5px] text-[13px] font-medium no-underline transition-colors hover:text-[var(--c-accent)]"
+                        style="color: var(--c-fg1)"
+                        >{{ link.label }}</a
+                    >
+                    <a
+                        v-else-if="isAnchor(link.href)"
+                        :href="link.href"
+                        class="block cursor-pointer py-[5px] text-[13px] font-medium no-underline transition-colors hover:text-[var(--c-accent)]"
+                        style="color: var(--c-fg1)"
+                        >{{ link.label }}</a
+                    >
+                    <Link
+                        v-else
+                        :href="link.href"
+                        class="block cursor-pointer py-[5px] text-[13px] font-medium no-underline transition-colors hover:text-[var(--c-accent)]"
+                        style="color: var(--c-fg1)"
+                        >{{ link.label }}</Link
+                    >
+                </template>
             </div>
         </div>
         <div
