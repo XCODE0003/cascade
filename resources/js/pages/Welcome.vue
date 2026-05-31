@@ -94,8 +94,8 @@ function fmt(n: number): string {
                 <div class="mt-2 flex flex-wrap justify-center gap-2.5">
                     <Link
                         :href="register()"
-                        class="inline-flex h-12 items-center gap-2 rounded-[14px] px-[22px] text-[15px] font-semibold text-white no-underline"
-                        style="background: var(--c-fg1)"
+                        class="inline-flex h-12 items-center gap-2 rounded-[14px] px-[22px] text-[15px] font-semibold no-underline"
+                        style="background: var(--c-fg1); color: var(--c-bg)"
                     >
                         Начать с Level 1 · 20 USDT
                         <svg

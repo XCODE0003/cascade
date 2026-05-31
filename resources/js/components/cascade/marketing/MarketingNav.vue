@@ -66,8 +66,8 @@ function toggleTheme(): void {
                 >
                 <Link
                     :href="register()"
-                    class="inline-flex h-9 items-center rounded-full px-4 text-sm font-semibold text-white no-underline"
-                    style="background: var(--c-fg1)"
+                    class="inline-flex h-9 items-center rounded-full px-4 text-sm font-semibold no-underline"
+                    style="background: var(--c-fg1); color: var(--c-bg)"
                     >Регистрация</Link
                 >
             </div>
