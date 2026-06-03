@@ -5,8 +5,10 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Deposit;
 use App\Services\DepositService;
+use Illuminate\Database\QueryException;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class DepositController extends Controller
 {
@@ -18,6 +20,15 @@ class DepositController extends Controller
             $this->depositService->confirmDeposit($deposit);
         } catch (\RuntimeException $e) {
             return back()->withErrors(['deposit' => $e->getMessage()]);
+        } catch (QueryException $e) {
+            // Lock-wait timeout / deadlock under concurrent approval. Don't 500;
+            // the deposit is unchanged (transaction rolled back) — admin retries.
+            Log::warning('Deposit approval contended; ask admin to retry.', [
+                'deposit_id' => $deposit->id,
+                'error' => $e->getMessage(),
+            ]);
+
+            return back()->withErrors(['deposit' => 'Не удалось обработать депозит из-за конкурентного доступа. Повторите попытку.']);
         }
 
         return back()->with('success', 'Депозит подтверждён.');

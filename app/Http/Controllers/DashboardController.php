@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\LedgerEntry;
 use App\Models\Level;
 use App\Models\SystemSetting;
-use Carbon\Carbon;
+use Carbon\CarbonInterface;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Inertia\Response;
@@ -19,7 +19,13 @@ class DashboardController extends Controller
         $levels = Level::all()->keyBy('id');
 
         $queues = $levels->map(function ($level) use ($user) {
-            $entry = $user->queueEntries->firstWhere('level_id', $level->id);
+            // Prefer the active entry (the one the cascade actually fills) over a
+            // stale grey/frozen entry that may have a lower id — otherwise a fresh
+            // cell looks like it "didn't land" because we showed the wrong row.
+            $levelEntries = $user->queueEntries->where('level_id', $level->id);
+            $entry = $levelEntries->firstWhere('status', 'active')
+                ?? $levelEntries->firstWhere('status', 'grey')
+                ?? $levelEntries->first();
 
             if (! $entry) {
                 return [
@@ -27,6 +33,7 @@ class DashboardController extends Controller
                     'entry' => (float) $level->entry_amount,
                     'payout' => (float) $level->cycle_payout,
                     'filled' => 0,
+                    'bonus' => 0,
                     'status' => 'inactive',
                     'timer' => null,
                     'auto' => false,
@@ -61,6 +68,7 @@ class DashboardController extends Controller
                 'entry' => (float) $level->entry_amount,
                 'payout' => (float) $level->cycle_payout,
                 'filled' => $entry->cells_filled,
+                'bonus' => min($entry->bonus_cells_filled, $entry->cells_filled),
                 'status' => $status,
                 'timer' => $timerLabel,
                 'auto' => (bool) $entry->auto_reinvest,
@@ -82,7 +90,7 @@ class DashboardController extends Controller
         ]);
     }
 
-    private function formatCountdown(Carbon $target): string
+    private function formatCountdown(CarbonInterface $target): string
     {
         $diff = now()->diff($target);
         $days = $diff->days;

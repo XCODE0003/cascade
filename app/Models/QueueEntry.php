@@ -14,13 +14,14 @@ class QueueEntry extends Model
     use HasFactory;
 
     protected $fillable = [
-        'user_id', 'level_id', 'cells_filled', 'status', 'is_locked', 'auto_reinvest', 'position', 'unlock_at',
+        'user_id', 'level_id', 'cells_filled', 'bonus_cells_filled', 'status', 'is_locked', 'auto_reinvest', 'position', 'unlock_at',
     ];
 
     protected function casts(): array
     {
         return [
             'cells_filled' => 'integer',
+            'bonus_cells_filled' => 'integer',
             'position' => 'integer',
             'is_locked' => 'boolean',
             'auto_reinvest' => 'boolean',

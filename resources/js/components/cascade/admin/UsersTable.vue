@@ -1,5 +1,7 @@
 <script setup lang="ts">
+import { router, usePage } from '@inertiajs/vue3';
 import { computed, ref } from 'vue';
+import { toast } from 'vue-sonner';
 
 interface AdminUser {
     id: number;
@@ -23,11 +25,54 @@ const props = withDefaults(defineProps<{ users?: AdminUser[] }>(), {
     users: () => [],
 });
 
+const page = usePage<{ auth: { user: { id: number } } }>();
+const currentUserId = computed(() => page.props.auth?.user?.id);
+
 const query = ref('');
+const deletingId = ref<number | null>(null);
+
+function canDelete(u: AdminUser): boolean {
+    return !u.is_admin && u.id !== currentUserId.value;
+}
+
+function destroyUser(u: AdminUser): void {
+    if (!canDelete(u)) {
+        return;
+    }
+
+    if (
+        !window.confirm(
+            `Удалить пользователя ${u.name} (${u.tag})? Депозиты, выплаты и записи очереди будут удалены безвозвратно.`,
+        )
+    ) {
+        return;
+    }
+
+    router.delete(`/admin/users/${u.id}`, {
+        preserveScroll: true,
+        onStart: () => {
+            deletingId.value = u.id;
+        },
+        onFinish: () => {
+            deletingId.value = null;
+        },
+        onError: (errors) => {
+            const first = Object.values(errors)[0];
+
+            if (first) {
+                toast.error(first);
+            }
+        },
+    });
+}
 
 const filtered = computed<AdminUser[]>(() => {
     const q = query.value.trim().toLowerCase();
-    if (!q) return props.users;
+
+    if (!q) {
+        return props.users;
+    }
+
     return props.users.filter(
         (u) =>
             u.tag.toLowerCase().includes(q) ||
@@ -45,7 +90,10 @@ function money(n: number): string {
 }
 
 function short(addr: string | null): string {
-    if (!addr) return '—';
+    if (!addr) {
+        return '—';
+    }
+
     return addr.length > 14 ? addr.slice(0, 8) + '…' + addr.slice(-4) : addr;
 }
 
@@ -59,6 +107,7 @@ const headers = [
     'Адрес',
     'Активность',
     'Регистрация',
+    '',
 ];
 </script>
 
@@ -242,6 +291,49 @@ const headers = [
                             "
                         >
                             {{ u.joined }}
+                        </td>
+                        <td
+                            class="px-6 py-3.5 text-right"
+                            style="
+                                border-bottom: 1px solid var(--c-hairline-soft);
+                            "
+                        >
+                            <button
+                                v-if="canDelete(u)"
+                                type="button"
+                                :disabled="deletingId === u.id"
+                                class="inline-flex h-8 items-center gap-1.5 rounded-[9px] px-3 text-[12px] font-semibold transition-colors disabled:opacity-50"
+                                style="
+                                    background: var(--c-danger-bg);
+                                    color: var(--c-danger-fg);
+                                "
+                                title="Удалить пользователя"
+                                @click="destroyUser(u)"
+                            >
+                                <svg
+                                    width="13"
+                                    height="13"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="1.5"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                >
+                                    <path d="M3 6h18" />
+                                    <path
+                                        d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"
+                                    />
+                                    <path
+                                        d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"
+                                    />
+                                </svg>
+                                {{
+                                    deletingId === u.id
+                                        ? 'Удаление…'
+                                        : 'Удалить'
+                                }}
+                            </button>
                         </td>
                     </tr>
                 </tbody>

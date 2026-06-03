@@ -69,7 +69,7 @@ class WithdrawalService
             // is preserved so it can be restored if the admin rejects the payout.
             $user->queueEntries()
                 ->where('status', 'active')
-                ->update(['status' => 'grey', 'is_locked' => true, 'cells_filled' => 0]);
+                ->update(['status' => 'grey', 'is_locked' => true, 'cells_filled' => 0, 'bonus_cells_filled' => 0]);
 
             return $withdrawal;
         });

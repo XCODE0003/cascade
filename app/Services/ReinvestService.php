@@ -48,6 +48,7 @@ class ReinvestService
                 ->max('position') ?? 0;
 
             $entry->cells_filled = 0;
+            $entry->bonus_cells_filled = 0;
             $entry->position = $maxPos + 1;
             $entry->unlock_at = now()->addDays((int) SystemSetting::get('double_lock_days', 7));
             $entry->save();
@@ -130,6 +131,7 @@ class ReinvestService
             ->max('position') ?? 0;
 
         $entry->cells_filled = 0;
+        $entry->bonus_cells_filled = 0;
         $entry->position = $maxPos + 1;
         $entry->unlock_at = now()->addDays((int) SystemSetting::get('double_lock_days', 7));
         $entry->save();

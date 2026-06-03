@@ -1,6 +1,7 @@
 <script setup lang="ts">
-import { computed, ref } from 'vue';
 import { router } from '@inertiajs/vue3';
+import { computed, ref } from 'vue';
+import { toast } from 'vue-sonner';
 
 const props = withDefaults(
     defineProps<{
@@ -59,7 +60,10 @@ function setAll(): void {
 }
 
 function submit(): void {
-    if (!valid.value) return;
+    if (!valid.value) {
+        return;
+    }
+
     router.post(
         '/withdrawals',
         { amount: numericAmount.value, wallet_address: address.value },
@@ -68,6 +72,13 @@ function submit(): void {
             onSuccess: () => {
                 amount.value = '';
                 address.value = '';
+            },
+            onError: (errors) => {
+                const first = Object.values(errors)[0];
+
+                if (first) {
+                    toast.error(first);
+                }
             },
         },
     );

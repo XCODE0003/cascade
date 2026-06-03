@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { Head, router, usePage } from '@inertiajs/vue3';
 import { computed, ref, watch } from 'vue';
+import { toast } from 'vue-sonner';
 import BalanceHero from '@/components/cascade/BalanceHero.vue';
 import DepositSheet from '@/components/cascade/DepositSheet.vue';
 import HistoryFeed from '@/components/cascade/HistoryFeed.vue';
@@ -16,6 +17,7 @@ interface Queue {
     entry: number;
     payout: number;
     filled: number;
+    bonus?: number;
     status: QueueStatus;
     timer: string | null;
     auto: boolean;
@@ -137,53 +139,75 @@ defineOptions({
 });
 
 const page = usePage<{
-    flash: { deposit_created?: { wallet_address: string; amount: number } };
+    flash: {
+        deposit_created?: {
+            wallet_address: string;
+            amount: number;
+            level_id?: number;
+        };
+    };
 }>();
 
 const depositOpen = ref(false);
 const withdrawOpen = ref(false);
 const depositLevel = ref(2);
-const walletAddressDismissed = ref(false);
+
+// Address/amount returned after a deposit POST, shown as the sheet's step 2.
+const activeDeposit = ref<{ wallet_address: string; amount: number } | null>(
+    null,
+);
 
 const canWithdraw = computed(() => props.balance >= props.minWithdrawal);
 
-const activeWalletAddress = computed(() =>
-    walletAddressDismissed.value
-        ? undefined
-        : page.props.flash?.deposit_created?.wallet_address,
-);
-const activeWalletAmount = computed(() =>
-    walletAddressDismissed.value
-        ? undefined
-        : page.props.flash?.deposit_created?.amount,
-);
+const activeWalletAddress = computed(() => activeDeposit.value?.wallet_address);
+const activeWalletAmount = computed(() => activeDeposit.value?.amount);
 
-// When flash deposit_created arrives, open the sheet to show step 2
+// Each deposit POST returns a fresh `deposit_created` object — even when the
+// wallet address is identical across levels (it is per-user, not per-level).
+// Watch the object reference (not the address string) so levels 2/3/4 also
+// open the sheet instead of silently reusing the unchanged address.
 watch(
-    () => page.props.flash?.deposit_created?.wallet_address,
-    (addr) => {
-        if (addr) {
-            walletAddressDismissed.value = false;
+    () => page.props.flash?.deposit_created,
+    (dep) => {
+        if (dep?.wallet_address) {
+            activeDeposit.value = {
+                wallet_address: dep.wallet_address,
+                amount: dep.amount,
+            };
+
+            if (dep.level_id) {
+                depositLevel.value = dep.level_id;
+            }
+
             depositOpen.value = true;
         }
     },
+    { immediate: true },
 );
 
 function openDeposit(level: number) {
     depositLevel.value = level;
-    walletAddressDismissed.value = true;
+    activeDeposit.value = null;
     depositOpen.value = true;
 }
 
 function openUpgrade(level: number) {
     depositLevel.value = Math.min(level + 1, 4);
-    walletAddressDismissed.value = true;
+    activeDeposit.value = null;
     depositOpen.value = true;
 }
 
 function closeDepositSheet() {
     depositOpen.value = false;
-    walletAddressDismissed.value = true;
+    activeDeposit.value = null;
+}
+
+function toastFirstError(errors: Record<string, string>) {
+    const first = Object.values(errors)[0];
+
+    if (first) {
+        toast.error(first);
+    }
 }
 
 function handleDepositConfirm(payload: {
@@ -192,9 +216,17 @@ function handleDepositConfirm(payload: {
 }) {
     if (payload.method === 'internal') {
         depositOpen.value = false;
-        router.post('/deposits/upgrade', { level_id: payload.level });
+        router.post(
+            '/deposits/upgrade',
+            { level_id: payload.level },
+            { onError: toastFirstError },
+        );
     } else {
-        router.post('/deposits', { level_id: payload.level });
+        router.post(
+            '/deposits',
+            { level_id: payload.level },
+            { onError: toastFirstError },
+        );
     }
 }
 
@@ -212,10 +244,14 @@ function toggleAuto(level: number, current: boolean) {
 
 function confirmWithdraw(payload: { wallet_address: string }) {
     withdrawOpen.value = false;
-    router.post('/withdrawals', {
-        amount: props.balance,
-        wallet_address: payload.wallet_address,
-    });
+    router.post(
+        '/withdrawals',
+        {
+            amount: props.balance,
+            wallet_address: payload.wallet_address,
+        },
+        { onError: toastFirstError },
+    );
 }
 </script>
 
@@ -253,6 +289,7 @@ function confirmWithdraw(payload: { wallet_address: string }) {
                 :entry="q.entry"
                 :payout="q.payout"
                 :filled="q.filled"
+                :bonus="q.bonus ?? 0"
                 :status="q.status"
                 :timer="q.timer"
                 :auto-reinvest="q.auto"

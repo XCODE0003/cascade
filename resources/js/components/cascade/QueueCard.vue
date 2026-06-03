@@ -3,15 +3,29 @@ import { computed } from 'vue';
 
 type QueueStatus = 'ready' | 'locked' | 'inactive' | 'pending';
 
-const props = defineProps<{
-    level: number;
-    entry: number;
-    payout: number;
-    filled: number;
-    status: QueueStatus;
-    timer?: string | null;
-    autoReinvest: boolean;
-}>();
+const props = withDefaults(
+    defineProps<{
+        level: number;
+        entry: number;
+        payout: number;
+        filled: number;
+        bonus?: number;
+        status: QueueStatus;
+        timer?: string | null;
+        autoReinvest: boolean;
+    }>(),
+    { bonus: 0 },
+);
+
+// Bonus (referral) cells render gold; regular cascade cells render green.
+// The gold ones are shown as the last `bonus` of the filled cells.
+function cellKind(i: number): 'bonus' | 'filled' | 'empty' {
+    if (i > props.filled) {
+        return 'empty';
+    }
+
+    return i > props.filled - props.bonus ? 'bonus' : 'filled';
+}
 
 const emit = defineEmits<{
     activate: [];
@@ -110,9 +124,11 @@ function fmt(n: number): string {
                 :key="i"
                 class="h-8 flex-1 rounded-lg transition-all duration-[160ms]"
                 :style="
-                    i <= filled
-                        ? 'background: var(--c-success)'
-                        : 'background: var(--c-bg-elevated); box-shadow: inset 0 0 0 1px var(--c-hairline)'
+                    cellKind(i) === 'bonus'
+                        ? 'background: var(--c-cell-bonus)'
+                        : cellKind(i) === 'filled'
+                          ? 'background: var(--c-success)'
+                          : 'background: var(--c-bg-elevated); box-shadow: inset 0 0 0 1px var(--c-hairline)'
                 "
             />
         </div>

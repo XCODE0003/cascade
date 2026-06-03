@@ -1,0 +1,144 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e3]:
+    - generic [ref=e6]:
+      - list [ref=e8]:
+        - listitem [ref=e9]:
+          - link "Cascade Cascade" [ref=e10] [cursor=pointer]:
+            - /url: /dashboard
+            - img "Cascade" [ref=e12]
+            - generic [ref=e14]: Cascade
+      - generic [ref=e16]:
+        - generic [ref=e17]: Личный кабинет
+        - list [ref=e18]:
+          - listitem [ref=e19]:
+            - link "Кабинет" [ref=e20] [cursor=pointer]:
+              - /url: /dashboard
+              - img [ref=e21]
+              - generic [ref=e22]: Кабинет
+          - listitem [ref=e23]:
+            - link "Кошелёк" [ref=e24] [cursor=pointer]:
+              - /url: /wallet
+              - img [ref=e25]
+              - generic [ref=e28]: Кошелёк
+          - listitem [ref=e29]:
+            - link "Партнёры" [ref=e30] [cursor=pointer]:
+              - /url: /partners
+              - img [ref=e31]
+              - generic [ref=e36]: Партнёры
+          - listitem [ref=e37]:
+            - link "История" [ref=e38] [cursor=pointer]:
+              - /url: /history
+              - img [ref=e39]
+              - generic [ref=e42]: История
+      - generic [ref=e43]:
+        - generic [ref=e44]:
+          - generic [ref=e45]: Сервис
+          - list [ref=e46]:
+            - listitem [ref=e47]:
+              - link "Настройки" [ref=e48] [cursor=pointer]:
+                - /url: /settings/profile
+                - img [ref=e49]
+                - generic [ref=e52]: Настройки
+        - list [ref=e53]:
+          - listitem [ref=e54]:
+            - button "Тёмная тема" [ref=e55]:
+              - img [ref=e56]
+              - generic [ref=e58]: Тёмная тема
+        - list [ref=e59]:
+          - listitem [ref=e60]:
+            - button "Т Тест" [ref=e61]:
+              - generic [ref=e63]: Т
+              - generic [ref=e65]: Тест
+              - img [ref=e66]
+    - main [ref=e69]:
+      - generic [ref=e71]:
+        - button "Toggle sidebar" [ref=e72]:
+          - img
+          - generic [ref=e73]: Toggle sidebar
+        - navigation "breadcrumb" [ref=e74]:
+          - list [ref=e75]:
+            - listitem [ref=e76]:
+              - link "Кошелёк" [disabled] [ref=e77]
+      - generic [ref=e78]:
+        - generic [ref=e79]:
+          - generic [ref=e80]:
+            - generic [ref=e81]: Внутренний баланс
+            - generic [ref=e82]: 1 248,00USDT
+          - generic [ref=e83]:
+            - generic [ref=e84]:
+              - generic [ref=e85]: + 0,00
+              - generic [ref=e86]: Пополнено · всего
+            - generic [ref=e87]:
+              - generic [ref=e88]: − 0,00
+              - generic [ref=e89]: Выведено · всего
+            - generic [ref=e90]:
+              - generic [ref=e91]: "0"
+              - generic [ref=e92]: Заявок в холде/ожидании
+        - generic [ref=e93]:
+          - generic [ref=e94]:
+            - generic [ref=e95]:
+              - generic [ref=e96]: Пополнить · USDT
+              - generic [ref=e97]: Сеть TRC-20
+            - generic [ref=e98]:
+              - img [ref=e100]
+              - generic [ref=e205]:
+                - generic [ref=e206]: Ваш адрес для пополнения
+                - generic [ref=e207]:
+                  - generic [ref=e208]: Адрес генерируется…
+                  - button "Копировать" [disabled] [ref=e209]:
+                    - img [ref=e210]
+                    - text: Копировать
+                - generic [ref=e213]:
+                  - img [ref=e214]
+                  - generic [ref=e216]: Переводите только USDT в сети TRC-20. Депозит зачисляется после подтверждения администратором.
+          - generic [ref=e217]:
+            - generic [ref=e218]:
+              - generic [ref=e219]: Вывод средств
+              - generic [ref=e220]: Без комиссии · TRC-20
+            - generic [ref=e221]:
+              - generic [ref=e222]: Доступно к выводу
+              - generic [ref=e223]: 1 248 USDT
+            - generic [ref=e224]:
+              - generic [ref=e225]: Сумма
+              - textbox "0,00" [ref=e226]: "50"
+              - generic [ref=e227]:
+                - button "Мин. 30" [ref=e228]
+                - button "50%" [ref=e229]
+                - button "Всё" [ref=e230]
+            - generic [ref=e231]:
+              - generic [ref=e232]: Адрес кошелька
+              - textbox "TRC-20 адрес" [ref=e233]: TกТTestWithdrawAddr1234567890
+            - generic [ref=e234]:
+              - img [ref=e235]
+              - generic [ref=e237]: Заявка получит статус «В ожидании выплаты», ваши записи в очередях перейдут в серый статус. Холд — 72 часа. Минимальная сумма — 30 USDT.
+            - button "Создать заявку" [ref=e238] [cursor=pointer]
+        - generic [ref=e239]:
+          - generic [ref=e240]:
+            - generic [ref=e241]:
+              - generic [ref=e242]: Транзакции
+              - generic [ref=e243]: Депозиты и заявки на вывод
+            - generic [ref=e244]:
+              - button "Все" [ref=e245]
+              - button "Депозиты" [ref=e246]
+              - button "Выводы" [ref=e247]
+          - table [ref=e249]:
+            - rowgroup [ref=e250]:
+              - row "ID Тип Сумма Адрес Дата Статус" [ref=e251]:
+                - columnheader "ID" [ref=e252]
+                - columnheader "Тип" [ref=e253]
+                - columnheader "Сумма" [ref=e254]
+                - columnheader "Адрес" [ref=e255]
+                - columnheader "Дата" [ref=e256]
+                - columnheader "Статус" [ref=e257]
+            - rowgroup [ref=e258]:
+              - row "Транзакций пока нет" [ref=e259]:
+                - cell "Транзакций пока нет" [ref=e260]
+    - region "Notifications alt+T":
+      - list
+  - iframe [ref=e261]:
+    
+  - iframe [ref=e269]:
+    - button "Open Smartsupp chat" [ref=f8e3] [cursor=pointer]:
+      - generic [ref=f8e4]:
+        - generic [ref=f8e5]: Chat
+        - img [ref=f8e9]

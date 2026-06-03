@@ -1,0 +1,52 @@
+- generic [ref=e3]:
+  - complementary [ref=e4]:
+    - link "Cascade" [ref=e5] [cursor=pointer]:
+      - /url: /
+      - generic [ref=e6]: Cascade
+    - generic [ref=e7]:
+      - generic [ref=e8]: Прозрачная очередь ликвидности
+      - generic [ref=e9]: Регистрация — меньше минуты.
+      - generic [ref=e10]: Один аккаунт даёт доступ ко всем четырём очередям. Начать можно с минимального уровня — 20 USDT.
+      - list [ref=e11]:
+        - listitem [ref=e12]:
+          - img [ref=e14]
+          - generic [ref=e16]: 0% комиссии при выводе средств
+        - listitem [ref=e17]:
+          - img [ref=e19]
+          - generic [ref=e21]: 4 изолированных уровня — ликвидность не пересекается
+        - listitem [ref=e22]:
+          - img [ref=e24]
+          - generic [ref=e26]: 72-часовой холд на выплаты с возможностью отката
+        - listitem [ref=e27]:
+          - img [ref=e29]
+          - generic [ref=e31]: "Прозрачность: история операций в кабинете в реальном времени"
+    - generic [ref=e32]: © 2026 Cascade. Это не инвестиционный продукт с фиксированным процентом.
+  - generic [ref=e34]:
+    - generic [ref=e35]:
+      - heading "Вход" [level=1] [ref=e36]
+      - paragraph [ref=e37]: Введите email и пароль для входа в кабинет
+    - generic [ref=e38]:
+      - generic [ref=e39]:
+        - generic [ref=e40]:
+          - generic [ref=e41]: Email
+          - textbox "Email" [active] [ref=e42]:
+            - /placeholder: email@example.com
+        - generic [ref=e43]:
+          - generic [ref=e44]:
+            - generic [ref=e45]: Пароль
+            - link "Забыли пароль?" [ref=e46] [cursor=pointer]:
+              - /url: /forgot-password
+          - generic [ref=e47]:
+            - textbox "Пароль" [ref=e48]:
+              - /placeholder: Минимум 8 символов
+            - button "Show password" [ref=e49]:
+              - img [ref=e50]
+        - generic [ref=e54]:
+          - checkbox "Запомнить меня" [ref=e55]:
+            - checkbox [ref=e56]
+          - generic [ref=e57]: Запомнить меня
+        - button "Войти" [ref=e58]
+      - generic [ref=e59]:
+        - text: Нет аккаунта?
+        - link "Регистрация" [ref=e60] [cursor=pointer]:
+          - /url: /register

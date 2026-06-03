@@ -36,13 +36,18 @@ class DepositService
     {
         $level = Level::findOrFail($levelId);
 
-        if (bccomp((string) $user->balance, (string) $level->entry_amount, 2) < 0) {
-            throw new \RuntimeException('Недостаточно средств на балансе.');
-        }
-
+        // Lock the user row and re-check the balance INSIDE the transaction so
+        // a double-click cannot double-spend (the outside read is a fast-fail
+        // hint only). Retry up to 3 times on a transient deadlock.
         return DB::transaction(function () use ($user, $level, $levelId) {
+            $locked = User::lockForUpdate()->findOrFail($user->id);
+
+            if (bccomp((string) $locked->balance, (string) $level->entry_amount, 2) < 0) {
+                throw new \RuntimeException('Недостаточно средств на балансе.');
+            }
+
             $deposit = Deposit::create([
-                'user_id' => $user->id,
+                'user_id' => $locked->id,
                 'level_id' => $levelId,
                 'amount' => $level->entry_amount,
                 'type' => 'upgrade',
@@ -56,21 +61,29 @@ class DepositService
             $deposit->save();
 
             return $deposit;
-        });
+        }, 3);
     }
 
     public function confirmDeposit(Deposit $deposit): void
     {
-        if ($deposit->status !== 'pending') {
-            throw new \RuntimeException('Депозит уже обработан.');
-        }
-
+        // Lock the deposit row and re-check its status INSIDE the transaction.
+        // This serialises concurrent admin approvals (double-click / IPN race):
+        // the second caller waits, then sees status='approved' and throws a
+        // RuntimeException instead of crediting the split twice or deadlocking.
+        // Retry up to 3 times on a transient deadlock.
         DB::transaction(function () use ($deposit) {
-            $this->processSplit($deposit);
-            $deposit->status = 'approved';
-            $deposit->confirmed_at = now();
-            $deposit->save();
-        });
+            $locked = Deposit::lockForUpdate()->findOrFail($deposit->id);
+
+            if ($locked->status !== 'pending') {
+                throw new \RuntimeException('Депозит уже обработан.');
+            }
+
+            $this->processSplit($locked);
+
+            $locked->status = 'approved';
+            $locked->confirmed_at = now();
+            $locked->save();
+        }, 3);
     }
 
     /**
@@ -148,6 +161,7 @@ class DepositService
             } else {
                 $cellPayout = (float) $deposit->level->cell_payout;
                 $referrerEntry->cells_filled += 1;
+                $referrerEntry->bonus_cells_filled += 1;
                 $referrerEntry->save();
 
                 $referrer->balance = bcadd((string) $referrer->balance, (string) $cellPayout, 2);

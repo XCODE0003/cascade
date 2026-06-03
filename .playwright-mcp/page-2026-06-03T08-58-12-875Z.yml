@@ -1,0 +1,96 @@
+- generic [ref=e3]:
+  - generic [ref=e6]:
+    - list [ref=e8]:
+      - listitem [ref=e9]:
+        - link "Cascade Cascade" [ref=e10] [cursor=pointer]:
+          - /url: /dashboard
+          - img "Cascade" [ref=e12]
+          - generic [ref=e14]: Cascade
+    - generic [ref=e16]:
+      - generic [ref=e17]: Личный кабинет
+      - list [ref=e18]:
+        - listitem [ref=e19]:
+          - link "Кабинет" [ref=e20] [cursor=pointer]:
+            - /url: /dashboard
+            - img [ref=e21]
+            - generic [ref=e22]: Кабинет
+        - listitem [ref=e23]:
+          - link "Кошелёк" [ref=e24] [cursor=pointer]:
+            - /url: /wallet
+            - img [ref=e25]
+            - generic [ref=e28]: Кошелёк
+        - listitem [ref=e29]:
+          - link "Партнёры" [ref=e30] [cursor=pointer]:
+            - /url: /partners
+            - img [ref=e31]
+            - generic [ref=e36]: Партнёры
+        - listitem [ref=e37]:
+          - link "История" [ref=e38] [cursor=pointer]:
+            - /url: /history
+            - img [ref=e39]
+            - generic [ref=e42]: История
+    - generic [ref=e43]:
+      - generic [ref=e44]:
+        - generic [ref=e45]: Сервис
+        - list [ref=e46]:
+          - listitem [ref=e47]:
+            - link "Админка" [ref=e48] [cursor=pointer]:
+              - /url: /admin
+              - img [ref=e49]
+              - generic [ref=e52]: Админка
+          - listitem [ref=e53]:
+            - link "Настройки" [ref=e54] [cursor=pointer]:
+              - /url: /settings/profile
+              - img [ref=e55]
+              - generic [ref=e58]: Настройки
+      - list [ref=e59]:
+        - listitem [ref=e60]:
+          - button "Тёмная тема" [ref=e61]:
+            - img [ref=e62]
+            - generic [ref=e64]: Тёмная тема
+      - list [ref=e65]:
+        - listitem [ref=e66]:
+          - button "A Admin" [ref=e67]:
+            - generic [ref=e69]: A
+            - generic [ref=e71]: Admin
+            - img [ref=e72]
+  - main [ref=e75]:
+    - generic [ref=e77]:
+      - button "Toggle sidebar" [ref=e78]:
+        - img
+        - generic [ref=e79]: Toggle sidebar
+      - navigation "breadcrumb" [ref=e80]:
+        - list [ref=e81]:
+          - listitem [ref=e82]:
+            - link "Админка" [disabled] [ref=e83]
+    - generic [ref=e84]:
+      - generic [ref=e86]:
+        - button "Обзор" [ref=e87]
+        - button "Пользователи" [ref=e88]
+        - button "Депозиты" [ref=e89]
+        - button "Выплаты" [ref=e90]
+        - button "Очереди" [ref=e91]
+        - button "Настройки" [ref=e92]
+      - generic [ref=e93]:
+        - generic [ref=e94]:
+          - generic [ref=e95]: Пользователей
+          - generic [ref=e96]: "7"
+          - generic [ref=e97]: 1 активных в очередях
+        - generic [ref=e98]:
+          - generic [ref=e99]: Баланс пользователей
+          - generic [ref=e100]: 1 248,00 USDT
+          - generic [ref=e101]: Суммарные обязательства платформы
+        - generic [ref=e102]:
+          - generic [ref=e103]: Депозиты на модерации
+          - generic [ref=e104]: "6"
+          - generic [ref=e105]: 200,00 USDT подтверждено
+        - generic [ref=e106]:
+          - generic [ref=e107]: Выплаты в очереди
+          - generic [ref=e108]: "0"
+          - generic [ref=e109]: 0,00 USDT выплачено
+        - generic [ref=e110]:
+          - generic [ref=e111]: Активных записей в очередях
+          - generic [ref=e112]: "2"
+          - generic [ref=e113]: Все уровни
+  - region "Notifications alt+T":
+    - list

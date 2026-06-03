@@ -57,6 +57,8 @@ Route::middleware(['auth', 'verified', TrackLastSeen::class])->group(function ()
         Route::post('queue/{entry}/move-back', [Admin\QueueController::class, 'moveToBack'])->name('queue.move-back');
         Route::post('queue/{entry}/remove', [Admin\QueueController::class, 'remove'])->name('queue.remove');
 
+        Route::delete('users/{user}', [Admin\UserController::class, 'destroy'])->name('users.destroy');
+
         Route::post('settings', [Admin\SettingController::class, 'update'])->name('settings.update');
     });
 });
