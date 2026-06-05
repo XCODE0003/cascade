@@ -14,7 +14,12 @@ class DepositController extends Controller
     public function store(Request $request): RedirectResponse
     {
         $data = $request->validate(['level_id' => 'required|integer|in:1,2,3,4']);
-        $deposit = $this->depositService->createExternalDeposit($request->user(), $data['level_id']);
+
+        try {
+            $deposit = $this->depositService->createExternalDeposit($request->user(), $data['level_id']);
+        } catch (\RuntimeException $e) {
+            return back()->withErrors(['deposit' => $e->getMessage()]);
+        }
 
         return back()->with('deposit_created', [
             'wallet_address' => $deposit->wallet_address,

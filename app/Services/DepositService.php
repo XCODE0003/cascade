@@ -22,14 +22,36 @@ class DepositService
     {
         $level = Level::findOrFail($levelId);
 
-        return Deposit::create([
-            'user_id' => $user->id,
-            'level_id' => $levelId,
-            'amount' => $level->entry_amount,
-            'wallet_address' => $this->depositAddressFor($user),
-            'type' => 'external',
-            'status' => 'pending',
-        ]);
+        // Адрес резолвим до транзакции: поход в платёжный шлюз не должен
+        // держать блокировку строки пользователя.
+        $walletAddress = $this->depositAddressFor($user);
+
+        // Проверка дублей и создание — под блокировкой строки пользователя,
+        // иначе два одновременных клика проходят exists() до вставки и плодят
+        // pending-депозиты (как у u_15 на тесте).
+        return DB::transaction(function () use ($user, $level, $levelId, $walletAddress) {
+            $locked = User::lockForUpdate()->findOrFail($user->id);
+
+            $this->assertLevelAvailable($locked, $levelId);
+
+            $hasPending = Deposit::where('user_id', $locked->id)
+                ->where('level_id', $levelId)
+                ->where('status', 'pending')
+                ->exists();
+
+            if ($hasPending) {
+                throw new \RuntimeException('По этому уровню уже есть депозит, ожидающий подтверждения.');
+            }
+
+            return Deposit::create([
+                'user_id' => $locked->id,
+                'level_id' => $levelId,
+                'amount' => $level->entry_amount,
+                'wallet_address' => $walletAddress,
+                'type' => 'external',
+                'status' => 'pending',
+            ]);
+        }, 3);
     }
 
     public function upgradeFromBalance(User $user, int $levelId): Deposit
@@ -41,6 +63,8 @@ class DepositService
         // hint only). Retry up to 3 times on a transient deadlock.
         return DB::transaction(function () use ($user, $level, $levelId) {
             $locked = User::lockForUpdate()->findOrFail($user->id);
+
+            $this->assertLevelAvailable($locked, $levelId);
 
             if (bccomp((string) $locked->balance, (string) $level->entry_amount, 2) < 0) {
                 throw new \RuntimeException('Недостаточно средств на балансе.');
@@ -87,7 +111,9 @@ class DepositService
     }
 
     /**
-     * Core 10/60/30 split. Must be called inside a DB transaction.
+     * Сплит 10/60/30: комиссия сервиса, постановка в очередь и выплаты
+     * (60% пригласившему / 30% первому в очереди) через QueueService.
+     * Must be called inside a DB transaction.
      */
     protected function processSplit(Deposit $deposit): void
     {
@@ -126,82 +152,24 @@ class DepositService
         // Place user in queue
         $this->queueService->enqueue($user, $deposit->level_id);
 
-        $directBonus = round($amount * 0.60, 2);
-
-        $referrer = $user->referrer_id ? User::lockForUpdate()->find($user->referrer_id) : null;
-        $referrerEntry = $referrer
-            ? $referrer->queueEntries()
-                ->where('level_id', $deposit->level_id)
-                ->where('status', 'active')
-                ->lockForUpdate()
-                ->first()
-            : null;
-
-        $referrerMaxLevel = $referrer ? $this->getMaxActiveLevel($referrer) : 0;
-
-        if ($referrerEntry && $referrerMaxLevel >= $deposit->level_id) {
-            // Referrer qualifies: 60% cash bonus + 1 bonus cell
-            $referrer->balance = bcadd((string) $referrer->balance, (string) $directBonus, 2);
-            $referrer->save();
-
-            LedgerEntry::create([
-                'user_id' => $referrer->id,
-                'type' => 'referral_bonus',
-                'amount' => $directBonus,
-                'balance_after' => $referrer->balance,
-                'reference_type' => Deposit::class,
-                'reference_id' => $deposit->id,
-                'level_id' => $deposit->level_id,
-                'meta' => ['from_user_id' => $user->id],
-            ]);
-
-            // Bonus cell: if referrer full (5/5), overspill to queue
-            if ($referrerEntry->cells_filled >= 5) {
-                $this->queueService->distributeCells($deposit->level_id, 1, $user->id);
-            } else {
-                $cellPayout = (float) $deposit->level->cell_payout;
-                $referrerEntry->cells_filled += 1;
-                $referrerEntry->bonus_cells_filled += 1;
-                $referrerEntry->save();
-
-                $referrer->balance = bcadd((string) $referrer->balance, (string) $cellPayout, 2);
-                $referrer->save();
-
-                LedgerEntry::create([
-                    'user_id' => $referrer->id,
-                    'type' => 'cell_income',
-                    'amount' => $cellPayout,
-                    'balance_after' => $referrer->balance,
-                    'queue_entry_id' => $referrerEntry->id,
-                    'level_id' => $deposit->level_id,
-                    'meta' => ['bonus_cell' => true, 'from_user_id' => $user->id],
-                ]);
-            }
-
-            // 30% → 1 cell to queue
-            $this->queueService->distributeCells($deposit->level_id, 1, $user->id);
-        } else {
-            // Trim / no referrer: 90% → 3 cells cascade
-            if ($referrer) {
-                LedgerEntry::create([
-                    'user_id' => $referrer->id,
-                    'type' => 'bonus_cell_missed',
-                    'amount' => 0,
-                    'balance_after' => $referrer->balance,
-                    'reference_type' => Deposit::class,
-                    'reference_id' => $deposit->id,
-                    'level_id' => $deposit->level_id,
-                    'meta' => ['from_user_id' => $user->id, 'missed_amount' => $directBonus],
-                ]);
-            }
-
-            $this->queueService->distributeCells($deposit->level_id, 3, $user->id);
-        }
+        // 60% пригласившему (зелёная ячейка) + 30% первому в очереди (жёлтая).
+        $this->queueService->distributeSplit($user, $deposit->level_id, $deposit);
     }
 
-    protected function getMaxActiveLevel(User $user): int
+    /**
+     * Уровень можно активировать только если по нему нет активной или
+     * замороженной (grey) записи в очереди.
+     */
+    protected function assertLevelAvailable(User $user, int $levelId): void
     {
-        return (int) ($user->queueEntries()->where('status', 'active')->max('level_id') ?? 0);
+        $alreadyActive = $user->queueEntries()
+            ->where('level_id', $levelId)
+            ->whereIn('status', ['active', 'grey'])
+            ->exists();
+
+        if ($alreadyActive) {
+            throw new \RuntimeException('Этот уровень уже активен.');
+        }
     }
 
     /**

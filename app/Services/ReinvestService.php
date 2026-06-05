@@ -15,8 +15,8 @@ class ReinvestService
     ) {}
 
     /**
-     * Manual reinvest: user sends 90% of entry back into queue.
-     * Their queue entry resets to 0/5 and moves to end of queue.
+     * Manual reinvest: повторный вход по правилам депозита (60% пригласившему,
+     * 30% первому в очереди). Запись сбрасывается в 0/5 и уходит в конец очереди.
      */
     public function reinvest(User $user, int $levelId): void
     {
@@ -27,11 +27,12 @@ class ReinvestService
                 ->lockForUpdate()
                 ->firstOrFail();
 
-            $level = $entry->level;
-            $amount = (float) $level->entry_amount;
-            $feePercent = (float) SystemSetting::get('service_fee_percent', 10);
-
-            $fee = round($amount * $feePercent / 100, 2);
+            // Реинвест доступен только после полного цикла: иначе прямой POST
+            // (в обход задизейбленной кнопки) запускал бы сплит 60/30 из
+            // котла бесплатно и бесконечно.
+            if (! $entry->isReady()) {
+                throw new \RuntimeException('Реинвест доступен после полного цикла (5/5) и истечения замка.');
+            }
 
             LedgerEntry::create([
                 'user_id' => $user->id,
@@ -53,8 +54,9 @@ class ReinvestService
             $entry->unlock_at = now()->addDays((int) SystemSetting::get('double_lock_days', 7));
             $entry->save();
 
-            // Distribute 3 cells to others (anti-cycle: exclude self and referrer)
-            $this->queueService->distributeCells($levelId, 3, $user->id);
+            // Реинвест работает как депозит: 60% пригласившему (зелёная
+            // ячейка), 30% первому в очереди (жёлтая), анти-цикл внутри.
+            $this->queueService->distributeSplit($user, $levelId);
         });
     }
 
@@ -136,6 +138,7 @@ class ReinvestService
         $entry->unlock_at = now()->addDays((int) SystemSetting::get('double_lock_days', 7));
         $entry->save();
 
-        $this->queueService->distributeCells($entry->level_id, 3, $user->id);
+        // Авто-реинвест — те же правила сплита, что и у депозита.
+        $this->queueService->distributeSplit($user, $entry->level_id);
     }
 }

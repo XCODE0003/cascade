@@ -35,9 +35,11 @@ class WithdrawalService
         }
 
         // Double-lock (TЗ 1.1 / 3.5 / 7.4): withdrawal is only unlocked once the
-        // user has at least one queue entry with 5/5 cells AND 7 days elapsed.
+        // user has at least one queue entry with 5/5 cells AND the lock elapsed.
         if (! $this->hasUnlockedEntry($user)) {
-            throw new \RuntimeException('Вывод доступен только после выполнения условий «двойного замка»: 5/5 ячеек и 7 дней с момента входа.');
+            $lockDays = (int) SystemSetting::get('double_lock_days', 7);
+
+            throw new \RuntimeException("Вывод доступен только после выполнения условий «двойного замка»: 5/5 ячеек и {$lockDays} дн. с момента входа.");
         }
 
         return DB::transaction(function () use ($user, $amount, $walletAddress) {
@@ -51,7 +53,8 @@ class WithdrawalService
                 'user_id' => $user->id,
                 'amount' => $amount,
                 'wallet_address' => $walletAddress,
-                'status' => 'hold',
+                // При нулевом холде (режим теста) заявка сразу готова к выплате.
+                'status' => $holdHours > 0 ? 'hold' : 'pending',
                 'hold_until' => now()->addHours($holdHours),
             ]);
 
@@ -89,18 +92,29 @@ class WithdrawalService
         }
 
         DB::transaction(function () use ($withdrawal) {
+            // Лочим пользователя: balance_after в леджере не должен ловить
+            // гонку с параллельным зачислением ячейки.
+            $user = User::lockForUpdate()->find($withdrawal->user_id);
+
             $withdrawal->status = 'approved';
             $withdrawal->processed_at = now();
             $withdrawal->save();
 
             LedgerEntry::create([
-                'user_id' => $withdrawal->user_id,
+                'user_id' => $user->id,
                 'type' => 'withdrawal_approved',
                 'amount' => 0,
-                'balance_after' => $withdrawal->user->balance,
+                'balance_after' => $user->balance,
                 'reference_type' => Withdrawal::class,
                 'reference_id' => $withdrawal->id,
             ]);
+
+            // Цикл закрыт выплатой: архивируем замороженные записи, чтобы
+            // пользователь мог заново активировать уровни новым депозитом.
+            $user->queueEntries()
+                ->where('status', 'grey')
+                ->where('is_locked', true)
+                ->update(['status' => 'completed', 'is_locked' => false]);
         });
 
         $this->maybeSendPayout($withdrawal);

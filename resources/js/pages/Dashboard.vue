@@ -29,10 +29,12 @@ const props = withDefaults(
         queues?: Queue[];
         history?: HistoryRow[];
         minWithdrawal?: number;
+        holdHours?: number;
     }>(),
     {
         balance: 1248,
         minWithdrawal: 30,
+        holdHours: 72,
         queues: () => [
             {
                 level: 1,
@@ -159,6 +161,21 @@ const activeDeposit = ref<{ wallet_address: string; amount: number } | null>(
 
 const canWithdraw = computed(() => props.balance >= props.minWithdrawal);
 
+// Уровни, на которых пользователь уже стоит в очереди (active/grey):
+// их нельзя активировать или апгрейдить повторно.
+const activeLevels = computed(() =>
+    props.queues.filter((q) => q.status !== 'inactive').map((q) => q.level),
+);
+
+function upgradeTarget(level: number): number | null {
+    const target = props.queues
+        .filter((q) => q.status === 'inactive' && q.level > level)
+        .map((q) => q.level)
+        .sort((a, b) => a - b)[0];
+
+    return target ?? null;
+}
+
 const activeWalletAddress = computed(() => activeDeposit.value?.wallet_address);
 const activeWalletAmount = computed(() => activeDeposit.value?.amount);
 
@@ -192,7 +209,13 @@ function openDeposit(level: number) {
 }
 
 function openUpgrade(level: number) {
-    depositLevel.value = Math.min(level + 1, 4);
+    const target = upgradeTarget(level);
+
+    if (target === null) {
+        return;
+    }
+
+    depositLevel.value = target;
     activeDeposit.value = null;
     depositOpen.value = true;
 }
@@ -242,12 +265,12 @@ function toggleAuto(level: number, current: boolean) {
     );
 }
 
-function confirmWithdraw(payload: { wallet_address: string }) {
+function confirmWithdraw(payload: { wallet_address: string; amount: number }) {
     withdrawOpen.value = false;
     router.post(
         '/withdrawals',
         {
-            amount: props.balance,
+            amount: payload.amount,
             wallet_address: payload.wallet_address,
         },
         { onError: toastFirstError },
@@ -293,6 +316,7 @@ function confirmWithdraw(payload: { wallet_address: string }) {
                 :status="q.status"
                 :timer="q.timer"
                 :auto-reinvest="q.auto"
+                :can-upgrade="upgradeTarget(q.level) !== null"
                 @activate="openDeposit(q.level)"
                 @reinvest="reinvest(q.level)"
                 @upgrade="openUpgrade(q.level)"
@@ -321,6 +345,7 @@ function confirmWithdraw(payload: { wallet_address: string }) {
         :balance="props.balance"
         :wallet-address="activeWalletAddress"
         :wallet-amount="activeWalletAmount"
+        :active-levels="activeLevels"
         @close="closeDepositSheet"
         @confirm="handleDepositConfirm"
     />
@@ -328,6 +353,8 @@ function confirmWithdraw(payload: { wallet_address: string }) {
     <WithdrawSheet
         :open="withdrawOpen"
         :balance="props.balance"
+        :min-withdrawal="props.minWithdrawal"
+        :hold-hours="props.holdHours"
         @close="withdrawOpen = false"
         @confirm="confirmWithdraw"
     />

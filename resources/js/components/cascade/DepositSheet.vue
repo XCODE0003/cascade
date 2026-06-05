@@ -8,10 +8,12 @@ const props = withDefaults(
         balance?: number;
         walletAddress?: string;
         walletAmount?: number;
+        activeLevels?: number[];
     }>(),
     {
         defaultLevel: 2,
         balance: 0,
+        activeLevels: () => [],
     },
 );
 
@@ -39,24 +41,39 @@ const levels: LevelOption[] = [
 const tab = ref<Method>('external');
 const picked = ref<number>(props.defaultLevel);
 
+function isActive(level: number): boolean {
+    return props.activeLevels.includes(level);
+}
+
 watch(
     () => props.open,
     (isOpen) => {
         if (isOpen) {
-            picked.value = props.defaultLevel;
+            // Уже активный уровень нельзя активировать повторно — выбираем
+            // первый неактивный.
+            picked.value = !isActive(props.defaultLevel)
+                ? props.defaultLevel
+                : (levels.find((l) => !isActive(l.level))?.level ?? 0);
             tab.value = 'external';
         }
     },
 );
 
-const pickedLevel = computed(
-    () => levels.find((l) => l.level === picked.value)!,
+const pickedLevel = computed(() =>
+    levels.find((l) => l.level === picked.value),
 );
 const insufficient = computed(
-    () => tab.value === 'internal' && props.balance < pickedLevel.value.entry,
+    () =>
+        tab.value === 'internal' &&
+        !!pickedLevel.value &&
+        props.balance < pickedLevel.value.entry,
 );
 
 const confirmLabel = computed(() => {
+    if (!pickedLevel.value) {
+        return 'Все уровни активны';
+    }
+
     if (insufficient.value) {
         return 'Недостаточно средств';
     }
@@ -67,7 +84,7 @@ const confirmLabel = computed(() => {
 });
 
 function confirm() {
-    if (insufficient.value) {
+    if (insufficient.value || !pickedLevel.value || isActive(picked.value)) {
         return;
     }
 
@@ -233,13 +250,19 @@ function confirm() {
                         <button
                             v-for="l in levels"
                             :key="l.level"
+                            :disabled="isActive(l.level)"
                             class="flex items-center gap-3 rounded-[14px] px-3.5 py-3 text-left transition-all duration-160"
+                            :class="
+                                isActive(l.level)
+                                    ? 'cursor-not-allowed opacity-45'
+                                    : ''
+                            "
                             :style="
                                 picked === l.level
                                     ? `border: 1.5px solid ${l.color}; box-shadow: 0 0 0 4px ${l.color}1A`
                                     : 'border: 1.5px solid transparent; box-shadow: inset 0 0 0 1px var(--c-hairline)'
                             "
-                            @click="picked = l.level"
+                            @click="!isActive(l.level) && (picked = l.level)"
                         >
                             <span
                                 class="h-2.5 w-2.5 rounded-full"
@@ -266,7 +289,11 @@ function confirm() {
                                     font-family: var(--c-font-mono);
                                 "
                             >
-                                {{ l.entry }} USDT
+                                {{
+                                    isActive(l.level)
+                                        ? 'активен'
+                                        : `${l.entry} USDT`
+                                }}
                             </div>
                         </button>
                     </div>
@@ -294,8 +321,10 @@ function confirm() {
                         </svg>
                         <span>
                             Комиссия сервиса <strong>10%</strong> удерживается
-                            при активации. В очередь поступает
-                            <strong>90%</strong> суммы по правилу каскада.
+                            при активации. <strong>60%</strong> получает
+                            пригласивший (зелёная ячейка),
+                            <strong>30%</strong> — первый в очереди (жёлтая
+                            ячейка).
                         </span>
                     </div>
 
@@ -311,11 +340,11 @@ function confirm() {
                             Отмена
                         </button>
                         <button
-                            :disabled="insufficient"
+                            :disabled="insufficient || !pickedLevel"
                             class="h-11 flex-1 rounded-xl text-[15px] font-semibold text-white"
                             style="background: var(--c-accent)"
                             :class="
-                                insufficient
+                                insufficient || !pickedLevel
                                     ? 'cursor-not-allowed opacity-50'
                                     : ''
                             "

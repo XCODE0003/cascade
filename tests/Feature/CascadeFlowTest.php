@@ -5,6 +5,7 @@ use App\Models\LedgerEntry;
 use App\Models\QueueEntry;
 use App\Models\User;
 use App\Services\DepositService;
+use App\Services\ReinvestService;
 use Database\Seeders\LevelSeeder;
 use Database\Seeders\SystemSettingSeeder;
 
@@ -62,8 +63,8 @@ test('dashboard shows the active entry, not a stale grey one', function () {
         ->assertInertia(fn ($page) => $page->where('queues.0.filled', 2));
 });
 
-// Bug #2: the direct referrer's bonus cell is tracked separately so it can be
-// rendered gold; an indirect upline only gets regular cascade cells.
+// Зелёная (реферальная) ячейка трекается отдельно: 60% деньгами + ячейка,
+// БЕЗ дополнительной выплаты cell_income (это и был баг «60% + 30% рефу»).
 test('direct referral credits a tracked bonus cell to the referrer', function () {
     $referrer = User::factory()->create();
     $referral = User::factory()->create(['referrer_id' => $referrer->id]);
@@ -79,6 +80,10 @@ test('direct referral credits a tracked bonus cell to the referrer', function ()
 
     expect($entry->cells_filled)->toBe(1)
         ->and($entry->bonus_cells_filled)->toBe(1);
+
+    // Ровно 60% от 20 USDT деньгами, без cell_income за зелёную ячейку.
+    expect((float) $referrer->fresh()->balance)->toBe(12.0);
+    expect(LedgerEntry::where('user_id', $referrer->id)->where('type', 'cell_income')->count())->toBe(0);
 });
 
 test('indirect upline receives a regular (non-bonus) cascade cell', function () {
@@ -96,6 +101,167 @@ test('indirect upline receives a regular (non-bonus) cascade cell', function () 
 
     expect($e1->cells_filled)->toBe(1)
         ->and($e1->bonus_cells_filled)->toBe(0);
+});
+
+// Главная претензия заказчика: рефу 60% (зелёная ячейка), первому в очереди
+// 30% (жёлтая ячейка), больше никому ничего — суммарно ровно 90%.
+test('split pays 60% to the referrer and 30% to the queue head, nothing else', function () {
+    $referrer = User::factory()->create();
+    $referral = User::factory()->create(['referrer_id' => $referrer->id]);
+    $queueHead = User::factory()->create();
+
+    QueueEntry::factory()->for($referrer)->create(['level_id' => 1, 'position' => 1]);
+    $headEntry = QueueEntry::factory()->for($queueHead)->create(['level_id' => 1, 'position' => 2]);
+
+    $deposit = depositService()->createExternalDeposit($referral, 1);
+    depositService()->confirmDeposit($deposit);
+
+    // 60% = 12 USDT пригласившему деньгами.
+    expect((float) $referrer->fresh()->balance)->toBe(12.0);
+
+    // 30% = 6 USDT жёлтой ячейкой первому в очереди (реф исключён анти-циклом).
+    expect((float) $queueHead->fresh()->balance)->toBe(6.0);
+
+    $headEntry->refresh();
+    expect($headEntry->cells_filled)->toBe(1)
+        ->and($headEntry->bonus_cells_filled)->toBe(0);
+
+    // Сумма всех выплат по депозиту = 90% (18 из 20 USDT).
+    $paidOut = (float) LedgerEntry::whereIn('type', ['referral_bonus', 'cell_income'])->sum('amount');
+    expect($paidOut)->toBe(18.0);
+});
+
+test('without a qualifying referrer the 60% stays with the project', function () {
+    $referrer = User::factory()->create(); // нет записи на уровне — не квалифицирован
+    $referral = User::factory()->create(['referrer_id' => $referrer->id]);
+    $queueHead = User::factory()->create();
+
+    QueueEntry::factory()->for($queueHead)->create(['level_id' => 1, 'position' => 1]);
+
+    $deposit = depositService()->createExternalDeposit($referral, 1);
+    depositService()->confirmDeposit($deposit);
+
+    expect((float) $referrer->fresh()->balance)->toBe(0.0)
+        ->and((float) $queueHead->fresh()->balance)->toBe(6.0);
+
+    expect(
+        LedgerEntry::where('user_id', $referrer->id)->where('type', 'bonus_cell_missed')->exists()
+    )->toBeTrue();
+
+    // В очередь ушли только 30% — 60% остались проекту.
+    $paidOut = (float) LedgerEntry::whereIn('type', ['referral_bonus', 'cell_income'])->sum('amount');
+    expect($paidOut)->toBe(6.0);
+});
+
+// Регрессия 500/504: полная запись (5/5) в голове очереди зацикливала
+// distributeCells и вешала подтверждение депозита в админке.
+test('deposit confirm completes when the queue head is already 5/5', function () {
+    $fullHead = User::factory()->create();
+    $next = User::factory()->create();
+    $depositor = User::factory()->create();
+
+    QueueEntry::factory()->for($fullHead)->create(['level_id' => 1, 'cells_filled' => 5, 'position' => 1]);
+    $nextEntry = QueueEntry::factory()->for($next)->create(['level_id' => 1, 'position' => 2]);
+
+    $deposit = depositService()->createExternalDeposit($depositor, 1);
+    depositService()->confirmDeposit($deposit);
+
+    expect($deposit->fresh()->status)->toBe('approved')
+        ->and($nextEntry->fresh()->cells_filled)->toBe(1)
+        ->and((float) $next->fresh()->balance)->toBe(6.0);
+});
+
+// Анти-спам: депозит нельзя плодить повторными кликами (баг с u_15).
+test('a second pending deposit for the same level is rejected', function () {
+    $user = User::factory()->create();
+
+    depositService()->createExternalDeposit($user, 1);
+
+    expect(fn () => depositService()->createExternalDeposit($user, 1))
+        ->toThrow(RuntimeException::class);
+});
+
+test('a deposit for an already active level is rejected', function () {
+    $user = User::factory()->create();
+    QueueEntry::factory()->for($user)->create(['level_id' => 1]);
+
+    expect(fn () => depositService()->createExternalDeposit($user, 1))
+        ->toThrow(RuntimeException::class, 'Этот уровень уже активен.');
+});
+
+test('upgrading an already active level from balance is rejected', function () {
+    $user = User::factory()->create(['balance' => 100]);
+    QueueEntry::factory()->for($user)->create(['level_id' => 1]);
+
+    expect(fn () => depositService()->upgradeFromBalance($user, 1))
+        ->toThrow(RuntimeException::class, 'Этот уровень уже активен.');
+
+    expect((float) $user->fresh()->balance)->toBe(100.0);
+});
+
+// Старые задвоенные pending-депозиты (созданные до фикса) не дублируют очередь.
+test('confirming the second of two legacy pending deposits fails safely', function () {
+    $user = User::factory()->create();
+
+    $first = depositService()->createExternalDeposit($user, 1);
+    $second = Deposit::create([
+        'user_id' => $user->id,
+        'level_id' => 1,
+        'amount' => 20,
+        'type' => 'external',
+        'status' => 'pending',
+    ]);
+
+    depositService()->confirmDeposit($first);
+
+    expect(fn () => depositService()->confirmDeposit($second->fresh()))
+        ->toThrow(RuntimeException::class);
+
+    expect(QueueEntry::where('user_id', $user->id)->where('level_id', 1)->count())->toBe(1)
+        ->and($second->fresh()->status)->toBe('pending');
+});
+
+// Реинвест работает по тем же правилам сплита, что и депозит.
+test('reinvest pays the referrer and the queue like a deposit', function () {
+    $referrer = User::factory()->create();
+    $user = User::factory()->create(['referrer_id' => $referrer->id, 'balance' => 0]);
+    $other = User::factory()->create();
+
+    $referrerEntry = QueueEntry::factory()->for($referrer)->create(['level_id' => 1, 'position' => 1]);
+    $userEntry = QueueEntry::factory()->for($user)->ready()->create(['level_id' => 1, 'position' => 2]);
+    $otherEntry = QueueEntry::factory()->for($other)->create(['level_id' => 1, 'position' => 3]);
+
+    app(ReinvestService::class)->reinvest($user, 1);
+
+    $userEntry->refresh();
+    expect($userEntry->cells_filled)->toBe(0)
+        ->and($userEntry->position)->toBe(4);
+
+    // 60% рефу (зелёная ячейка), 30% жёлтой ячейкой следующему в очереди.
+    expect((float) $referrer->fresh()->balance)->toBe(12.0)
+        ->and($referrerEntry->fresh()->bonus_cells_filled)->toBe(1)
+        ->and((float) $other->fresh()->balance)->toBe(6.0)
+        ->and($otherEntry->fresh()->cells_filled)->toBe(1);
+});
+
+// Прямой POST реинвеста до полного цикла не должен качать деньги из котла.
+test('reinvest is rejected before the cycle is complete', function () {
+    $user = User::factory()->create(['balance' => 0]);
+
+    // 2/5 ячеек — цикл не завершён.
+    QueueEntry::factory()->for($user)->create(['level_id' => 1, 'cells_filled' => 2, 'position' => 1]);
+
+    expect(fn () => app(ReinvestService::class)->reinvest($user, 1))
+        ->toThrow(RuntimeException::class);
+
+    // 5/5, но замок ещё не истёк.
+    $locked = User::factory()->create(['balance' => 0]);
+    QueueEntry::factory()->for($locked)->create([
+        'level_id' => 1, 'cells_filled' => 5, 'position' => 2, 'unlock_at' => now()->addDay(),
+    ]);
+
+    expect(fn () => app(ReinvestService::class)->reinvest($locked, 1))
+        ->toThrow(RuntimeException::class);
 });
 
 // Bug #3: double approval (race / double-click) must not double-process.

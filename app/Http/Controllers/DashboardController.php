@@ -85,6 +85,7 @@ class DashboardController extends Controller
         return Inertia::render('Dashboard', [
             'balance' => (float) $user->balance,
             'minWithdrawal' => (float) SystemSetting::get('min_withdrawal', 30),
+            'holdHours' => (int) SystemSetting::get('hold_hours', 72),
             'queues' => $queues,
             'history' => $history,
         ]);

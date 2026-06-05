@@ -13,18 +13,19 @@ const props = withDefaults(
         status: QueueStatus;
         timer?: string | null;
         autoReinvest: boolean;
+        canUpgrade?: boolean;
     }>(),
-    { bonus: 0 },
+    { bonus: 0, canUpgrade: false },
 );
 
-// Bonus (referral) cells render gold; regular cascade cells render green.
-// The gold ones are shown as the last `bonus` of the filled cells.
-function cellKind(i: number): 'bonus' | 'filled' | 'empty' {
+// Зелёные ячейки — 60% от депозитов прямых рефералов (referral),
+// жёлтые — 30% из общей очереди (queue). Зелёные показываем первыми.
+function cellKind(i: number): 'referral' | 'queue' | 'empty' {
     if (i > props.filled) {
         return 'empty';
     }
 
-    return i > props.filled - props.bonus ? 'bonus' : 'filled';
+    return i <= props.bonus ? 'referral' : 'queue';
 }
 
 const emit = defineEmits<{
@@ -124,10 +125,10 @@ function fmt(n: number): string {
                 :key="i"
                 class="h-8 flex-1 rounded-lg transition-all duration-[160ms]"
                 :style="
-                    cellKind(i) === 'bonus'
-                        ? 'background: var(--c-cell-bonus)'
-                        : cellKind(i) === 'filled'
-                          ? 'background: var(--c-success)'
+                    cellKind(i) === 'referral'
+                        ? 'background: var(--c-success)'
+                        : cellKind(i) === 'queue'
+                          ? 'background: var(--c-cell-bonus)'
                           : 'background: var(--c-bg-elevated); box-shadow: inset 0 0 0 1px var(--c-hairline)'
                 "
             />
@@ -229,6 +230,7 @@ function fmt(n: number): string {
                     Реинвест
                 </button>
                 <button
+                    v-if="canUpgrade"
                     class="flex h-9 flex-1 items-center justify-center gap-1.5 rounded-[10px] text-[13px] font-semibold transition-transform duration-[160ms] active:scale-95"
                     style="
                         background: var(--c-bg-elevated);

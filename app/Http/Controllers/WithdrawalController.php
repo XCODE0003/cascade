@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\SystemSetting;
 use App\Services\WithdrawalService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -27,6 +28,10 @@ class WithdrawalController extends Controller
             return back()->withErrors(['withdrawal' => $e->getMessage()]);
         }
 
-        return back()->with('success', 'Заявка на вывод создана. Холд 72 часа.');
+        $holdHours = (int) SystemSetting::get('hold_hours', 72);
+
+        return back()->with('success', $holdHours > 0
+            ? "Заявка на вывод создана. Холд {$holdHours} ч."
+            : 'Заявка на вывод создана и ожидает выплаты.');
     }
 }

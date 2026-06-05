@@ -137,7 +137,13 @@ class IndexController extends Controller
                     'user' => 'u_'.$e->user_id,
                     'filled' => $e->cells_filled,
                     'status' => $e->isReady() ? 'ready' : ($e->status === 'grey' ? 'grey' : 'locked'),
-                    'timer' => $e->isReady() ? 'Готов' : $e->unlock_at->diffForHumans(null, true),
+                    // diffForHumans без проверки isPast() после истечения срока
+                    // начинал «считать вверх» — показываем явный статус.
+                    'timer' => $e->isReady()
+                        ? 'Готов'
+                        : ($e->unlock_at->isPast()
+                            ? 'Ждёт ячеек'
+                            : $e->unlock_at->diffForHumans(null, true)),
                     'joined' => $e->created_at->diffForHumans(null, true),
                 ]);
 
