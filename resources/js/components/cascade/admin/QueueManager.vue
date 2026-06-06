@@ -9,9 +9,22 @@ interface QueueRow {
     pos: number;
     user: string;
     filled: number;
+    bonus?: number;
     status: QueueRowStatus;
     timer: string;
     joined: string;
+}
+
+// Как в кабинете: зелёные ячейки — 60% от прямых рефералов,
+// жёлтые — 30% из общей очереди.
+function cellStyle(row: QueueRow, i: number): string {
+    if (i > row.filled) {
+        return 'background: var(--c-cell-empty-bg); box-shadow: inset 0 0 0 1px var(--c-cell-empty-ring)';
+    }
+
+    return i <= (row.bonus ?? 0)
+        ? 'background: var(--c-success)'
+        : 'background: var(--c-cell-bonus)';
 }
 
 const props = defineProps<{ initialQueues: Record<string, QueueRow[]> }>();
@@ -162,11 +175,7 @@ function timerColor(status: QueueRowStatus): string {
                     v-for="i in 5"
                     :key="i"
                     class="h-[22px] w-[18px] rounded-[4px]"
-                    :style="
-                        i <= row.filled
-                            ? 'background: var(--c-success)'
-                            : 'background: var(--c-cell-empty-bg); box-shadow: inset 0 0 0 1px var(--c-cell-empty-ring)'
-                    "
+                    :style="cellStyle(row, i)"
                 />
             </div>
 

@@ -25,6 +25,15 @@ interface AdminStats {
     withdrawals_pending: number;
     withdrawals_total: number;
     queue_active: number;
+    service_fees_total: number;
+}
+
+interface FeeRow {
+    id: number;
+    user: string;
+    level: number | null;
+    amount: number;
+    time: string;
 }
 
 interface AdminUser {
@@ -35,6 +44,7 @@ interface AdminUser {
     balance: number;
     is_admin: boolean;
     referrer: string | null;
+    referrer_name?: string | null;
     referrals_count: number;
     deposits_count: number;
     deposits_sum: number;
@@ -72,6 +82,7 @@ interface QueueRow {
     pos: number;
     user: string;
     filled: number;
+    bonus?: number;
     status: 'ready' | 'locked' | 'grey';
     timer: string;
     joined: string;
@@ -97,6 +108,7 @@ const props = defineProps<{
     withdrawals: WithdrawalRow[];
     queues: Record<string, QueueRow[]>;
     settings: AdminSettings;
+    fees: FeeRow[];
 }>();
 
 const tabs: { key: TabKey; label: string }[] = [
@@ -146,7 +158,7 @@ defineOptions({
             </div>
         </div>
 
-        <Overview v-if="tab === 'overview'" :stats="stats" />
+        <Overview v-if="tab === 'overview'" :stats="stats" :fees="fees" />
         <UsersTable v-else-if="tab === 'users'" :users="users" />
         <DepositsTable
             v-else-if="tab === 'deposits'"

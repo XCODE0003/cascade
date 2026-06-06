@@ -156,6 +156,16 @@ function save(): void {
     );
 }
 
+/**
+ * Тест-режим: обнуляет холд на вывод и двойной замок и сразу сохраняет.
+ * Бэкенд при сохранении укорачивает сроки и у уже существующих записей.
+ */
+function zeroOutForTesting(): void {
+    timings[0].value = '0';
+    timings[1].value = '0';
+    save();
+}
+
 function reset(): void {
     timings[0].value = props.initialSettings.hold_hours;
     timings[1].value = props.initialSettings.double_lock_days;
@@ -177,11 +187,24 @@ function reset(): void {
         style="box-shadow: 0 1px 0 rgba(0, 0, 0, 0.04)"
     >
         <div class="mb-7">
-            <div
-                class="mb-3 text-[11px] font-bold tracking-[0.06em] uppercase"
-                style="color: var(--c-fg3)"
-            >
-                Тайминги
+            <div class="mb-3 flex items-center gap-3">
+                <div
+                    class="text-[11px] font-bold tracking-[0.06em] uppercase"
+                    style="color: var(--c-fg3)"
+                >
+                    Тайминги
+                </div>
+                <button
+                    class="ml-auto rounded-full px-3 py-1.5 text-[12px] font-semibold"
+                    style="
+                        background: var(--c-warning-bg);
+                        color: var(--c-warning-fg);
+                    "
+                    title="Холд и двойной замок = 0, применяется и к существующим записям"
+                    @click="zeroOutForTesting"
+                >
+                    ⚡ Обнулить замок и холд (тест)
+                </button>
             </div>
             <div
                 v-for="(row, i) in timings"
@@ -232,7 +255,9 @@ function reset(): void {
             >
                 Финансовые лимиты
             </div>
-            <div class="flex flex-col gap-3 py-3.5 sm:flex-row sm:items-center sm:gap-4">
+            <div
+                class="flex flex-col gap-3 py-3.5 sm:flex-row sm:items-center sm:gap-4"
+            >
                 <div class="flex-1">
                     <div
                         class="text-sm font-semibold"

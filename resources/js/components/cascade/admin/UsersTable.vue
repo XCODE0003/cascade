@@ -11,6 +11,7 @@ interface AdminUser {
     balance: number;
     is_admin: boolean;
     referrer: string | null;
+    referrer_name?: string | null;
     referrals_count: number;
     deposits_count: number;
     deposits_sum: number;
@@ -99,6 +100,7 @@ function short(addr: string | null): string {
 
 const headers = [
     'Пользователь',
+    'Пригласил',
     'Баланс',
     'Уровень',
     'Рефералов',
@@ -206,12 +208,34 @@ const headers = [
                                         font-family: var(--c-font-mono);
                                     "
                                 >
-                                    {{ u.tag
-                                    }}<template v-if="u.referrer">
-                                        · ← {{ u.referrer }}</template
-                                    >
+                                    {{ u.tag }}
                                 </span>
                             </div>
+                        </td>
+                        <td
+                            class="px-6 py-3.5 text-[13px] whitespace-nowrap"
+                            style="
+                                border-bottom: 1px solid var(--c-hairline-soft);
+                            "
+                        >
+                            <template v-if="u.referrer">
+                                <div
+                                    class="font-semibold"
+                                    style="color: var(--c-fg1)"
+                                >
+                                    {{ u.referrer }}
+                                </div>
+                                <div
+                                    v-if="u.referrer_name"
+                                    class="text-[11px]"
+                                    style="color: var(--c-fg3)"
+                                >
+                                    {{ u.referrer_name }}
+                                </div>
+                            </template>
+                            <span v-else style="color: var(--c-fg3)"
+                                >сам по себе</span
+                            >
                         </td>
                         <td
                             class="px-6 py-3.5 text-[13px] font-semibold"

@@ -1,0 +1,14 @@
+- generic [active] [ref=e1]:
+  - link "Cascade" [ref=e2] [cursor=pointer]:
+    - /url: http://localhost:8000
+  - heading "Добро пожаловать в Cascade!" [level=1] [ref=e3]
+  - paragraph [ref=e4]: Вы зарегистрировали аккаунт на платформе Cascade. Осталось подтвердить адрес электронной почты — нажмите кнопку ниже.
+  - link "Подтвердить email" [ref=e5] [cursor=pointer]:
+    - /url: http://localhost:8000/email/verify/1/a4f0064b95eef46d5587805891a954856f99a1e9?expires=1780660091&signature=3bafc16890e5d21243895ea2f3642255bdf8ab603ef7e8a960c2654fe61ca1ef
+  - paragraph [ref=e6]: Ссылка действительна 60 минут. Если вы не регистрировались в Cascade, просто проигнорируйте это письмо.
+  - paragraph [ref=e7]: С уважением, команда Cascade
+  - paragraph [ref=e8]:
+    - text: "Если кнопка «Подтвердить email» не работает, скопируйте ссылку ниже и вставьте её в адресную строку браузера:"
+    - link "http://localhost:8000/email/verify/1/a4f0064b95eef46d5587805891a954856f99a1e9?expires=1780660091&signature=3bafc16890e5d21243895ea2f3642255bdf8ab603ef7e8a960c2654fe61ca1ef" [ref=e10] [cursor=pointer]:
+      - /url: http://localhost:8000/email/verify/1/a4f0064b95eef46d5587805891a954856f99a1e9?expires=1780660091&signature=3bafc16890e5d21243895ea2f3642255bdf8ab603ef7e8a960c2654fe61ca1ef
+  - paragraph [ref=e11]: © 2026 Cascade · Все права защищены.

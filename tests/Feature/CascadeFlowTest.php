@@ -131,26 +131,50 @@ test('split pays 60% to the referrer and 30% to the queue head, nothing else', f
     expect($paidOut)->toBe(18.0);
 });
 
-test('without a qualifying referrer the 60% stays with the project', function () {
+test('without a qualifying referrer the whole 90% cascades into the queue', function () {
     $referrer = User::factory()->create(); // нет записи на уровне — не квалифицирован
     $referral = User::factory()->create(['referrer_id' => $referrer->id]);
     $queueHead = User::factory()->create();
 
-    QueueEntry::factory()->for($queueHead)->create(['level_id' => 1, 'position' => 1]);
+    $headEntry = QueueEntry::factory()->for($queueHead)->create(['level_id' => 1, 'position' => 1]);
 
     $deposit = depositService()->createExternalDeposit($referral, 1);
     depositService()->confirmDeposit($deposit);
 
+    // Реф ничего не получает, но первому в очереди уходят все 3 жёлтые ячейки.
     expect((float) $referrer->fresh()->balance)->toBe(0.0)
-        ->and((float) $queueHead->fresh()->balance)->toBe(6.0);
+        ->and((float) $queueHead->fresh()->balance)->toBe(18.0)
+        ->and($headEntry->fresh()->cells_filled)->toBe(3)
+        ->and($headEntry->fresh()->bonus_cells_filled)->toBe(0);
 
     expect(
         LedgerEntry::where('user_id', $referrer->id)->where('type', 'bonus_cell_missed')->exists()
     )->toBeTrue();
 
-    // В очередь ушли только 30% — 60% остались проекту.
+    // В очередь ушли все 90% (18 из 20 USDT).
     $paidOut = (float) LedgerEntry::whereIn('type', ['referral_bonus', 'cell_income'])->sum('amount');
-    expect($paidOut)->toBe(6.0);
+    expect($paidOut)->toBe(18.0);
+});
+
+// Перелив: если первому не хватает места (4/5), остаток уходит следующему.
+test('cascade overflows to the next entry when the head fills up', function () {
+    $head = User::factory()->create();
+    $next = User::factory()->create();
+    $depositor = User::factory()->create(); // без рефки → 3 ячейки каскадом
+
+    $headEntry = QueueEntry::factory()->for($head)->create([
+        'level_id' => 1, 'cells_filled' => 4, 'position' => 1,
+    ]);
+    $nextEntry = QueueEntry::factory()->for($next)->create(['level_id' => 1, 'position' => 2]);
+
+    $deposit = depositService()->createExternalDeposit($depositor, 1);
+    depositService()->confirmDeposit($deposit);
+
+    // Первому — 1 ячейка (до 5/5), следующему — оставшиеся 2.
+    expect($headEntry->fresh()->cells_filled)->toBe(5)
+        ->and((float) $head->fresh()->balance)->toBe(6.0)
+        ->and($nextEntry->fresh()->cells_filled)->toBe(2)
+        ->and((float) $next->fresh()->balance)->toBe(12.0);
 });
 
 // Регрессия 500/504: полная запись (5/5) в голове очереди зацикливала
@@ -166,9 +190,10 @@ test('deposit confirm completes when the queue head is already 5/5', function ()
     $deposit = depositService()->createExternalDeposit($depositor, 1);
     depositService()->confirmDeposit($deposit);
 
+    // Депозитор без рефки → 3 ячейки; голова 5/5 пропускается, всё следующему.
     expect($deposit->fresh()->status)->toBe('approved')
-        ->and($nextEntry->fresh()->cells_filled)->toBe(1)
-        ->and((float) $next->fresh()->balance)->toBe(6.0);
+        ->and($nextEntry->fresh()->cells_filled)->toBe(3)
+        ->and((float) $next->fresh()->balance)->toBe(18.0);
 });
 
 // Анти-спам: депозит нельзя плодить повторными кликами (баг с u_15).

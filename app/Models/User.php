@@ -2,8 +2,11 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Database\Factories\UserFactory;
+// TODO(SMTP): вернуть `implements MustVerifyEmail`, когда на проде будет
+// рабочий SMTP (Brevo/Gmail). Без него регистрация застревает на странице
+// «подтвердите email» — письмо физически некому отправить.
+// use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Attributes\Hidden;
 use Illuminate\Database\Eloquent\Factories\HasFactory;

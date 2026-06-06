@@ -5,6 +5,9 @@ namespace App\Providers;
 use App\Models\SystemSetting;
 use App\Services\WestWallet\WestWalletClient;
 use Carbon\CarbonImmutable;
+use Illuminate\Auth\Notifications\ResetPassword;
+use Illuminate\Auth\Notifications\VerifyEmail;
+use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
@@ -31,7 +34,40 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         $this->configureDefaults();
+        $this->configureMailNotifications();
         $this->applyWestWalletOverrides();
+    }
+
+    /**
+     * Системные письма (активация аккаунта, сброс пароля) на русском,
+     * в фирменном оформлении Cascade (тема cascade.css).
+     */
+    protected function configureMailNotifications(): void
+    {
+        VerifyEmail::toMailUsing(fn (object $notifiable, string $url): MailMessage => (new MailMessage)
+            ->subject('Подтвердите ваш email — Cascade')
+            ->greeting('Добро пожаловать в Cascade!')
+            ->line('Вы зарегистрировали аккаунт на платформе Cascade. Осталось подтвердить адрес электронной почты — нажмите кнопку ниже.')
+            ->action('Подтвердить email', $url)
+            ->line('Ссылка действительна 60 минут. Если вы не регистрировались в Cascade, просто проигнорируйте это письмо.')
+            ->salutation('С уважением, команда Cascade'));
+
+        ResetPassword::toMailUsing(function (object $notifiable, string $token): MailMessage {
+            $url = url(route('password.reset', [
+                'token' => $token,
+                'email' => $notifiable->getEmailForPasswordReset(),
+            ], false));
+
+            $expire = (int) config('auth.passwords.'.config('auth.defaults.passwords').'.expire', 60);
+
+            return (new MailMessage)
+                ->subject('Сброс пароля — Cascade')
+                ->greeting('Сброс пароля')
+                ->line('Мы получили запрос на сброс пароля для вашего аккаунта Cascade. Чтобы задать новый пароль, нажмите кнопку ниже.')
+                ->action('Сбросить пароль', $url)
+                ->line("Ссылка действительна {$expire} мин. Если вы не запрашивали сброс — проигнорируйте это письмо, пароль останется прежним.")
+                ->salutation('С уважением, команда Cascade');
+        });
     }
 
     /**

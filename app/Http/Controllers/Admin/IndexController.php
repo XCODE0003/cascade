@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Deposit;
+use App\Models\LedgerEntry;
 use App\Models\Level;
 use App\Models\QueueEntry;
 use App\Models\SystemSetting;
@@ -25,6 +26,7 @@ class IndexController extends Controller
             'withdrawals' => $this->withdrawals(),
             'queues' => $this->queues(),
             'settings' => $this->settings(),
+            'fees' => $this->fees(),
         ]);
     }
 
@@ -42,7 +44,30 @@ class IndexController extends Controller
             'withdrawals_pending' => Withdrawal::whereIn('status', ['hold', 'pending'])->count(),
             'withdrawals_total' => (float) Withdrawal::where('status', 'approved')->sum('amount'),
             'queue_active' => QueueEntry::where('status', 'active')->count(),
+            // Сервисные 10%: учётная сумма всех удержанных комиссий. Реальные
+            // деньги лежат на WestWallet-кошельке проекта.
+            'service_fees_total' => -1 * (float) LedgerEntry::where('type', 'system_fee')->sum('amount'),
         ];
+    }
+
+    /**
+     * Лента начислений сервисной комиссии (когда и с кого удержано).
+     *
+     * @return Collection<int, array<string, mixed>>
+     */
+    protected function fees()
+    {
+        return LedgerEntry::where('type', 'system_fee')
+            ->latest('created_at')
+            ->limit(15)
+            ->get()
+            ->map(fn ($e) => [
+                'id' => $e->id,
+                'user' => 'u_'.$e->user_id,
+                'level' => $e->level_id,
+                'amount' => abs((float) $e->amount),
+                'time' => $e->created_at->diffForHumans(null, true, true),
+            ]);
     }
 
     /**
@@ -53,7 +78,7 @@ class IndexController extends Controller
         return User::query()
             ->withCount(['referrals', 'deposits', 'withdrawals'])
             ->withSum(['deposits as deposits_sum' => fn ($q) => $q->where('status', 'approved')], 'amount')
-            ->with(['queueEntries' => fn ($q) => $q->whereIn('status', ['active', 'grey'])])
+            ->with(['referrer:id,name', 'queueEntries' => fn ($q) => $q->whereIn('status', ['active', 'grey'])])
             ->orderByDesc('created_at')
             ->limit(200)
             ->get()
@@ -65,6 +90,7 @@ class IndexController extends Controller
                 'balance' => (float) $u->balance,
                 'is_admin' => (bool) $u->is_admin,
                 'referrer' => $u->referrer_id ? 'u_'.$u->referrer_id : null,
+                'referrer_name' => $u->referrer?->name,
                 'referrals_count' => (int) $u->referrals_count,
                 'deposits_count' => (int) $u->deposits_count,
                 'deposits_sum' => (float) ($u->deposits_sum ?? 0),
@@ -136,6 +162,7 @@ class IndexController extends Controller
                     'pos' => $e->position,
                     'user' => 'u_'.$e->user_id,
                     'filled' => $e->cells_filled,
+                    'bonus' => min($e->bonus_cells_filled, $e->cells_filled),
                     'status' => $e->isReady() ? 'ready' : ($e->status === 'grey' ? 'grey' : 'locked'),
                     // diffForHumans без проверки isPast() после истечения срока
                     // начинал «считать вверх» — показываем явный статус.
