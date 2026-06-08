@@ -155,6 +155,26 @@ class QueueService
                 'meta' => ['cells_added' => $toFill],
             ]);
         }
+
+        // Очередь исчерпана (некому отдать — все 5/5 или остался только сам
+        // вкладчик). Фиксируем «неустроенные» ячейки записью в леджере, чтобы
+        // деньги не уходили «в никуда» и были видны в аудите. В реальной
+        // очереди с другими участниками этого не случается.
+        if ($remaining > 0 && $excludeUserId > 0) {
+            $cellPayout = (float) (Level::find($levelId)?->cell_payout ?? 0);
+
+            LedgerEntry::create([
+                'user_id' => $excludeUserId,
+                'type' => 'cell_unplaced',
+                'amount' => 0,
+                'balance_after' => (float) (User::where('id', $excludeUserId)->value('balance') ?? 0),
+                'level_id' => $levelId,
+                'meta' => [
+                    'unplaced_cells' => $remaining,
+                    'unplaced_value' => round($cellPayout * $remaining, 2),
+                ],
+            ]);
+        }
     }
 
     /**

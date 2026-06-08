@@ -45,6 +45,13 @@ class WithdrawalService
         return DB::transaction(function () use ($user, $amount, $walletAddress) {
             $holdHours = (int) SystemSetting::get('hold_hours', 72);
 
+            // Условия двойного замка выполнены — фиксируем постоянный доступ к
+            // выводу, чтобы остаток баланса можно было выводить и после того,
+            // как активная запись будет сброшена реинвестом.
+            if ($user->withdrawal_unlocked_at === null) {
+                $user->withdrawal_unlocked_at = now();
+            }
+
             // Freeze balance
             $user->balance = bcsub((string) $user->balance, (string) $amount, 2);
             $user->save();
@@ -187,11 +194,17 @@ class WithdrawalService
     }
 
     /**
-     * Whether the user has at least one queue entry satisfying the double lock
-     * (5/5 cells and the 7-day unlock timestamp reached).
+     * Whether the user may withdraw: either a queue entry currently satisfies
+     * the double lock (5/5 cells + unlock time reached), OR the user has
+     * already completed a cycle once (withdrawal_unlocked_at set) — so the
+     * remaining balance stays withdrawable even after a reinvest reset.
      */
     protected function hasUnlockedEntry(User $user): bool
     {
+        if ($user->withdrawal_unlocked_at !== null) {
+            return true;
+        }
+
         return $user->queueEntries()
             ->where('status', 'active')
             ->where('cells_filled', '>=', 5)

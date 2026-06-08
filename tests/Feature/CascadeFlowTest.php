@@ -6,6 +6,7 @@ use App\Models\QueueEntry;
 use App\Models\User;
 use App\Services\DepositService;
 use App\Services\ReinvestService;
+use App\Services\WithdrawalService;
 use Database\Seeders\LevelSeeder;
 use Database\Seeders\SystemSettingSeeder;
 
@@ -246,27 +247,62 @@ test('confirming the second of two legacy pending deposits fails safely', functi
         ->and($second->fresh()->status)->toBe('pending');
 });
 
-// Реинвест работает по тем же правилам сплита, что и депозит.
-test('reinvest pays the referrer and the queue like a deposit', function () {
-    $referrer = User::factory()->create();
-    $user = User::factory()->create(['referrer_id' => $referrer->id, 'balance' => 0]);
-    $other = User::factory()->create();
+// Реинвест НЕ зависит от того, кто кого пригласил: списывает entry с баланса,
+// удерживает 10% сервису и раздаёт все 90% тремя жёлтыми ячейками в очередь.
+test('reinvest deducts the entry, takes the fee and cascades 3 yellow cells', function () {
+    $referrer = User::factory()->create(['balance' => 0]);
+    $user = User::factory()->create(['referrer_id' => $referrer->id, 'balance' => 30]);
+    $other = User::factory()->create(['balance' => 0]);
 
+    // Реферер активен на уровне — но при реинвесте он НЕ должен ничего получить.
     $referrerEntry = QueueEntry::factory()->for($referrer)->create(['level_id' => 1, 'position' => 1]);
     $userEntry = QueueEntry::factory()->for($user)->ready()->create(['level_id' => 1, 'position' => 2]);
     $otherEntry = QueueEntry::factory()->for($other)->create(['level_id' => 1, 'position' => 3]);
 
     app(ReinvestService::class)->reinvest($user, 1);
 
+    // Запись сброшена и ушла в конец очереди.
     $userEntry->refresh();
     expect($userEntry->cells_filled)->toBe(0)
         ->and($userEntry->position)->toBe(4);
 
-    // 60% рефу (зелёная ячейка), 30% жёлтой ячейкой следующему в очереди.
-    expect((float) $referrer->fresh()->balance)->toBe(12.0)
-        ->and($referrerEntry->fresh()->bonus_cells_filled)->toBe(1)
-        ->and((float) $other->fresh()->balance)->toBe(6.0)
-        ->and($otherEntry->fresh()->cells_filled)->toBe(1);
+    // С баланса списано 20 (entry): 30 − 20 = 10.
+    expect((float) $user->fresh()->balance)->toBe(10.0);
+
+    // Реферер не получает ничего (анти-цикл исключает его как реферера).
+    expect((float) $referrer->fresh()->balance)->toBe(0.0)
+        ->and($referrerEntry->fresh()->bonus_cells_filled)->toBe(0)
+        ->and($referrerEntry->fresh()->cells_filled)->toBe(0);
+
+    // 90% = 3 жёлтые ячейки следующему в очереди (other), 3×6 = 18.
+    expect((float) $other->fresh()->balance)->toBe(18.0)
+        ->and($otherEntry->fresh()->cells_filled)->toBe(3)
+        ->and($otherEntry->fresh()->bonus_cells_filled)->toBe(0);
+
+    // 10% сервису зафиксированы в леджере.
+    expect(
+        (float) LedgerEntry::where('user_id', $user->id)->where('type', 'system_fee')->sum('amount')
+    )->toBe(-2.0);
+});
+
+// П.4: после реинвеста вывод остатка баланса остаётся доступен.
+test('withdrawal stays available after a reinvest resets the entry', function () {
+    $user = User::factory()->create(['balance' => 100]);
+    $filler = User::factory()->create(['balance' => 0]);
+
+    QueueEntry::factory()->for($user)->ready()->create(['level_id' => 1, 'position' => 1]);
+    QueueEntry::factory()->for($filler)->create(['level_id' => 1, 'position' => 2]);
+
+    app(ReinvestService::class)->reinvest($user, 1);
+
+    // Запись сброшена в 0/5 — но вывод остатка должен пройти (entry списан: 80).
+    expect($user->fresh()->withdrawal_unlocked_at)->not->toBeNull()
+        ->and((float) $user->fresh()->balance)->toBe(80.0);
+
+    $withdrawal = app(WithdrawalService::class)
+        ->request($user->fresh(), 50, 'TWalletAddr');
+
+    expect($withdrawal->status)->toBeIn(['hold', 'pending']);
 });
 
 // Прямой POST реинвеста до полного цикла не должен качать деньги из котла.

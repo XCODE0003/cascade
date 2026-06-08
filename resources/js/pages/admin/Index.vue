@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { Head } from '@inertiajs/vue3';
-import { ref } from 'vue';
+import { Head, router } from '@inertiajs/vue3';
+import { onBeforeUnmount, onMounted, ref } from 'vue';
 import DepositsTable from '@/components/cascade/admin/DepositsTable.vue';
 import Overview from '@/components/cascade/admin/Overview.vue';
 import QueueManager from '@/components/cascade/admin/QueueManager.vue';
@@ -121,6 +121,28 @@ const tabs: { key: TabKey; label: string }[] = [
 ];
 
 const tab = ref<TabKey>('overview');
+
+// Live-синхронизация с кабинетом: тихо обновляем данные раз в 7 сек, чтобы
+// ячейки/очереди/статистика в админке не расходились с тем, что видит юзер.
+let pollTimer: ReturnType<typeof setInterval> | undefined;
+
+onMounted(() => {
+    pollTimer = setInterval(() => {
+        if (document.visibilityState !== 'visible') {
+            return;
+        }
+
+        router.reload({
+            only: ['stats', 'queues', 'deposits', 'withdrawals', 'fees'],
+        });
+    }, 7000);
+});
+
+onBeforeUnmount(() => {
+    if (pollTimer) {
+        clearInterval(pollTimer);
+    }
+});
 
 defineOptions({
     layout: {
