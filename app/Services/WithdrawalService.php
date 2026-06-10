@@ -16,7 +16,9 @@ class WithdrawalService
     public function __construct(protected WestWalletClient $westWallet) {}
 
     /**
-     * Create a withdrawal request. Sets all active queue entries to grey.
+     * Create a withdrawal request. Freezes the requested balance only — the
+     * queue and cells are deliberately left untouched (вывод не трогает ячейки;
+     * сброс ячеек происходит только при реинвесте).
      */
     public function request(User $user, float $amount, string $walletAddress): Withdrawal
     {
@@ -74,12 +76,9 @@ class WithdrawalService
                 'reference_id' => $withdrawal->id,
             ]);
 
-            // Status change instead of deletion (TЗ 7.4 / 3.6.3): freeze active
-            // entries (grey + is_locked), reset visible counter to 0/5. Position
-            // is preserved so it can be restored if the admin rejects the payout.
-            $user->queueEntries()
-                ->where('status', 'active')
-                ->update(['status' => 'grey', 'is_locked' => true, 'cells_filled' => 0, 'bonus_cells_filled' => 0]);
+            // Вывод снимает только заработанный баланс. Записи очереди (статус,
+            // позиция, заполненные ячейки) не трогаем — цикл «котла» сбрасывается
+            // исключительно реинвестом. Готовая запись 5/5 остаётся 5/5.
 
             return $withdrawal;
         });
@@ -116,12 +115,9 @@ class WithdrawalService
                 'reference_id' => $withdrawal->id,
             ]);
 
-            // Цикл закрыт выплатой: архивируем замороженные записи, чтобы
-            // пользователь мог заново активировать уровни новым депозитом.
-            $user->queueEntries()
-                ->where('status', 'grey')
-                ->where('is_locked', true)
-                ->update(['status' => 'completed', 'is_locked' => false]);
+            // Очередь и ячейки выплата не меняет — запись продолжает «жить»
+            // ровно в том состоянии, в каком была. Новый цикл начинается только
+            // при реинвесте.
         });
 
         $this->maybeSendPayout($withdrawal);
@@ -159,7 +155,8 @@ class WithdrawalService
     }
 
     /**
-     * Admin rejects withdrawal. Refunds balance and restores queue entries.
+     * Admin rejects withdrawal. Refunds the frozen balance. Queue entries are
+     * not touched on request, so there is nothing to restore here.
      */
     public function reject(Withdrawal $withdrawal): void
     {
@@ -184,12 +181,6 @@ class WithdrawalService
                 'reference_type' => Withdrawal::class,
                 'reference_id' => $withdrawal->id,
             ]);
-
-            // Restore frozen queue entries to active (position preserved).
-            $user->queueEntries()
-                ->where('status', 'grey')
-                ->where('is_locked', true)
-                ->update(['status' => 'active', 'is_locked' => false]);
         });
     }
 

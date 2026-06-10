@@ -98,3 +98,71 @@ test('shortened lock applies to existing entries on every level', function () {
         expect($entry->fresh()->unlock_at->lte(now()->addDay()))->toBeTrue();
     });
 });
+
+// Q1: позицию в очереди можно двигать по одной строке (вверх/вниз), а не
+// только в начало/конец.
+test('admin can move a queue entry up and down by one position', function () {
+    $this->seed(LevelSeeder::class);
+    $admin = User::factory()->create(['is_admin' => true]);
+
+    QueueEntry::factory()->create(['level_id' => 1, 'position' => 1, 'status' => 'active']);
+    $b = QueueEntry::factory()->create(['level_id' => 1, 'position' => 2, 'status' => 'active']);
+    $c = QueueEntry::factory()->create(['level_id' => 1, 'position' => 3, 'status' => 'active']);
+
+    $this->actingAs($admin)
+        ->post(route('admin.queue.move-down', $b))
+        ->assertRedirect();
+
+    expect($b->fresh()->position)->toBe(3)
+        ->and($c->fresh()->position)->toBe(2);
+
+    $this->actingAs($admin)
+        ->post(route('admin.queue.move-up', $b))
+        ->assertRedirect();
+
+    expect($b->fresh()->position)->toBe(2)
+        ->and($c->fresh()->position)->toBe(3);
+});
+
+test('moving the top entry up and the bottom entry down are safe no-ops', function () {
+    $this->seed(LevelSeeder::class);
+    $admin = User::factory()->create(['is_admin' => true]);
+
+    $top = QueueEntry::factory()->create(['level_id' => 1, 'position' => 1, 'status' => 'active']);
+    $bottom = QueueEntry::factory()->create(['level_id' => 1, 'position' => 2, 'status' => 'active']);
+
+    $this->actingAs($admin)->post(route('admin.queue.move-up', $top))->assertRedirect();
+    $this->actingAs($admin)->post(route('admin.queue.move-down', $bottom))->assertRedirect();
+
+    expect($top->fresh()->position)->toBe(1)
+        ->and($bottom->fresh()->position)->toBe(2);
+});
+
+// Q4 / Q5: очередь отдаёт логин (имя+email), а пользователи — список всех
+// рефералов и все активные уровни.
+test('queue rows expose the user login, user rows expose referrals and all levels', function () {
+    $this->seed(LevelSeeder::class);
+    $admin = User::factory()->create(['is_admin' => true]);
+
+    $inviter = User::factory()->create(['name' => 'Inviter', 'email' => 'inviter@example.test']);
+    User::factory()->count(2)->create(['referrer_id' => $inviter->id]);
+
+    QueueEntry::factory()->for($inviter)->create(['level_id' => 2, 'status' => 'active', 'position' => 1]);
+    QueueEntry::factory()->for($inviter)->create(['level_id' => 3, 'status' => 'active', 'position' => 1]);
+
+    $this->actingAs($admin)
+        ->get(route('admin.index'))
+        ->assertOk()
+        ->assertInertia(fn (Assert $page) => $page
+            ->where('queues.2.0.name', 'Inviter')
+            ->where('queues.2.0.email', 'inviter@example.test')
+            ->where('users', function ($users) use ($inviter) {
+                $row = collect($users)->firstWhere('id', $inviter->id);
+
+                return $row['referrals_count'] === 2
+                    && count($row['referrals']) === 2
+                    && $row['active_levels'] === [2, 3];
+            })
+            ->etc()
+        );
+});

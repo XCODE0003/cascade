@@ -78,7 +78,11 @@ class IndexController extends Controller
         return User::query()
             ->withCount(['referrals', 'deposits', 'withdrawals'])
             ->withSum(['deposits as deposits_sum' => fn ($q) => $q->where('status', 'approved')], 'amount')
-            ->with(['referrer:id,name', 'queueEntries' => fn ($q) => $q->whereIn('status', ['active', 'grey'])])
+            ->with([
+                'referrer:id,name',
+                'referrals:id,name,referrer_id',
+                'queueEntries' => fn ($q) => $q->whereIn('status', ['active', 'grey']),
+            ])
             ->orderByDesc('created_at')
             ->limit(200)
             ->get()
@@ -92,10 +96,22 @@ class IndexController extends Controller
                 'referrer' => $u->referrer_id ? 'u_'.$u->referrer_id : null,
                 'referrer_name' => $u->referrer?->name,
                 'referrals_count' => (int) $u->referrals_count,
+                // Полный список приглашённых (логины), не только счётчик.
+                'referrals' => $u->referrals
+                    ->map(fn (User $r) => ['tag' => 'u_'.$r->id, 'name' => $r->name])
+                    ->values()
+                    ->all(),
                 'deposits_count' => (int) $u->deposits_count,
                 'deposits_sum' => (float) ($u->deposits_sum ?? 0),
                 'withdrawals_count' => (int) $u->withdrawals_count,
                 'max_level' => (int) ($u->queueEntries->max('level_id') ?? 0),
+                // Все активные/замороженные уровни пользователя, по возрастанию.
+                'active_levels' => $u->queueEntries
+                    ->pluck('level_id')
+                    ->unique()
+                    ->sort()
+                    ->values()
+                    ->all(),
                 'deposit_address' => $u->deposit_address,
                 'last_seen' => $u->last_seen_at?->diffForHumans(null, true, true),
                 'joined' => $u->created_at->diffForHumans(null, true, true),
@@ -161,6 +177,8 @@ class IndexController extends Controller
                     'raw_id' => $e->id,
                     'pos' => $e->position,
                     'user' => 'u_'.$e->user_id,
+                    'name' => $e->user?->name,
+                    'email' => $e->user?->email,
                     'filled' => $e->cells_filled,
                     'bonus' => min($e->bonus_cells_filled, $e->cells_filled),
                     'status' => $e->isReady() ? 'ready' : ($e->status === 'grey' ? 'grey' : 'locked'),

@@ -54,6 +54,8 @@ Route::middleware(['auth', 'verified', TrackLastSeen::class])->group(function ()
         Route::post('withdrawals/{withdrawal}/reject', [Admin\WithdrawalController::class, 'reject'])->name('withdrawals.reject');
 
         Route::post('queue/{entry}/move-front', [Admin\QueueController::class, 'moveToFront'])->name('queue.move-front');
+        Route::post('queue/{entry}/move-up', [Admin\QueueController::class, 'moveUp'])->name('queue.move-up');
+        Route::post('queue/{entry}/move-down', [Admin\QueueController::class, 'moveDown'])->name('queue.move-down');
         Route::post('queue/{entry}/move-back', [Admin\QueueController::class, 'moveToBack'])->name('queue.move-back');
         Route::post('queue/{entry}/remove', [Admin\QueueController::class, 'remove'])->name('queue.remove');
 

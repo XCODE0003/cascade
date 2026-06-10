@@ -46,10 +46,12 @@ interface AdminUser {
     referrer: string | null;
     referrer_name?: string | null;
     referrals_count: number;
+    referrals?: { tag: string; name: string }[];
     deposits_count: number;
     deposits_sum: number;
     withdrawals_count: number;
     max_level: number;
+    active_levels?: number[];
     deposit_address: string | null;
     last_seen: string | null;
     joined: string;
@@ -81,6 +83,8 @@ interface QueueRow {
     raw_id: number;
     pos: number;
     user: string;
+    name?: string | null;
+    email?: string | null;
     filled: number;
     bonus?: number;
     status: 'ready' | 'locked' | 'grey';
@@ -101,7 +105,7 @@ interface AdminSettings {
     westwallet_auto_payout: boolean;
 }
 
-const props = defineProps<{
+defineProps<{
     stats: AdminStats;
     users: AdminUser[];
     deposits: DepositRow[];

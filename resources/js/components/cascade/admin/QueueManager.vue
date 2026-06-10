@@ -8,6 +8,8 @@ interface QueueRow {
     raw_id: number;
     pos: number;
     user: string;
+    name?: string | null;
+    email?: string | null;
     filled: number;
     bonus?: number;
     status: QueueRowStatus;
@@ -47,6 +49,22 @@ const data = computed(() => props.initialQueues[tier.value] ?? []);
 function moveToFront(row: QueueRow): void {
     router.post(
         `/admin/queue/${row.raw_id}/move-front`,
+        {},
+        { preserveScroll: true },
+    );
+}
+
+function moveUp(row: QueueRow): void {
+    router.post(
+        `/admin/queue/${row.raw_id}/move-up`,
+        {},
+        { preserveScroll: true },
+    );
+}
+
+function moveDown(row: QueueRow): void {
+    router.post(
+        `/admin/queue/${row.raw_id}/move-down`,
         {},
         { preserveScroll: true },
     );
@@ -162,8 +180,22 @@ function timerColor(status: QueueRowStatus): string {
             </div>
 
             <div class="min-w-0 flex-1">
-                <div class="text-sm font-semibold" style="color: var(--c-fg1)">
-                    {{ row.user }}
+                <div
+                    class="truncate text-sm font-semibold"
+                    style="color: var(--c-fg1)"
+                >
+                    {{ row.name ?? row.user }}
+                </div>
+                <div
+                    class="mt-0.5 flex flex-wrap items-center gap-x-2 text-xs"
+                    style="color: var(--c-fg3)"
+                >
+                    <span style="font-family: var(--c-font-mono)">{{
+                        row.user
+                    }}</span>
+                    <span v-if="row.email" class="truncate">{{
+                        row.email
+                    }}</span>
                 </div>
                 <div class="mt-0.5 text-xs" style="color: var(--c-fg3)">
                     В очереди с {{ row.joined }}
@@ -215,7 +247,51 @@ function timerColor(status: QueueRowStatus): string {
                         stroke-linecap="round"
                         stroke-linejoin="round"
                     >
-                        <path d="M12 19V5M6 11l6-6 6 6" />
+                        <path d="M18 11l-6-6-6 6M18 18l-6-6-6 6" />
+                    </svg>
+                </button>
+                <button
+                    class="inline-flex h-[30px] w-[30px] items-center justify-center rounded-lg"
+                    style="
+                        background: var(--c-bg-elevated);
+                        color: var(--c-fg2);
+                    "
+                    title="Вверх на одну позицию"
+                    @click="moveUp(row)"
+                >
+                    <svg
+                        width="14"
+                        height="14"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="1.5"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                    >
+                        <path d="M18 15l-6-6-6 6" />
+                    </svg>
+                </button>
+                <button
+                    class="inline-flex h-[30px] w-[30px] items-center justify-center rounded-lg"
+                    style="
+                        background: var(--c-bg-elevated);
+                        color: var(--c-fg2);
+                    "
+                    title="Вниз на одну позицию"
+                    @click="moveDown(row)"
+                >
+                    <svg
+                        width="14"
+                        height="14"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="1.5"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                    >
+                        <path d="M6 9l6 6 6-6" />
                     </svg>
                 </button>
                 <button
@@ -237,7 +313,7 @@ function timerColor(status: QueueRowStatus): string {
                         stroke-linecap="round"
                         stroke-linejoin="round"
                     >
-                        <path d="M12 5v14M6 13l6 6 6-6" />
+                        <path d="M6 13l6 6 6-6M6 6l6 6 6-6" />
                     </svg>
                 </button>
                 <button

@@ -39,7 +39,7 @@ test('withdrawal is blocked below the minimum threshold', function () {
         ->toThrow(RuntimeException::class);
 });
 
-test('withdrawal succeeds with a ready entry and freezes the queue', function () {
+test('withdrawal succeeds with a ready entry and leaves the queue untouched', function () {
     $user = User::factory()->create(['balance' => 100]);
     QueueEntry::factory()->for($user)->ready()->create();
 
@@ -48,10 +48,11 @@ test('withdrawal succeeds with a ready entry and freezes the queue', function ()
     expect($withdrawal->status)->toBe('hold')
         ->and((float) $user->fresh()->balance)->toBe(50.0);
 
+    // Вывод снимает только баланс — ячейки и очередь не трогаются.
     $entry = QueueEntry::first();
-    expect($entry->status)->toBe('grey')
-        ->and($entry->is_locked)->toBeTrue()
-        ->and($entry->cells_filled)->toBe(0);
+    expect($entry->status)->toBe('active')
+        ->and($entry->is_locked)->toBeFalse()
+        ->and($entry->cells_filled)->toBe(5);
 });
 
 test('only one active withdrawal is allowed at a time', function () {
@@ -66,7 +67,7 @@ test('only one active withdrawal is allowed at a time', function () {
         ->toThrow(RuntimeException::class);
 });
 
-test('rejecting a withdrawal refunds balance and restores the entry', function () {
+test('rejecting a withdrawal refunds balance and leaves the entry active', function () {
     $user = User::factory()->create(['balance' => 100]);
     QueueEntry::factory()->for($user)->ready()->create();
 
@@ -75,9 +76,11 @@ test('rejecting a withdrawal refunds balance and restores the entry', function (
 
     expect((float) $user->fresh()->balance)->toBe(100.0);
 
+    // Запись очереди не менялась ни при заявке, ни при отклонении.
     $entry = QueueEntry::first();
     expect($entry->status)->toBe('active')
-        ->and($entry->is_locked)->toBeFalse();
+        ->and($entry->is_locked)->toBeFalse()
+        ->and($entry->cells_filled)->toBe(5);
 });
 
 // Режим теста: при нулевом холде заявка сразу готова к выплате.
@@ -92,9 +95,9 @@ test('zero hold hours creates a withdrawal that is immediately pending', functio
     expect($withdrawal->status)->toBe('pending');
 });
 
-// После выплаты замороженные записи архивируются (completed), чтобы юзер
-// мог заново активировать уровень новым депозитом.
-test('approving a payout archives frozen entries so levels can be re-activated', function () {
+// Выплата не закрывает цикл: запись 5/5 остаётся активной и готовой к
+// реинвесту — продолжать цикл можно только реинвестом, не новым депозитом.
+test('approving a payout leaves the queue entry active and ready', function () {
     $user = User::factory()->create(['balance' => 100]);
     QueueEntry::factory()->for($user)->ready()->create(['level_id' => 1]);
 
@@ -103,10 +106,14 @@ test('approving a payout archives frozen entries so levels can be re-activated',
 
     withdrawalService()->approve($withdrawal->fresh());
 
-    expect(QueueEntry::where('user_id', $user->id)->where('status', 'completed')->count())->toBe(1);
+    $entry = QueueEntry::where('user_id', $user->id)->first();
+    expect($entry->status)->toBe('active')
+        ->and($entry->cells_filled)->toBe(5)
+        ->and($entry->isReady())->toBeTrue();
 
-    $deposit = app(DepositService::class)->createExternalDeposit($user->fresh(), 1);
-    expect($deposit->status)->toBe('pending');
+    // Уровень уже активен — повторный депозит на него отклоняется.
+    expect(fn () => app(DepositService::class)->createExternalDeposit($user->fresh(), 1))
+        ->toThrow(RuntimeException::class, 'Этот уровень уже активен.');
 });
 
 test('the release-holds command moves expired holds to pending', function () {

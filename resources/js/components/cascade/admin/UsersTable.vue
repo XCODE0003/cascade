@@ -3,6 +3,11 @@ import { router, usePage } from '@inertiajs/vue3';
 import { computed, ref } from 'vue';
 import { toast } from 'vue-sonner';
 
+interface ReferralRef {
+    tag: string;
+    name: string;
+}
+
 interface AdminUser {
     id: number;
     tag: string;
@@ -13,10 +18,12 @@ interface AdminUser {
     referrer: string | null;
     referrer_name?: string | null;
     referrals_count: number;
+    referrals?: ReferralRef[];
     deposits_count: number;
     deposits_sum: number;
     withdrawals_count: number;
     max_level: number;
+    active_levels?: number[];
     deposit_address: string | null;
     last_seen: string | null;
     joined: string;
@@ -255,7 +262,24 @@ const headers = [
                                 border-bottom: 1px solid var(--c-hairline-soft);
                             "
                         >
-                            <span v-if="u.max_level">L{{ u.max_level }}</span>
+                            <div
+                                v-if="u.active_levels && u.active_levels.length"
+                                class="flex flex-wrap gap-1"
+                            >
+                                <span
+                                    v-for="lvl in u.active_levels"
+                                    :key="lvl"
+                                    class="rounded-md px-1.5 py-0.5 text-[11px] font-semibold"
+                                    style="
+                                        background: var(--c-bg-elevated);
+                                        color: var(--c-fg1);
+                                    "
+                                    >L{{ lvl }}</span
+                                >
+                            </div>
+                            <span v-else-if="u.max_level"
+                                >L{{ u.max_level }}</span
+                            >
                             <span v-else style="color: var(--c-fg3)">—</span>
                         </td>
                         <td
@@ -265,7 +289,31 @@ const headers = [
                                 border-bottom: 1px solid var(--c-hairline-soft);
                             "
                         >
-                            {{ u.referrals_count }}
+                            <div
+                                v-if="u.referrals && u.referrals.length"
+                                class="flex flex-col gap-1"
+                            >
+                                <span
+                                    class="text-[11px] font-semibold"
+                                    style="color: var(--c-fg3)"
+                                    >{{ u.referrals_count }}</span
+                                >
+                                <div class="flex flex-wrap gap-1">
+                                    <span
+                                        v-for="r in u.referrals"
+                                        :key="r.tag"
+                                        class="rounded-md px-1.5 py-0.5 text-[11px]"
+                                        style="
+                                            background: var(--c-bg-elevated);
+                                            color: var(--c-fg1);
+                                            font-family: var(--c-font-mono);
+                                        "
+                                        :title="r.name"
+                                        >{{ r.tag }}</span
+                                    >
+                                </div>
+                            </div>
+                            <span v-else>{{ u.referrals_count }}</span>
                         </td>
                         <td
                             class="px-6 py-3.5 text-[13px] whitespace-nowrap"
