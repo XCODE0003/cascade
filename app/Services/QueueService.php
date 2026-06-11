@@ -122,7 +122,10 @@ class QueueService
                         $q->where('user_id', '!=', $referrerId);
                     }
                 })
+                // Вторичный ключ по id делает выбор головы детерминированным,
+                // если две записи случайно получили одинаковую позицию.
                 ->orderBy('position')
+                ->orderBy('id')
                 ->lockForUpdate()
                 ->first();
 
@@ -207,6 +210,7 @@ class QueueService
             'status' => 'active',
             'position' => $maxPos + 1,
             'unlock_at' => now()->addDays($lockDays),
+            'requeued_at' => now(),
         ]);
     }
 
@@ -218,6 +222,7 @@ class QueueService
         $entries = QueueEntry::where('level_id', $levelId)
             ->where('status', 'active')
             ->orderBy('position')
+            ->orderBy('id')
             ->get();
 
         foreach ($entries as $i => $entry) {

@@ -25,6 +25,7 @@ class QueueEntryFactory extends Factory
             'auto_reinvest' => false,
             'position' => 1,
             'unlock_at' => now()->addDays(7),
+            'requeued_at' => now(),
         ];
     }
 

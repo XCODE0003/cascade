@@ -14,7 +14,7 @@ class QueueEntry extends Model
     use HasFactory;
 
     protected $fillable = [
-        'user_id', 'level_id', 'cells_filled', 'bonus_cells_filled', 'status', 'is_locked', 'auto_reinvest', 'position', 'unlock_at',
+        'user_id', 'level_id', 'cells_filled', 'bonus_cells_filled', 'status', 'is_locked', 'auto_reinvest', 'position', 'unlock_at', 'requeued_at',
     ];
 
     protected function casts(): array
@@ -26,6 +26,7 @@ class QueueEntry extends Model
             'is_locked' => 'boolean',
             'auto_reinvest' => 'boolean',
             'unlock_at' => 'datetime',
+            'requeued_at' => 'datetime',
         ];
     }
 

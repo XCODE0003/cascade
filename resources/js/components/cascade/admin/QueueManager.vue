@@ -86,6 +86,24 @@ function remove(row: QueueRow): void {
     );
 }
 
+const runningAuto = ref(false);
+
+function runAutoReinvest(): void {
+    router.post(
+        '/admin/queue/auto-reinvest/run',
+        {},
+        {
+            preserveScroll: true,
+            onStart: () => {
+                runningAuto.value = true;
+            },
+            onFinish: () => {
+                runningAuto.value = false;
+            },
+        },
+    );
+}
+
 function timerColor(status: QueueRowStatus): string {
     switch (status) {
         case 'ready':
@@ -106,7 +124,7 @@ function timerColor(status: QueueRowStatus): string {
         style="box-shadow: 0 1px 0 rgba(0, 0, 0, 0.04)"
     >
         <div class="flex items-center gap-3.5 px-6 pt-5 pb-3.5">
-            <div>
+            <div class="min-w-0 flex-1">
                 <div
                     class="text-[20px] font-semibold tracking-[-0.01em]"
                     style="
@@ -121,6 +139,29 @@ function timerColor(status: QueueRowStatus): string {
                     пересекается между тарифами.
                 </div>
             </div>
+            <button
+                type="button"
+                :disabled="runningAuto"
+                class="inline-flex h-9 shrink-0 items-center gap-1.5 rounded-[10px] px-3.5 text-[13px] font-semibold transition-colors disabled:opacity-50"
+                style="background: var(--c-bg-elevated); color: var(--c-fg1)"
+                title="Прогнать авто-реинвест для всех готовых записей (5/5 + истёкший замок)"
+                @click="runAutoReinvest"
+            >
+                <svg
+                    width="14"
+                    height="14"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.5"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                >
+                    <path d="M3 12a9 9 0 1 0 3-6.7L3 8" />
+                    <path d="M3 3v5h5" />
+                </svg>
+                {{ runningAuto ? 'Запуск…' : 'Авто-реинвест' }}
+            </button>
         </div>
 
         <div

@@ -5,12 +5,31 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\QueueEntry;
 use App\Services\QueueService;
+use App\Services\ReinvestService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\DB;
 
 class QueueController extends Controller
 {
-    public function __construct(protected QueueService $queueService) {}
+    public function __construct(
+        protected QueueService $queueService,
+        protected ReinvestService $reinvestService,
+    ) {}
+
+    /**
+     * Запустить авто-реинвест вручную (диагностика без ожидания планировщика):
+     * прогоняет opt-in (включённый «Авто-вход») и отсутствующих пользователей.
+     */
+    public function runAutoReinvest(): RedirectResponse
+    {
+        $optIns = $this->reinvestService->processAutoReinvestForOptIns();
+        $absentees = $this->reinvestService->processAutoReinvestForAbsentees();
+        $total = $optIns + $absentees;
+
+        return back()->with('success', $total > 0
+            ? "Авто-реинвест выполнен для {$total} записей."
+            : 'Готовых к авто-реинвесту записей не найдено (нужно 5/5, истёкший замок и баланс на повторный вход).');
+    }
 
     public function moveToFront(QueueEntry $entry): RedirectResponse
     {

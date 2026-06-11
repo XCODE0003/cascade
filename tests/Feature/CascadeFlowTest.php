@@ -285,6 +285,24 @@ test('reinvest deducts the entry, takes the fee and cascades 3 yellow cells', fu
     )->toBe(-2.0);
 });
 
+// Реинвест уводит запись в конец очереди и сбрасывает «В очереди с» (requeued_at),
+// иначе после реинвеста порядок очереди читается некорректно.
+test('reinvest moves the entry to the back and refreshes its requeued_at', function () {
+    $user = User::factory()->create(['balance' => 30]);
+    $filler = User::factory()->create(['balance' => 0]);
+
+    $entry = QueueEntry::factory()->for($user)->ready()->create([
+        'level_id' => 1, 'position' => 1, 'requeued_at' => now()->subDays(10),
+    ]);
+    QueueEntry::factory()->for($filler)->create(['level_id' => 1, 'position' => 2]);
+
+    app(ReinvestService::class)->reinvest($user, 1);
+
+    $entry->refresh();
+    expect($entry->position)->toBe(3)
+        ->and($entry->requeued_at->gte(now()->subMinute()))->toBeTrue();
+});
+
 // П.4: после реинвеста вывод остатка баланса остаётся доступен.
 test('withdrawal stays available after a reinvest resets the entry', function () {
     $user = User::factory()->create(['balance' => 100]);

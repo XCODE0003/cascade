@@ -172,6 +172,7 @@ class IndexController extends Controller
                 ->where('status', 'active')
                 ->with('user')
                 ->orderBy('position')
+                ->orderBy('id')
                 ->get()
                 ->map(fn ($e) => [
                     'raw_id' => $e->id,
@@ -189,7 +190,9 @@ class IndexController extends Controller
                         : ($e->unlock_at->isPast()
                             ? 'Ждёт ячеек'
                             : $e->unlock_at->diffForHumans(null, true)),
-                    'joined' => $e->created_at->diffForHumans(null, true),
+                    // «В очереди с …» = начало текущего цикла, а не самого первого
+                    // входа: после реинвеста запись уходит в конец и время сбрасывается.
+                    'joined' => ($e->requeued_at ?? $e->created_at)->diffForHumans(null, true),
                 ]);
 
             return [$level->id => $entries];

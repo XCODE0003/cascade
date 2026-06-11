@@ -11,5 +11,6 @@ Artisan::command('inspire', function () {
 // Release withdrawal holds (hold → pending) once the 72h window passes.
 Schedule::command('cascade:release-holds')->everyFiveMinutes()->withoutOverlapping();
 
-// Force-reinvest idle 5/5 accounts past the inactivity threshold.
-Schedule::command('cascade:auto-reinvest')->hourly()->withoutOverlapping();
+// Авто-реинвест: opt-in («Авто-вход после цикла») должен срабатывать почти
+// сразу после завершения цикла, поэтому гоняем каждые 5 минут (а не раз в час).
+Schedule::command('cascade:auto-reinvest')->everyFiveMinutes()->withoutOverlapping();

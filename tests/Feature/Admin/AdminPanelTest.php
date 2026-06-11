@@ -138,6 +138,25 @@ test('moving the top entry up and the bottom entry down are safe no-ops', functi
         ->and($bottom->fresh()->position)->toBe(2);
 });
 
+// Кнопка ручного запуска авто-реинвеста в админке (диагностика без планировщика).
+test('admin can trigger auto-reinvest manually', function () {
+    $this->seed(LevelSeeder::class);
+    $admin = User::factory()->create(['is_admin' => true]);
+
+    $user = User::factory()->create(['balance' => 30, 'last_seen_at' => now()]);
+    $entry = QueueEntry::factory()->for($user)->ready()->create([
+        'level_id' => 1, 'auto_reinvest' => true, 'position' => 1,
+    ]);
+
+    $this->actingAs($admin)
+        ->post(route('admin.queue.auto-reinvest-run'))
+        ->assertRedirect()
+        ->assertSessionHas('success');
+
+    // Запись с включённым «Авто-входом» и готовым циклом была реинвестирована.
+    expect($entry->fresh()->cells_filled)->toBe(0);
+});
+
 // Q4 / Q5: очередь отдаёт логин (имя+email), а пользователи — список всех
 // рефералов и все активные уровни.
 test('queue rows expose the user login, user rows expose referrals and all levels', function () {

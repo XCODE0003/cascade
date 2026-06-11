@@ -43,8 +43,10 @@ class ReinvestService
      * Auto-reinvest entries whose owner opted in via the "Авто-вход" toggle and
      * whose double lock (5/5 cells + 7 days) is now satisfied. (TЗ 6.1 / 4.3)
      * Called by a scheduled command.
+     *
+     * @return int number of entries reinvested
      */
-    public function processAutoReinvestForOptIns(): void
+    public function processAutoReinvestForOptIns(): int
     {
         $entries = QueueEntry::where('status', 'active')
             ->where('auto_reinvest', true)
@@ -52,16 +54,24 @@ class ReinvestService
             ->where('unlock_at', '<=', now())
             ->get();
 
+        $count = 0;
+
         foreach ($entries as $entry) {
-            $this->safeAutoReinvest($entry, ['opt_in' => true]);
+            if ($this->safeAutoReinvest($entry, ['opt_in' => true])) {
+                $count++;
+            }
         }
+
+        return $count;
     }
 
     /**
      * Process auto-reinvest for users who have been idle past the configured threshold.
      * Called by a scheduled command.
+     *
+     * @return int number of entries reinvested
      */
-    public function processAutoReinvestForAbsentees(): void
+    public function processAutoReinvestForAbsentees(): int
     {
         $idleDays = (int) SystemSetting::get('auto_reinvest_days', 3);
 
@@ -77,9 +87,15 @@ class ReinvestService
             })
             ->get();
 
+        $count = 0;
+
         foreach ($entries as $entry) {
-            $this->safeAutoReinvest($entry, ['idle_days' => $idleDays]);
+            if ($this->safeAutoReinvest($entry, ['idle_days' => $idleDays])) {
+                $count++;
+            }
         }
+
+        return $count;
     }
 
     /**
@@ -87,22 +103,29 @@ class ReinvestService
      * хватает баланса на повторный вход, пропускаем (а не валим весь батч).
      *
      * @param  array<string, mixed>  $meta
+     * @return bool whether the entry was actually reinvested
      */
-    protected function safeAutoReinvest(QueueEntry $entry, array $meta): void
+    protected function safeAutoReinvest(QueueEntry $entry, array $meta): bool
     {
         try {
-            DB::transaction(function () use ($entry, $meta) {
+            return DB::transaction(function () use ($entry, $meta): bool {
                 $locked = QueueEntry::lockForUpdate()->find($entry->id);
 
                 if ($locked && $locked->isReady()) {
                     $this->resetAndCascade($locked, $meta, 'auto_reinvest');
+
+                    return true;
                 }
+
+                return false;
             });
         } catch (\RuntimeException $e) {
             Log::info('Auto-reinvest skipped.', [
                 'queue_entry_id' => $entry->id,
                 'reason' => $e->getMessage(),
             ]);
+
+            return false;
         }
     }
 
@@ -166,6 +189,9 @@ class ReinvestService
         $entry->bonus_cells_filled = 0;
         $entry->position = $maxPos + 1;
         $entry->unlock_at = now()->addDays((int) SystemSetting::get('double_lock_days', 7));
+        // Новый цикл начался сейчас — обновляем «В очереди с», иначе запись,
+        // уехавшая в конец очереди, показывала бы старое время первого входа.
+        $entry->requeued_at = now();
         $entry->save();
 
         // Все 90% в очередь: 3 жёлтые ячейки каскадом (анти-цикл — без себя/рефа).
