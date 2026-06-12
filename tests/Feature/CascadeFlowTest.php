@@ -65,13 +65,17 @@ test('dashboard shows the active entry, not a stale grey one', function () {
 });
 
 // Зелёная (реферальная) ячейка трекается отдельно: 60% деньгами + ячейка,
-// БЕЗ дополнительной выплаты cell_income (это и был баг «60% + 30% рефу»).
+// БЕЗ дополнительной выплаты cell_income за саму зелёную (это и был баг «60% + 30% рефу»).
+// Реф здесь НЕ в голове очереди, поэтому жёлтая (30%) уходит голове, а у рефа —
+// только зелёная.
 test('direct referral credits a tracked bonus cell to the referrer', function () {
+    $head = User::factory()->create();
     $referrer = User::factory()->create();
     $referral = User::factory()->create(['referrer_id' => $referrer->id]);
 
+    QueueEntry::factory()->for($head)->create(['level_id' => 1, 'position' => 1]);
     $entry = QueueEntry::factory()->for($referrer)->create([
-        'level_id' => 1, 'cells_filled' => 0, 'bonus_cells_filled' => 0, 'position' => 1,
+        'level_id' => 1, 'cells_filled' => 0, 'bonus_cells_filled' => 0, 'position' => 2,
     ]);
 
     $deposit = depositService()->createExternalDeposit($referral, 1);
@@ -104,32 +108,57 @@ test('indirect upline receives a regular (non-bonus) cascade cell', function () 
         ->and($e1->bonus_cells_filled)->toBe(0);
 });
 
-// Главная претензия заказчика: рефу 60% (зелёная ячейка), первому в очереди
-// 30% (жёлтая ячейка), больше никому ничего — суммарно ровно 90%.
-test('split pays 60% to the referrer and 30% to the queue head, nothing else', function () {
+// Главное правило заказчика: жёлтая (30%) идёт ГОЛОВЕ очереди. Если голова — это
+// сам пригласивший, он получает обе ячейки: зелёную (60%) и жёлтую (30%).
+// Жёлтая НЕ перепрыгивает незаполненную голову на второго в очереди.
+test('referrer at the head of the queue receives both the green and the yellow cell', function () {
     $referrer = User::factory()->create();
     $referral = User::factory()->create(['referrer_id' => $referrer->id]);
-    $queueHead = User::factory()->create();
+    $behind = User::factory()->create();
 
-    QueueEntry::factory()->for($referrer)->create(['level_id' => 1, 'position' => 1]);
-    $headEntry = QueueEntry::factory()->for($queueHead)->create(['level_id' => 1, 'position' => 2]);
+    $refEntry = QueueEntry::factory()->for($referrer)->create(['level_id' => 1, 'position' => 1]);
+    $behindEntry = QueueEntry::factory()->for($behind)->create(['level_id' => 1, 'position' => 2]);
 
     $deposit = depositService()->createExternalDeposit($referral, 1);
     depositService()->confirmDeposit($deposit);
 
-    // 60% = 12 USDT пригласившему деньгами.
-    expect((float) $referrer->fresh()->balance)->toBe(12.0);
+    // 60% (зелёная) + 30% (жёлтая) = 18 USDT — обе пригласившему, он первый в очереди.
+    expect((float) $referrer->fresh()->balance)->toBe(18.0);
 
-    // 30% = 6 USDT жёлтой ячейкой первому в очереди (реф исключён анти-циклом).
-    expect((float) $queueHead->fresh()->balance)->toBe(6.0);
+    $refEntry->refresh();
+    expect($refEntry->cells_filled)->toBe(2)          // зелёная + жёлтая
+        ->and($refEntry->bonus_cells_filled)->toBe(1); // бонусной (зелёной) только одна
 
-    $headEntry->refresh();
-    expect($headEntry->cells_filled)->toBe(1)
-        ->and($headEntry->bonus_cells_filled)->toBe(0);
+    // Второй в очереди ничего не получает, пока голова не закрашена.
+    expect((float) $behind->fresh()->balance)->toBe(0.0)
+        ->and($behindEntry->fresh()->cells_filled)->toBe(0);
 
     // Сумма всех выплат по депозиту = 90% (18 из 20 USDT).
     $paidOut = (float) LedgerEntry::whereIn('type', ['referral_bonus', 'cell_income'])->sum('amount');
     expect($paidOut)->toBe(18.0);
+});
+
+// Если пригласивший НЕ в голове, зелёную (60%) получает он, а жёлтую (30%) — голова.
+test('when the referrer is not the head, the green goes to the referrer and the yellow to the head', function () {
+    $head = User::factory()->create();
+    $referrer = User::factory()->create();
+    $referral = User::factory()->create(['referrer_id' => $referrer->id]);
+
+    $headEntry = QueueEntry::factory()->for($head)->create(['level_id' => 1, 'position' => 1]);
+    $refEntry = QueueEntry::factory()->for($referrer)->create(['level_id' => 1, 'position' => 2]);
+
+    $deposit = depositService()->createExternalDeposit($referral, 1);
+    depositService()->confirmDeposit($deposit);
+
+    // Реф: 60% деньгами + зелёная ячейка.
+    expect((float) $referrer->fresh()->balance)->toBe(12.0);
+    expect($refEntry->fresh()->cells_filled)->toBe(1)
+        ->and($refEntry->fresh()->bonus_cells_filled)->toBe(1);
+
+    // Голова: 30% жёлтой ячейкой.
+    expect((float) $head->fresh()->balance)->toBe(6.0)
+        ->and($headEntry->fresh()->cells_filled)->toBe(1)
+        ->and($headEntry->fresh()->bonus_cells_filled)->toBe(0);
 });
 
 test('without a qualifying referrer the whole 90% cascades into the queue', function () {
@@ -247,21 +276,22 @@ test('confirming the second of two legacy pending deposits fails safely', functi
         ->and($second->fresh()->status)->toBe('pending');
 });
 
-// Реинвест НЕ зависит от того, кто кого пригласил: списывает entry с баланса,
-// удерживает 10% сервису и раздаёт все 90% тремя жёлтыми ячейками в очередь.
-test('reinvest deducts the entry, takes the fee and cascades 3 yellow cells', function () {
-    $referrer = User::factory()->create(['balance' => 0]);
-    $user = User::factory()->create(['referrer_id' => $referrer->id, 'balance' => 30]);
+// Реинвест: списывает entry с баланса, удерживает 10% сервису и раздаёт все 90%
+// тремя жёлтыми ячейками ГОЛОВЕ очереди (top-down). На реинвесте реферальных
+// привилегий нет — но если голова случайно это пригласивший реинвестора, он
+// получает жёлтые как обычный участник очереди (жёлтая всегда идёт голове).
+test('reinvest deducts the entry, takes the fee and cascades 3 yellow cells to the head', function () {
+    $head = User::factory()->create(['balance' => 0]);
+    $user = User::factory()->create(['referrer_id' => $head->id, 'balance' => 30]);
     $other = User::factory()->create(['balance' => 0]);
 
-    // Реферер активен на уровне — но при реинвесте он НЕ должен ничего получить.
-    $referrerEntry = QueueEntry::factory()->for($referrer)->create(['level_id' => 1, 'position' => 1]);
+    $headEntry = QueueEntry::factory()->for($head)->create(['level_id' => 1, 'position' => 1]);
     $userEntry = QueueEntry::factory()->for($user)->ready()->create(['level_id' => 1, 'position' => 2]);
     $otherEntry = QueueEntry::factory()->for($other)->create(['level_id' => 1, 'position' => 3]);
 
     app(ReinvestService::class)->reinvest($user, 1);
 
-    // Запись сброшена и ушла в конец очереди.
+    // Запись реинвестора сброшена и ушла в конец очереди.
     $userEntry->refresh();
     expect($userEntry->cells_filled)->toBe(0)
         ->and($userEntry->position)->toBe(4);
@@ -269,15 +299,14 @@ test('reinvest deducts the entry, takes the fee and cascades 3 yellow cells', fu
     // С баланса списано 20 (entry): 30 − 20 = 10.
     expect((float) $user->fresh()->balance)->toBe(10.0);
 
-    // Реферер не получает ничего (анти-цикл исключает его как реферера).
-    expect((float) $referrer->fresh()->balance)->toBe(0.0)
-        ->and($referrerEntry->fresh()->bonus_cells_filled)->toBe(0)
-        ->and($referrerEntry->fresh()->cells_filled)->toBe(0);
+    // 90% = 3 жёлтые ячейки голове очереди (head), 3×6 = 18. Реинвестор в хвосте
+    // и исключён, other стоит ниже головы — пока ничего не получает.
+    expect((float) $head->fresh()->balance)->toBe(18.0)
+        ->and($headEntry->fresh()->cells_filled)->toBe(3)
+        ->and($headEntry->fresh()->bonus_cells_filled)->toBe(0);
 
-    // 90% = 3 жёлтые ячейки следующему в очереди (other), 3×6 = 18.
-    expect((float) $other->fresh()->balance)->toBe(18.0)
-        ->and($otherEntry->fresh()->cells_filled)->toBe(3)
-        ->and($otherEntry->fresh()->bonus_cells_filled)->toBe(0);
+    expect((float) $other->fresh()->balance)->toBe(0.0)
+        ->and($otherEntry->fresh()->cells_filled)->toBe(0);
 
     // 10% сервису зафиксированы в леджере.
     expect(

@@ -97,8 +97,13 @@ class QueueService
     }
 
     /**
-     * Distribute N cells to the head of the queue for a given level.
-     * Anti-cycle: cells never go to $excludeUserId or their direct referrer.
+     * Distribute N cells strictly to the head of the queue for a given level,
+     * top-down (позиция 1, затем перелив вниз). Жёлтые ячейки НИКОГДА не
+     * перепрыгивают незаполненную голову — даже если голова это пригласивший
+     * (его реферальные 60% идут отдельной зелёной ячейкой, см. payReferralShare).
+     *
+     * $excludeUserId — только сам вкладчик/реинвестор: со своего же входа ячейку
+     * получить нельзя (он всегда в хвосте, так что голову это не пропускает).
      *
      * Called inside an existing DB transaction.
      */
@@ -115,13 +120,6 @@ class QueueService
                 ->where('status', 'active')
                 ->where('cells_filled', '<', 5)
                 ->where('user_id', '!=', $excludeUserId)
-                ->when($excludeUserId, function ($q) use ($excludeUserId) {
-                    // Also exclude direct referrer of the acting user
-                    $referrerId = User::where('id', $excludeUserId)->value('referrer_id');
-                    if ($referrerId) {
-                        $q->where('user_id', '!=', $referrerId);
-                    }
-                })
                 // Вторичный ключ по id делает выбор головы детерминированным,
                 // если две записи случайно получили одинаковую позицию.
                 ->orderBy('position')
