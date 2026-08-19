@@ -12,7 +12,10 @@ services:
       - "80:80"
       - "443:443"
     volumes:
-      - ./docker/Caddyfile:/etc/caddy/Caddyfile:ro
+      # Mount the directory, not the file: a single-file bind mount follows the
+      # inode, so rewriting the Caddyfile (deploy, scp, editor) leaves the
+      # container reading the original content until it is recreated.
+      - ./docker/caddy:/etc/caddy:ro
       - caddy-data:/data
       - caddy-config:/config
     restart: unless-stopped
