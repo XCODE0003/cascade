@@ -1,8 +1,21 @@
 {
 	email support@cascade.it.com
+
+	# Cloudflare fronts this origin. While its SSL mode is "Flexible" the edge
+	# reaches Caddy over plain HTTP, so an automatic HTTP->HTTPS redirect would
+	# bounce the edge back to itself forever ("too many redirects"). Disabling
+	# the redirects keeps each site served on both :80 and :443 — certificates
+	# are still issued, which is what switching Cloudflare to Full (strict)
+	# needs. Re-enable redirects only after that switch.
+	auto_https disable_redirects
 }
 
-# Primary domain — automatic HTTPS (Let's Encrypt) + HTTP→HTTPS redirect.
+# Primary domain — automatic HTTPS (Let's Encrypt).
+invest-cascade.com {
+	reverse_proxy web:80
+}
+
+# Previous domain, kept alive while DNS/links still point at it.
 cascade.it.com {
 	reverse_proxy web:80
 }
