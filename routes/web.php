@@ -25,7 +25,9 @@ Route::inertia('/hold', 'marketing/Hold')->name('pages.hold');
 // WestWallet deposit notifications (IPN). CSRF-exempt; verified by signature.
 Route::post('webhooks/westwallet', WestWalletIpnController::class)->name('webhooks.westwallet');
 
-Route::middleware(['auth', 'verified', TrackLastSeen::class])->group(function () {
+// Email-подтверждение шлётся при регистрации, но НЕ блокирует доступ —
+// middleware `verified` намеренно не добавлен (см. App\Models\User).
+Route::middleware(['auth', TrackLastSeen::class])->group(function () {
     Route::get('dashboard', DashboardController::class)->name('dashboard');
     Route::get('partners', PartnerController::class)->name('partners');
     Route::get('history', HistoryController::class)->name('history');

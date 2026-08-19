@@ -3,10 +3,11 @@
 namespace App\Models;
 
 use Database\Factories\UserFactory;
-// TODO(SMTP): вернуть `implements MustVerifyEmail`, когда на проде будет
-// рабочий SMTP (Brevo/Gmail). Без него регистрация застревает на странице
-// «подтвердите email» — письмо физически некому отправить.
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
+// SMTP настроен (mail.ru) → при регистрации Fortify шлёт письмо-подтверждение.
+// Доступ при этом НЕ блокируется: middleware `verified` снят с роутов, так что
+// неподтверждённые пользователи всё равно пользуются кабинетом (подтверждение
+// опционально — ссылка в письме работает, но ничего не гейтит).
+use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Attributes\Hidden;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -18,7 +19,7 @@ use Laravel\Fortify\TwoFactorAuthenticatable;
 
 #[Fillable(['name', 'email', 'password', 'balance', 'referrer_id', 'fingerprint', 'signup_ip', 'last_ip', 'deposit_address', 'last_seen_at', 'withdrawal_unlocked_at', 'is_admin'])]
 #[Hidden(['password', 'two_factor_secret', 'two_factor_recovery_codes', 'remember_token'])]
-class User extends Authenticatable
+class User extends Authenticatable implements MustVerifyEmail
 {
     /** @use HasFactory<UserFactory> */
     use HasFactory, Notifiable, TwoFactorAuthenticatable;
