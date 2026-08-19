@@ -74,5 +74,12 @@ jobs:
             git fetch --all --prune
             git reset --hard origin/main
             docker compose up -d --build --remove-orphans
+            # nginx caches the app container IP from its own startup, so a
+            # recreated app leaves it talking to a dead upstream (502 while
+            # every container still reports "Up").
+            docker compose restart web
+            # The Caddyfile is bind-mounted: changes apply only on an explicit
+            # reload (Caddy keeps the running config if the new one is invalid).
+            docker compose exec -T caddy caddy reload --config /etc/caddy/Caddyfile || true
             docker image prune -f
             docker compose ps
